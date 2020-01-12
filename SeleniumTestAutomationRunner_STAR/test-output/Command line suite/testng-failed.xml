@@ -3,14 +3,16 @@
 <suite name="Failed suite [Command line suite]">
   <test thread-count="5" name="Command line test(failed)">
     <classes>
-      <class name="tests.Regression">
+      <class name="tests.Smoke">
         <methods>
-          <include name="beforeTest"/>
+          <include name="SMOKE_4"/>
+          <include name="SMOKE_3"/>
+          <include name="afterSuite"/>
           <include name="beforeSuite"/>
           <include name="afterTest"/>
-          <include name="run"/>
+          <include name="beforeTest"/>
         </methods>
-      </class> <!-- tests.Regression -->
+      </class> <!-- tests.Smoke -->
     </classes>
   </test> <!-- Command line test(failed) -->
 </suite> <!-- Failed suite [Command line suite] -->

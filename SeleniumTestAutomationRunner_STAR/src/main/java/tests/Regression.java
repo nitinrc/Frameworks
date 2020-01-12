@@ -8,6 +8,9 @@ import selenium.framework.DesiredCapabilities;
 import selenium.framework.WebActions;
 
 import org.testng.annotations.BeforeTest;
+
+import java.util.HashMap;
+
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeSuite;
@@ -34,7 +37,7 @@ public class Regression {
   @AfterSuite
   public void afterSuite() {
 	  System.out.println("@AfterSuite: Regression");
-	  new WebActions().closeBrowsers(0);
+	  new WebActions().closeBrowsers(null);
 	  DesiredCapabilities.driver.quit();
   }
   

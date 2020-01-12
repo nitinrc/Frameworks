@@ -7,6 +7,7 @@ import java.util.HashMap;
 import pageInterfaces.Book;
 import selenium.framework.DataFetch;
 import selenium.framework.WebActions;
+import tests.Runner;
 
 public class BookPage implements Book {
 	
@@ -14,6 +15,7 @@ public class BookPage implements Book {
 		System.out.println("Perform Booking for TCID: "+TCID+" and Iteration: "+itrData);
 		String component = "Book";
 		String element, action, tagInput;
+		//new Alerts().actionAlert();
 		for (int itrSteps = 1; itrSteps <= DataFetch.mapSteps.get(component).size(); itrSteps++) {
 			HashMap<String, String> mapElementParameters = new HashMap<String, String>();
 			//Steps Map
@@ -39,6 +41,9 @@ public class BookPage implements Book {
 					method = objInvoke.getClass().getDeclaredMethod(action, HashMap.class);
 					try {
 						method.invoke(objInvoke, mapElementParameters);
+						if (Runner.runStatus.equals("FAIL")) {
+							System.exit(0);
+						}
 					} catch (IllegalAccessException e) {e.printStackTrace();} catch (IllegalArgumentException e) {e.printStackTrace();} catch (InvocationTargetException e) {e.printStackTrace();
 					}
 				} catch (NoSuchMethodException e) {e.printStackTrace();} catch (SecurityException e) {e.printStackTrace();}
@@ -48,5 +53,12 @@ public class BookPage implements Book {
 	
 	public void doNothing(String TCID, int itrData) {
 		System.out.println("Did nothing in Book section for TCID: "+TCID+" | Data Iteration: "+ itrData);
+		if (1 == 1) {
+			Runner.runStatus = "PASS";
+		} else {
+			Runner.runStatus = "FAIL";
+			System.exit(0);
+		}
+		System.out.println("Run Status: "+Runner.runStatus);
 	}
 }

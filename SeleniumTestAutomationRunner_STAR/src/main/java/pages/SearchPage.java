@@ -9,8 +9,10 @@ import java.util.HashMap;
 import pageInterfaces.Search;
 import selenium.framework.DataFetch;
 import selenium.framework.WebActions;
+import tests.Runner;
 
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
@@ -21,7 +23,10 @@ import org.testng.asserts.SoftAssert;
 
 public class SearchPage implements Search {
 	public static String passVar;
+	//PageFactory.initElements(DesiredCapabilities.driver, SearchPage);
+	//PageFactory.initElements(DesiredCapabilities.driver, this);
 	
+	//@FindBy(xpath = "//a[text()=\"Search\"]")
 	@FindBy(how = How.XPATH, using = "//a[text()=\"Search\"]")
 	@CacheLookup
 	private WebElement btnSearch;
@@ -82,6 +87,9 @@ public class SearchPage implements Search {
 						//method.invoke(objInvoke, browser, locator, input);
 						//method.invoke(objInvoke, new Object[] {arrArgs});//new Object[] {new String[] {"a", "s", "d"}}
 						method.invoke(objInvoke, mapElementParameters);
+						if (Runner.runStatus.equals("FAIL")) {
+							System.exit(0);
+						}
 					} catch (IllegalAccessException e) {e.printStackTrace();} catch (IllegalArgumentException e) {e.printStackTrace();} catch (InvocationTargetException e) {e.printStackTrace();
 					}
 				} catch (NoSuchMethodException e) {e.printStackTrace();} catch (SecurityException e) {e.printStackTrace();}
@@ -92,8 +100,15 @@ public class SearchPage implements Search {
 	public void doNothing(String TCID, int itrData) {
 		System.out.println("Did nothing in Search section for TCID: "+TCID+" | Data Iteration: "+ itrData);
 		System.out.println("doNothing passVar: "+passVar);
+		if (1 == 1) {
+			Runner.runStatus = "PASS";
+		} else {
+			Runner.runStatus = "FAIL";
+			System.exit(0); 
+		}
+		System.out.println("Run Status: "+Runner.runStatus);
 		
-		//SoftAssert softAssertion= new SoftAssert();
+		//SoftAssert softAssertion = new SoftAssert();
 		//softAssertion.assertTrue(false);
 		
 		//Assert.assertTrue(false);
