@@ -18,7 +18,7 @@ import tests.Runner;
 public class FindElement {
 	@SuppressWarnings("unchecked")
 	public WebElement findElement(String locator, String locatorType, String expectedCondition, String timeout) {
-		new Alerts().actionAlert();
+		new Alerts().alertClose();
 		//Float.parseFloat
 		WebDriverWait wait = new WebDriverWait(DesiredCapabilities.driver,Integer.parseInt(timeout));
 		WebElement element = null;

@@ -20,11 +20,11 @@ public interface UserActions {
 	public void getText(HashMap<String, String> mapElementParameters);
 	public void scrollIntoView(HashMap<String, String> mapElementParameters);
 	public void dragAndDrop(HashMap<String, String> mapElementParameters);
-	public void switchToDefaultContent();
-	public void switchToFrame(String xpath, int timeout);
+	public void switchToDefaultContent(HashMap<String, String> mapElementParameters);
+	public void switchToFrame(HashMap<String, String> mapElementParameters);
 	public void switchBrowser(HashMap<String, String> mapElementParameters);
 	public void closeBrowsers(HashMap<String, String> mapElementParameters);
-	public void alertElementClick(String locator, int timeout);
+	public void alertClose(HashMap<String, String> mapElementParameters);
 	public void alertAccept(HashMap<String, String> mapElementParameters);
 	public void alertDismiss(HashMap<String, String> mapElementParameters);
 	public void promptAccept(HashMap<String, String> mapElementParameters);
