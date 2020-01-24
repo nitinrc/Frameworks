@@ -13,6 +13,8 @@ import tests.Runner;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
@@ -48,6 +50,7 @@ public class SearchPage implements Search {
 		System.out.println("Perform Flight Search for TCID: "+TCID+" and Iteration: "+itrData);
 		String component = "Search";
 		String element, action, tagInput, locator;
+		
 		//System.out.println("DATA FROM LOGIN PAGE: "+DataFetch.mapSteps);
 		for (int itrSteps = 1; itrSteps <= DataFetch.mapSteps.get(component).size(); itrSteps++) {
 			HashMap<String, String> mapElementParameters = new HashMap<String, String>();
@@ -72,7 +75,9 @@ public class SearchPage implements Search {
 			if (tagInput != null) {
 				mapElementParameters.put("Input", DataFetch.mapData.get(TCID).get(itrData).get(tagInput));
 			}
-			WebActions objInvoke = new WebActions();
+			
+			ApplicationContext context1 = new AnnotationConfigApplicationContext(WebActions.class);
+			WebActions objInvoke = context1.getBean(WebActions.class);
 			if (element == "SearchBtn") {
 				clickSearchBtn_CacheLookup();
 			} else if (element == "ToInput") {
@@ -84,6 +89,9 @@ public class SearchPage implements Search {
 					//method = objInvoke.getClass().getDeclaredMethod(action, String[].class);
 					method = objInvoke.getClass().getDeclaredMethod(action, HashMap.class);
 					try {
+						ApplicationContext context2 = new AnnotationConfigApplicationContext(Alerts.class);
+						Alerts objAlert = context2.getBean(Alerts.class);
+						objAlert.alertClose();
 						//method.invoke(objInvoke, browser, locator, input);
 						//method.invoke(objInvoke, new Object[] {arrArgs});//new Object[] {new String[] {"a", "s", "d"}}
 						method.invoke(objInvoke, mapElementParameters);

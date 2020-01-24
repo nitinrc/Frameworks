@@ -91,7 +91,7 @@
               <div class="suite-section-content">
                 <ul>
                   <li>
-                    <span class="method-stats">2 methods,   2 passed</span>
+                    <span class="method-stats">1 method,   1 passed</span>
                   </li>
                   <li>
                     <span class="method-list-title passed">Passed methods</span>
@@ -102,12 +102,7 @@
                     <div class="method-list-content passed suite-Command_line_suite">
                       <span>
                         <img width="3%" src="passed.png"/>
-                        <a href="#" class="method navigator-link" panel-name="suite-Command_line_suite" title="tests.Smoke" hash-for-method="SMOKE_3">SMOKE_3</a> <!-- method navigator-link -->
-                      </span>
-                      <br/>
-                      <span>
-                        <img width="3%" src="passed.png"/>
-                        <a href="#" class="method navigator-link" panel-name="suite-Command_line_suite" title="tests.Smoke" hash-for-method="SMOKE_4">SMOKE_4</a> <!-- method navigator-link -->
+                        <a href="#" class="method navigator-link" panel-name="suite-Command_line_suite" title="tests.Regression" hash-for-method="run">run</a> <!-- method navigator-link -->
                       </span>
                       <br/>
                     </div> <!-- method-list-content passed suite-Command_line_suite -->
@@ -125,21 +120,14 @@
           <div class="suite-Command_line_suite-class-passed">
             <div class="main-panel-header rounded-window-top">
               <img src="passed.png"/>
-              <span class="class-name">tests.Smoke</span>
+              <span class="class-name">tests.Regression</span>
             </div> <!-- main-panel-header rounded-window-top -->
             <div class="main-panel-content rounded-window-bottom">
               <div class="method">
                 <div class="method-content">
-                  <a name="SMOKE_3">
-                  </a> <!-- SMOKE_3 -->
-                  <span class="method-name">SMOKE_3</span>
-                </div> <!-- method-content -->
-              </div> <!-- method -->
-              <div class="method">
-                <div class="method-content">
-                  <a name="SMOKE_4">
-                  </a> <!-- SMOKE_4 -->
-                  <span class="method-name">SMOKE_4</span>
+                  <a name="run">
+                  </a> <!-- run -->
+                  <span class="method-name">run</span>
                 </div> <!-- method-content -->
               </div> <!-- method -->
             </div> <!-- main-panel-content rounded-window-bottom -->
@@ -155,7 +143,7 @@
 &lt;suite name=&quot;Command line suite&quot;&gt;
   &lt;test thread-count=&quot;5&quot; name=&quot;Command line test&quot;&gt;
     &lt;classes&gt;
-      &lt;class name=&quot;tests.Smoke&quot;/&gt;
+      &lt;class name=&quot;tests.Regression&quot;/&gt;
     &lt;/classes&gt;
   &lt;/test&gt; &lt;!-- Command line test --&gt;
 &lt;/suite&gt; &lt;!-- Command line suite --&gt;
@@ -195,20 +183,16 @@ data.addColumn('number', 'Number');
 data.addColumn('string', 'Method');
 data.addColumn('string', 'Class');
 data.addColumn('number', 'Time (ms)');
-data.addRows(2);
+data.addRows(1);
 data.setCell(0, 0, 0)
-data.setCell(0, 1, 'SMOKE_4')
-data.setCell(0, 2, 'tests.Smoke')
-data.setCell(0, 3, 300473);
-data.setCell(1, 0, 1)
-data.setCell(1, 1, 'SMOKE_3')
-data.setCell(1, 2, 'tests.Smoke')
-data.setCell(1, 3, 116717);
+data.setCell(0, 1, 'run')
+data.setCell(0, 2, 'tests.Regression')
+data.setCell(0, 3, 288438);
 window.suiteTableData['Command_line_suite']= { tableData: data, tableDiv: 'times-div-Command_line_suite'}
 return data;
 }
               </script>
-              <span class="suite-total-time">Total running time: 6 minutes</span>
+              <span class="suite-total-time">Total running time: 4 minutes</span>
               <div id="times-div-Command_line_suite">
               </div> <!-- times-div-Command_line_suite -->
             </div> <!-- times-div -->
@@ -234,30 +218,26 @@ return data;
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
             <div class="chronological-class">
-              <div class="chronological-class-name">tests.Smoke</div> <!-- chronological-class-name -->
+              <div class="chronological-class-name">tests.Regression</div> <!-- chronological-class-name -->
               <div class="configuration-suite before">
                 <span class="method-name">beforeSuite</span>
                 <span class="method-start">0 ms</span>
               </div> <!-- configuration-suite before -->
               <div class="configuration-test before">
                 <span class="method-name">beforeTest</span>
-                <span class="method-start">7265 ms</span>
+                <span class="method-start">14458 ms</span>
               </div> <!-- configuration-test before -->
               <div class="test-method">
-                <span class="method-name">SMOKE_3</span>
-                <span class="method-start">7303 ms</span>
-              </div> <!-- test-method -->
-              <div class="test-method">
-                <span class="method-name">SMOKE_4</span>
-                <span class="method-start">124023 ms</span>
+                <span class="method-name">run</span>
+                <span class="method-start">14494 ms</span>
               </div> <!-- test-method -->
               <div class="configuration-test after">
                 <span class="method-name">afterTest</span>
-                <span class="method-start">424499 ms</span>
+                <span class="method-start">302976 ms</span>
               </div> <!-- configuration-test after -->
               <div class="configuration-suite after">
                 <span class="method-name">afterSuite</span>
-                <span class="method-start">424539 ms</span>
+                <span class="method-start">303115 ms</span>
               </div> <!-- configuration-suite after -->
           </div> <!-- main-panel-content rounded-window-bottom -->
         </div> <!-- panel -->

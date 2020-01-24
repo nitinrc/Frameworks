@@ -4,6 +4,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
 import pageInterfaces.Book;
 import selenium.framework.DataFetch;
 import selenium.framework.WebActions;
@@ -15,7 +18,7 @@ public class BookPage implements Book {
 		System.out.println("Perform Booking for TCID: "+TCID+" and Iteration: "+itrData);
 		String component = "Book";
 		String element, action, tagInput;
-		//new Alerts().actionAlert();
+		
 		for (int itrSteps = 1; itrSteps <= DataFetch.mapSteps.get(component).size(); itrSteps++) {
 			HashMap<String, String> mapElementParameters = new HashMap<String, String>();
 			//Steps Map
@@ -32,7 +35,9 @@ public class BookPage implements Book {
 			if (tagInput != null) {
 				mapElementParameters.put("Input", DataFetch.mapData.get(TCID).get(itrData).get(tagInput));
 			}
-			WebActions objInvoke = new WebActions();
+			
+			ApplicationContext context1 = new AnnotationConfigApplicationContext(WebActions.class);
+			WebActions objInvoke = context1.getBean(WebActions.class);
 			if (element == "dummy") {
 				//page factory cache;
 			} else {
@@ -40,6 +45,9 @@ public class BookPage implements Book {
 				try {
 					method = objInvoke.getClass().getDeclaredMethod(action, HashMap.class);
 					try {
+						ApplicationContext context2 = new AnnotationConfigApplicationContext(Alerts.class);
+						Alerts objAlert = context2.getBean(Alerts.class);
+						objAlert.alertClose();
 						method.invoke(objInvoke, mapElementParameters);
 						if (Runner.runStatus.equals("FAIL")) {
 							System.exit(0);

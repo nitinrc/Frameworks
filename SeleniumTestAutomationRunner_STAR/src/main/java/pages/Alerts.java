@@ -2,12 +2,16 @@ package pages;
 
 import java.util.HashMap;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
 import selenium.framework.DataFetch;
 import selenium.framework.WebActions;
 
 public class Alerts {
 	public void alertClose() {
-		WebActions objWebActions = new WebActions();
+		ApplicationContext context = new AnnotationConfigApplicationContext(WebActions.class);
+		WebActions objWebActions = context.getBean(WebActions.class);
 		objWebActions.switchToDefaultContent(null);
 		HashMap<String, String> mapElementParameters = new HashMap<String, String>();
 		mapElementParameters.put("Locator", DataFetch.mapPOM.get("Alert").get("iFrame").get("Locator"));

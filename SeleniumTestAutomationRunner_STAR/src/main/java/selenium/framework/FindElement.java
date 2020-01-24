@@ -2,8 +2,6 @@ package selenium.framework;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.function.Function;
 
 import org.openqa.selenium.By;
@@ -11,6 +9,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import pages.Alerts;
 import tests.Runner;
@@ -18,7 +18,6 @@ import tests.Runner;
 public class FindElement {
 	@SuppressWarnings("unchecked")
 	public WebElement findElement(String locator, String locatorType, String expectedCondition, String timeout) {
-		new Alerts().alertClose();
 		//Float.parseFloat
 		WebDriverWait wait = new WebDriverWait(DesiredCapabilities.driver,Integer.parseInt(timeout));
 		WebElement element = null;

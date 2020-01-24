@@ -1,37 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results skipped="0" failed="0" ignored="0" total="2" passed="2">
+<testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
   <reporter-output>
   </reporter-output>
-  <suite name="Command line suite" duration-ms="417235" started-at="2020-01-12T17:00:08Z" finished-at="2020-01-12T17:07:05Z">
+  <suite name="Command line suite" duration-ms="288520" started-at="2020-01-24T13:09:24Z" finished-at="2020-01-24T13:14:12Z">
     <groups>
     </groups>
-    <test name="Command line test" duration-ms="417235" started-at="2020-01-12T17:00:08Z" finished-at="2020-01-12T17:07:05Z">
-      <class name="tests.Smoke">
-        <test-method status="PASS" signature="beforeSuite()[pri:0, instance:tests.Smoke@3d9750]" name="beforeSuite" is-config="true" duration-ms="7264" started-at="2020-01-12T17:00:01Z" finished-at="2020-01-12T17:00:08Z">
+    <test name="Command line test" duration-ms="288520" started-at="2020-01-24T13:09:24Z" finished-at="2020-01-24T13:14:12Z">
+      <class name="tests.Regression">
+        <test-method status="PASS" signature="beforeSuite()[pri:0, instance:tests.Regression@16995df]" name="beforeSuite" is-config="true" duration-ms="14457" started-at="2020-01-24T13:09:09Z" finished-at="2020-01-24T13:09:24Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- beforeSuite -->
-        <test-method status="PASS" signature="beforeTest()[pri:0, instance:tests.Smoke@3d9750]" name="beforeTest" is-config="true" duration-ms="0" started-at="2020-01-12T17:00:08Z" finished-at="2020-01-12T17:00:08Z">
+        <test-method status="PASS" signature="beforeTest()[pri:0, instance:tests.Regression@16995df]" name="beforeTest" is-config="true" duration-ms="1" started-at="2020-01-24T13:09:24Z" finished-at="2020-01-24T13:09:24Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- beforeTest -->
-        <test-method status="PASS" signature="SMOKE_3()[pri:0, instance:tests.Smoke@3d9750]" name="SMOKE_3" duration-ms="116717" started-at="2020-01-12T17:00:08Z" finished-at="2020-01-12T17:02:05Z">
+        <test-method status="PASS" signature="run()[pri:0, instance:tests.Regression@16995df]" name="run" duration-ms="288438" started-at="2020-01-24T13:09:24Z" finished-at="2020-01-24T13:14:12Z">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- SMOKE_3 -->
-        <test-method status="PASS" signature="SMOKE_4()[pri:0, instance:tests.Smoke@3d9750]" name="SMOKE_4" duration-ms="300473" started-at="2020-01-12T17:02:05Z" finished-at="2020-01-12T17:07:05Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- SMOKE_4 -->
-        <test-method status="PASS" signature="afterTest()[pri:0, instance:tests.Smoke@3d9750]" name="afterTest" is-config="true" duration-ms="1" started-at="2020-01-12T17:07:05Z" finished-at="2020-01-12T17:07:05Z">
+        </test-method> <!-- run -->
+        <test-method status="PASS" signature="afterTest()[pri:0, instance:tests.Regression@16995df]" name="afterTest" is-config="true" duration-ms="1" started-at="2020-01-24T13:14:12Z" finished-at="2020-01-24T13:14:12Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- afterTest -->
-        <test-method status="PASS" signature="afterSuite()[pri:0, instance:tests.Smoke@3d9750]" name="afterSuite" is-config="true" duration-ms="885" started-at="2020-01-12T17:07:05Z" finished-at="2020-01-12T17:07:06Z">
+        <test-method status="PASS" signature="afterSuite()[pri:0, instance:tests.Regression@16995df]" name="afterSuite" is-config="true" duration-ms="970" started-at="2020-01-24T13:14:13Z" finished-at="2020-01-24T13:14:14Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- afterSuite -->
-      </class> <!-- tests.Smoke -->
+      </class> <!-- tests.Regression -->
     </test> <!-- Command line test -->
   </suite> <!-- Command line suite -->
 </testng-results>
