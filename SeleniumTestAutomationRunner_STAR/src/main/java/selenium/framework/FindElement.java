@@ -9,17 +9,17 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import pages.Alerts;
+import springBeans.FlightBookingConfig;
 import tests.Runner;
 
 public class FindElement {
 	@SuppressWarnings("unchecked")
 	public WebElement findElement(String locator, String locatorType, String expectedCondition, String timeout) {
 		//Float.parseFloat
-		WebDriverWait wait = new WebDriverWait(DesiredCapabilities.driver,Integer.parseInt(timeout));
+		DesiredCapabilities objDesiredCapabilities = FlightBookingConfig.context.getBean(DesiredCapabilities.class);
+		WebDriverWait wait = new WebDriverWait(objDesiredCapabilities.getDriver(),Integer.parseInt(timeout));
+		
 		WebElement element = null;
 		Method method1 = null;
 		Method method2 = null;

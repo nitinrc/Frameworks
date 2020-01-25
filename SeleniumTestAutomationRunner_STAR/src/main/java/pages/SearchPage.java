@@ -1,7 +1,5 @@
 package pages;
 
-import static org.testng.Assert.assertEquals;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -9,19 +7,13 @@ import java.util.HashMap;
 import pageInterfaces.Search;
 import selenium.framework.DataFetch;
 import selenium.framework.WebActions;
+import springBeans.FlightBookingConfig;
 import tests.Runner;
 
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.PageFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
-
-import org.testng.Assert;
-import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
 
 public class SearchPage implements Search {
 	public static String passVar;
@@ -50,38 +42,38 @@ public class SearchPage implements Search {
 		System.out.println("Perform Flight Search for TCID: "+TCID+" and Iteration: "+itrData);
 		String component = "Search";
 		String element, action, tagInput, locator;
+		DataFetch objDataFetch = FlightBookingConfig.context.getBean(DataFetch.class);
 		
 		//System.out.println("DATA FROM LOGIN PAGE: "+DataFetch.mapSteps);
-		for (int itrSteps = 1; itrSteps <= DataFetch.mapSteps.get(component).size(); itrSteps++) {
+		for (int itrSteps = 1; itrSteps <= objDataFetch.getSteps().get(component).size(); itrSteps++) {
 			HashMap<String, String> mapElementParameters = new HashMap<String, String>();
 			//Steps Map
-			element = DataFetch.mapSteps.get(component).get(itrSteps).get("Element");
-			action = DataFetch.mapSteps.get(component).get(itrSteps).get("Action");
-			tagInput = DataFetch.mapSteps.get(component).get(itrSteps).get("Input");
+			element = objDataFetch.getSteps().get(component).get(itrSteps).get("Element");
+			action = objDataFetch.getSteps().get(component).get(itrSteps).get("Action");
+			tagInput = objDataFetch.getSteps().get(component).get(itrSteps).get("Input");
 			//POM Map
 			if (element != null) {
-				locator = DataFetch.mapPOM.get(component).get(element).get("Locator");
+				locator = objDataFetch.getPOM().get(component).get(element).get("Locator");
 				if (element.equals("CityItem")) {
-					locator = locator.replace("$City", DataFetch.mapData.get(TCID).get(itrData).get(tagInput));
+					locator = locator.replace("$City", objDataFetch.getData().get(TCID).get(itrData).get(tagInput));
 				}
 				if (element.equals("DayPicker")) {
-					locator = locator.replace("$Date", DataFetch.mapData.get(TCID).get(itrData).get(tagInput+"Date"));
+					locator = locator.replace("$Date", objDataFetch.getData().get(TCID).get(itrData).get(tagInput+"Date"));
 				}
 				mapElementParameters.put("Locator", locator);
-				mapElementParameters.put("LocatorType", DataFetch.mapPOM.get(component).get(element).get("LocatorType"));
-				mapElementParameters.put("ExpectedCondition", DataFetch.mapPOM.get(component).get(element).get("ExpectedCondition"));
-				mapElementParameters.put("Timeout", DataFetch.mapPOM.get(component).get(element).get("Timeout"));
+				mapElementParameters.put("LocatorType", objDataFetch.getPOM().get(component).get(element).get("LocatorType"));
+				mapElementParameters.put("ExpectedCondition", objDataFetch.getPOM().get(component).get(element).get("ExpectedCondition"));
+				mapElementParameters.put("Timeout", objDataFetch.getPOM().get(component).get(element).get("Timeout"));
 			}
 			if (tagInput != null) {
-				mapElementParameters.put("Input", DataFetch.mapData.get(TCID).get(itrData).get(tagInput));
+				mapElementParameters.put("Input", objDataFetch.getData().get(TCID).get(itrData).get(tagInput));
 			}
 			
-			ApplicationContext context1 = new AnnotationConfigApplicationContext(WebActions.class);
-			WebActions objInvoke = context1.getBean(WebActions.class);
+			WebActions objInvoke = FlightBookingConfig.context.getBean(WebActions.class);
 			if (element == "SearchBtn") {
 				clickSearchBtn_CacheLookup();
 			} else if (element == "ToInput") {
-				enterToInput_CacheLookup(DataFetch.mapData.get(TCID).get(itrData).get(tagInput));
+				enterToInput_CacheLookup(objDataFetch.getData().get(TCID).get(itrData).get(tagInput));
 			} else {
 				Method method;
 				try {
@@ -89,8 +81,7 @@ public class SearchPage implements Search {
 					//method = objInvoke.getClass().getDeclaredMethod(action, String[].class);
 					method = objInvoke.getClass().getDeclaredMethod(action, HashMap.class);
 					try {
-						ApplicationContext context2 = new AnnotationConfigApplicationContext(Alerts.class);
-						Alerts objAlert = context2.getBean(Alerts.class);
+						Alerts objAlert = FlightBookingConfig.context.getBean(Alerts.class);
 						objAlert.alertClose();
 						//method.invoke(objInvoke, browser, locator, input);
 						//method.invoke(objInvoke, new Object[] {arrArgs});//new Object[] {new String[] {"a", "s", "d"}}

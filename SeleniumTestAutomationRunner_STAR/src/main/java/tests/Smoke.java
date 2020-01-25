@@ -5,14 +5,12 @@ import org.testng.annotations.Test;
 import pages.BookPage;
 import pages.FlightsPage;
 import pages.SearchPage;
-import selenium.framework.App;
 import selenium.framework.DataFetch;
 import selenium.framework.DesiredCapabilities;
 import selenium.framework.WebActions;
+import springBeans.FlightBookingConfig;
 
 import org.testng.annotations.BeforeTest;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.testng.Assert;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.AfterTest;
@@ -27,15 +25,9 @@ public class Smoke {
   @Test
   public void SMOKE_3() {
 	  int intIterations = 1;
-	  
-	  ApplicationContext context1 = new AnnotationConfigApplicationContext(SearchPage.class);
-	  SearchPage objSearch = context1.getBean(SearchPage.class);
-	  
-	  ApplicationContext context2 = new AnnotationConfigApplicationContext(FlightsPage.class);
-	  FlightsPage objFlights = context2.getBean(FlightsPage.class);
-	  
-	  ApplicationContext context3 = new AnnotationConfigApplicationContext(BookPage.class);
-	  BookPage objBook = context3.getBean(BookPage.class);
+	  SearchPage objSearch = FlightBookingConfig.context.getBean(SearchPage.class);
+	  FlightsPage objFlights = FlightBookingConfig.context.getBean(FlightsPage.class);
+	  BookPage objBook = FlightBookingConfig.context.getBean(BookPage.class);
 	  
 	  for (int itr = 1; itr <= intIterations; itr++) {
 		  Runner.runStatus = "";
@@ -53,15 +45,9 @@ public class Smoke {
   @Test
   public void SMOKE_4() {
 	  int intIterations = 3;
-	  
-	  ApplicationContext context1 = new AnnotationConfigApplicationContext(SearchPage.class);
-	  SearchPage objSearch = context1.getBean(SearchPage.class);
-	  
-	  ApplicationContext context2 = new AnnotationConfigApplicationContext(FlightsPage.class);
-	  FlightsPage objFlights = context2.getBean(FlightsPage.class);
-	  
-	  ApplicationContext context3 = new AnnotationConfigApplicationContext(BookPage.class);
-	  BookPage objBook = context3.getBean(BookPage.class);
+	  SearchPage objSearch = FlightBookingConfig.context.getBean(SearchPage.class);
+	  FlightsPage objFlights = FlightBookingConfig.context.getBean(FlightsPage.class);
+	  BookPage objBook = FlightBookingConfig.context.getBean(BookPage.class);
 	  
 	  for (int itr = 1; itr <= intIterations; itr++) {
 		  Runner.runStatus = "";
@@ -82,26 +68,24 @@ public class Smoke {
   @BeforeSuite
   public void beforeSuite() {
 	  System.out.println("@BeforeSuite: Smoke");
-	  ApplicationContext context1 = new AnnotationConfigApplicationContext(DataFetch.class);
-	  DataFetch objData = context1.getBean(DataFetch.class);
-	  objData.getTestCases();
-	  objData.getSteps();
-	  objData.getPOM();
-	  objData.getData();
+	  DataFetch objData = FlightBookingConfig.context.getBean(DataFetch.class);
+	  objData.setTestCases();
+	  objData.setSteps();
+	  objData.setPOM();
+	  objData.setData();
 	  
-	  ApplicationContext context2 = new AnnotationConfigApplicationContext(DesiredCapabilities.class);
-	  DesiredCapabilities objDesiredCapabilities = context2.getBean(DesiredCapabilities.class);
-	  DesiredCapabilities.browser = App.browser;
-	  objDesiredCapabilities.getDriver(DesiredCapabilities.browser);
+	  DesiredCapabilities objDesiredCapabilities = FlightBookingConfig.context.getBean(DesiredCapabilities.class);
+	  objDesiredCapabilities.setDriver();
   }
   
   @AfterSuite
   public void afterSuite() {
 	  System.out.println("@AfterSuite: Smoke");
-	  ApplicationContext context = new AnnotationConfigApplicationContext(WebActions.class);
-	  WebActions objWebActions = context.getBean(WebActions.class);
+	  WebActions objWebActions = FlightBookingConfig.context.getBean(WebActions.class);
 	  objWebActions.closeBrowsers(null);
-	  DesiredCapabilities.driver.quit();
+	  
+	  DesiredCapabilities objDesiredCapabilities = FlightBookingConfig.context.getBean(DesiredCapabilities.class);
+	  objDesiredCapabilities.getDriver().quit();
   }
   
   @BeforeTest

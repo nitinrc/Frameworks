@@ -1,15 +1,32 @@
 package selenium.framework;
 
+import springBeans.FlightBookingConfig;
+import springBeans.ContextRegister;
 import tests.Runner;
 
 public class App {
-	public static String testSuite;
-	public static String browser;
+	private String testSuite;
+	
+	public String getTestSuite() {
+		return this.testSuite;
+	}
+	public void setTestSuite(String testSuite) {
+		this.testSuite = testSuite;
+	}
 	public static void main(String[] args) {
-		App.testSuite = args[0];
-		App.browser = args[1];
-		System.out.println("Test Suite: "+App.testSuite);
-		System.out.println("Browser: "+App.browser);
+		String testSuite = args[0];
+		String browser = args[1];
+		
+		new ContextRegister();
+		App objApp = FlightBookingConfig.context.getBean(App.class);
+		objApp.setTestSuite(testSuite);
+		objApp.getTestSuite();
+		System.out.println("Test Suite: "+testSuite);
+		System.out.println("Browser: "+browser);
+		
+		DesiredCapabilities objDesiredCapabilities = FlightBookingConfig.context.getBean(DesiredCapabilities.class);
+		objDesiredCapabilities.setBrowser(browser);
+		
 		String[] args1 = {};
 		Runner.main(args1);
 	}

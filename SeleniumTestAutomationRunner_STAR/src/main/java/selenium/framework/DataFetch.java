@@ -12,12 +12,15 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class DataFetch extends ReadPropertyFile {
-	public static TreeMap<String, HashMap<String, String>> mapTestCases;
-	public static HashMap<String, HashMap<Integer, HashMap<String, String>>> mapSteps;
-	public static HashMap<String, HashMap<String, HashMap<String, String>>> mapPOM;
-	public static HashMap<String, HashMap<Integer, HashMap<String, String>>> mapData;
+	private TreeMap<String, HashMap<String, String>> mapTestCases;
+	private HashMap<String, HashMap<Integer, HashMap<String, String>>> mapSteps;
+	private HashMap<String, HashMap<String, HashMap<String, String>>> mapPOM;
+	private HashMap<String, HashMap<Integer, HashMap<String, String>>> mapData;
 	
 	public TreeMap<String, HashMap<String, String>> getTestCases() {
+		return this.mapTestCases;
+	}
+	public void setTestCases() {
 		TreeMap<String, HashMap<String, String>> mapTCData = new TreeMap<String, HashMap<String, String>>();
 		try
 	    {
@@ -92,10 +95,14 @@ public class DataFetch extends ReadPropertyFile {
 		catch (Exception e) {e.printStackTrace();}
 		//TreeMap<String, HashMap<String, String>> sortedTCMap = new TreeMap();
 		//sortedTCMap.putAll(mapTCData);
-	    mapTestCases = mapTCData;
-	    return mapTCData;
+	    this.mapTestCases = mapTCData;
+	    //return mapTCData;
 	}
+	
 	public HashMap<String, HashMap<Integer, HashMap<String, String>>> getSteps() {
+		return this.mapSteps;
+	}
+	public void setSteps() {
 		HashMap<Integer, HashMap<String, String>> mapStep = new HashMap<Integer, HashMap<String, String>>();
 	    HashMap<String, HashMap<Integer, HashMap<String, String>>> mapComponent = new HashMap<String, HashMap<Integer, HashMap<String, String>>>();
 	    try
@@ -184,10 +191,14 @@ public class DataFetch extends ReadPropertyFile {
 		    file.close();
 		} 
 		catch (Exception e) {e.printStackTrace();}
-	    mapSteps = mapComponent;
-		return mapComponent;
+	    this.mapSteps = mapComponent;
+		//return mapComponent;
 	}
+	
 	public HashMap<String, HashMap<String, HashMap<String, String>>> getPOM() {
+		return this.mapPOM;
+	}
+	public void setPOM() {
 		HashMap<String, HashMap<String, String>> mapElement = new HashMap<String, HashMap<String, String>>();
 	    HashMap<String, HashMap<String, HashMap<String, String>>> mapPage = new HashMap<String, HashMap<String, HashMap<String, String>>>();
 	    try
@@ -278,10 +289,14 @@ public class DataFetch extends ReadPropertyFile {
 		    file.close();
 		} 
 		catch (Exception e) {e.printStackTrace();}
-	    mapPOM = mapPage;
-		return mapPage;
+	    this.mapPOM = mapPage;
+		//return mapPage;
 	}
+	
 	public HashMap<String, HashMap<Integer, HashMap<String, String>>> getData() {
+		return this.mapData;
+	}
+	public void setData() {
 		HashMap<Integer, HashMap<String, String>> mapStep = new HashMap<Integer, HashMap<String, String>>();
 	    HashMap<String, HashMap<Integer, HashMap<String, String>>> mapTestData = new HashMap<String, HashMap<Integer, HashMap<String, String>>>();
 	    try
@@ -369,7 +384,7 @@ public class DataFetch extends ReadPropertyFile {
 		    file.close();
 		} 
 		catch (Exception e) {e.printStackTrace();}
-	    mapData = mapTestData;
-		return mapTestData;
+	    this.mapData = mapTestData;
+		//return mapTestData;
 	}
 }

@@ -11,6 +11,7 @@ import org.testng.TestNG;
 
 import selenium.framework.App;
 import selenium.framework.DataFetch;
+import springBeans.FlightBookingConfig;
 
 public class Runner {
   public static String runStatus;
@@ -21,9 +22,10 @@ public class Runner {
 	  /*List<String> suites = Lists.newArrayList();
 	  suites.add("testng.xml");
 	  objTestNG.setTestSuites(suites);*/
-	  if (App.testSuite.equals("Regression")) {
+	  App objApp = FlightBookingConfig.context.getBean(App.class);
+	  if (objApp.getTestSuite().equals("Regression")) {
 		  objTestNG.setTestClasses(new Class[] {Regression.class});
-	  } else if (App.testSuite.equals("Smoke")) {
+	  } else if (objApp.getTestSuite().equals("Smoke")) {
 		  objTestNG.setTestClasses(new Class[] {Smoke.class});
 	  }
 	  //objTestNG.addListener(objTestListenerAdapter);
@@ -35,16 +37,17 @@ public class Runner {
 	  boolean flagCoverage = false;
 	  String TCID = "";
 	  int intDataIterations = 0;
+	  DataFetch objDataFetch = FlightBookingConfig.context.getBean(DataFetch.class);
 	  //Iterate Rows
-	  Iterator hmIterator1 = DataFetch.mapTestCases.entrySet().iterator();
+	  Iterator hmIterator1 = objDataFetch.getTestCases().entrySet().iterator();
 	  while (hmIterator1.hasNext()) {
 	      Map.Entry mapElement1 = (Map.Entry)hmIterator1.next();
 	      TCID = (String) mapElement1.getKey();
 	      //Iterates Test Data iterations
-	      intDataIterations = DataFetch.mapData.get(TCID).size();
+	      intDataIterations = objDataFetch.getData().get(TCID).size();
 	      for (int itrData = 1; itrData <= intDataIterations; itrData++) {
 	    	  runStatus = "";
-	    	  HashMap<String, String> mapTCData = DataFetch.mapTestCases.get(mapElement1.getKey());
+	    	  HashMap<String, String> mapTCData = objDataFetch.getTestCases().get(mapElement1.getKey());
 		      //System.out.println("mapTCData: "+mapTCData);
 		      flagCoverage = false;
 			  for (String itemCoverage : mapTCData.get("Coverage").split(":")) {

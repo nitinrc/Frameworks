@@ -6,24 +6,28 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import springBeans.FlightBookingConfig;
 
 public class DesiredCapabilities {
-	public static WebDriver driver;
-	public static String browser;
+	private WebDriver driver;
+	private String browser;
 	
-	public WebDriver getDriver(String browser) {
+	public WebDriver getDriver() {
+		return driver;
+	}
+	public void setDriver() {
 		WebDriver driver = null;
-		if (browser.toLowerCase().equals("chrome")) {
+		DesiredCapabilities objDesiredCapabilities = FlightBookingConfig.context.getBean(DesiredCapabilities.class);
+		if (objDesiredCapabilities.getBrowser().toLowerCase().equals("chrome")) {
 			driver = getChromeDriver();
-		} else if (browser.toLowerCase().equals("firefox")) {
+		} else if (objDesiredCapabilities.getBrowser().toLowerCase().equals("firefox")) {
 			//driver = (FirefoxDriver) getFirefoxDriver();
-		} else if (browser.toLowerCase().equals("ie")) {
+		} else if (objDesiredCapabilities.getBrowser().toLowerCase().equals("ie")) {
 			//driver = (InternetExplorerDriver) getInternetExplorerDriver();
-		} else if (browser.toLowerCase().equals("htmlunit")) {
+		} else if (objDesiredCapabilities.getBrowser().toLowerCase().equals("htmlunit")) {
 			driver = getHTMLUnitDriver();
 		}
-		DesiredCapabilities.driver = driver;
-		return driver;
+		this.driver = driver;
 	}
 	private WebDriver getChromeDriver() {
 		//WebDriver driver = null;
@@ -44,5 +48,11 @@ public class DesiredCapabilities {
 		HtmlUnitDriver unitDriver = new HtmlUnitDriver(true);
 		//unitDriver.setJavascriptEnabled(true);
 		return unitDriver;
+	}
+	public String getBrowser() {
+		return browser;
+	}
+	public void setBrowser(String browser) {
+		this.browser = browser;
 	}
 }

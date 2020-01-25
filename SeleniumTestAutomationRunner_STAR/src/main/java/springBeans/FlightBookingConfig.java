@@ -1,5 +1,6 @@
 package springBeans;
 
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,6 +14,7 @@ import tests.Runner;
 
 @Configuration
 public class FlightBookingConfig {
+	public static final AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
 	@Bean
 	public Runner runner() {
 		return new Runner();

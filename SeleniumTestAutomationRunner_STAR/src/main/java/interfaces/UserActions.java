@@ -2,7 +2,10 @@ package interfaces;
 
 import java.util.HashMap;
 
+import org.openqa.selenium.WebDriver;
+
 public interface UserActions {
+	public WebDriver getDriver();
 	public void navigate(HashMap<String, String> mapElementParameters);
 	public void getCurrentUrl(HashMap<String, String> mapElementParameters);
 	public void navigateBack(HashMap<String, String> mapElementParameters);
