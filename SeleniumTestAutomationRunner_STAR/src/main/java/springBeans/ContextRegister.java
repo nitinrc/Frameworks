@@ -11,7 +11,7 @@ import selenium.framework.DataFetch;
 import selenium.framework.DesiredCapabilities;
 import selenium.framework.WebActions;
 import tests.Runner;
-@Component("contextRegister")
+
 public class ContextRegister {
 	public ContextRegister() {
 		FlightBookingConfig.context.refresh();

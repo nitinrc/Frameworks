@@ -30,6 +30,13 @@ public class App {
 		DesiredCapabilities objDesiredCapabilities = FlightBookingConfig.context.getBean(DesiredCapabilities.class);
 		objDesiredCapabilities.setBrowser(browser);
 		
+		/* import org.springframework.context.ApplicationContext;
+		 * ApplicationContext context = new AnnotationConfigApplicationContext(DesiredCapabilities.class);
+		 * Above requires @Bean to be defined in @Configuration, and does not require refresh and register of class
+		 * context.refresh();
+		 * context.register(DesiredCapabilities.class);
+		 */
+		
 		String[] args1 = {};
 		Runner.main(args1);
 	}
