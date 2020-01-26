@@ -1,5 +1,7 @@
 package springBeans;
 
+import org.springframework.stereotype.Component;
+
 import pages.Alerts;
 import pages.BookPage;
 import pages.FlightsPage;
@@ -9,7 +11,7 @@ import selenium.framework.DataFetch;
 import selenium.framework.DesiredCapabilities;
 import selenium.framework.WebActions;
 import tests.Runner;
-
+@Component("contextRegister")
 public class ContextRegister {
 	public ContextRegister() {
 		FlightBookingConfig.context.refresh();

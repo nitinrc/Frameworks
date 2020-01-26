@@ -2,28 +2,28 @@
 <testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
   <reporter-output>
   </reporter-output>
-  <suite name="Command line suite" duration-ms="328038" started-at="2020-01-25T07:57:10Z" finished-at="2020-01-25T08:02:38Z">
+  <suite name="Command line suite" duration-ms="321447" started-at="2020-01-26T07:10:53Z" finished-at="2020-01-26T07:16:14Z">
     <groups>
     </groups>
-    <test name="Command line test" duration-ms="328038" started-at="2020-01-25T07:57:10Z" finished-at="2020-01-25T08:02:38Z">
+    <test name="Command line test" duration-ms="321447" started-at="2020-01-26T07:10:53Z" finished-at="2020-01-26T07:16:14Z">
       <class name="tests.Regression">
-        <test-method status="PASS" signature="beforeSuite()[pri:0, instance:tests.Regression@c300f1]" name="beforeSuite" is-config="true" duration-ms="17636" started-at="2020-01-25T07:56:53Z" finished-at="2020-01-25T07:57:10Z">
+        <test-method status="PASS" signature="beforeSuite()[pri:0, instance:tests.Regression@1c2413d]" name="beforeSuite" is-config="true" duration-ms="99898" started-at="2020-01-26T07:09:13Z" finished-at="2020-01-26T07:10:53Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- beforeSuite -->
-        <test-method status="PASS" signature="beforeTest()[pri:0, instance:tests.Regression@c300f1]" name="beforeTest" is-config="true" duration-ms="2" started-at="2020-01-25T07:57:10Z" finished-at="2020-01-25T07:57:10Z">
+        <test-method status="PASS" signature="beforeTest()[pri:0, instance:tests.Regression@1c2413d]" name="beforeTest" is-config="true" duration-ms="1" started-at="2020-01-26T07:10:53Z" finished-at="2020-01-26T07:10:53Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- beforeTest -->
-        <test-method status="PASS" signature="run()[pri:0, instance:tests.Regression@c300f1]" name="run" duration-ms="327933" started-at="2020-01-25T07:57:10Z" finished-at="2020-01-25T08:02:38Z">
+        <test-method status="PASS" signature="run()[pri:0, instance:tests.Regression@1c2413d]" name="run" duration-ms="321218" started-at="2020-01-26T07:10:53Z" finished-at="2020-01-26T07:16:14Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- run -->
-        <test-method status="PASS" signature="afterTest()[pri:0, instance:tests.Regression@c300f1]" name="afterTest" is-config="true" duration-ms="1" started-at="2020-01-25T08:02:38Z" finished-at="2020-01-25T08:02:38Z">
+        <test-method status="PASS" signature="afterTest()[pri:0, instance:tests.Regression@1c2413d]" name="afterTest" is-config="true" duration-ms="1" started-at="2020-01-26T07:16:14Z" finished-at="2020-01-26T07:16:14Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- afterTest -->
-        <test-method status="PASS" signature="afterSuite()[pri:0, instance:tests.Regression@c300f1]" name="afterSuite" is-config="true" duration-ms="1066" started-at="2020-01-25T08:02:39Z" finished-at="2020-01-25T08:02:40Z">
+        <test-method status="PASS" signature="afterSuite()[pri:0, instance:tests.Regression@1c2413d]" name="afterSuite" is-config="true" duration-ms="1145" started-at="2020-01-26T07:16:15Z" finished-at="2020-01-26T07:16:16Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- afterSuite -->
