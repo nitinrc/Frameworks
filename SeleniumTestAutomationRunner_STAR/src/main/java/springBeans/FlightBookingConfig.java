@@ -1,21 +1,22 @@
 package springBeans;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Bean;
+//import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
+/*
 import pages.Alerts;
+import selenium.framework.App;
 import selenium.framework.DataFetch;
 import selenium.framework.DesiredCapabilities;
 import selenium.framework.FindElement;
 import selenium.framework.ReadPropertyFile;
 import selenium.framework.WebActions;
 import tests.Runner;
-
+*/
 @Configuration
 public class FlightBookingConfig {
 	public static final AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-	@Bean
+	/*@Bean
 	public Runner runner() {
 		return new Runner();
 	}
@@ -42,5 +43,5 @@ public class FlightBookingConfig {
 	@Bean
 	public Alerts alerts() {
 		return new Alerts();
-	}
+	}*/
 }
