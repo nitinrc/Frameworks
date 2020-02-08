@@ -3,9 +3,11 @@ package pages;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
 
 import pageInterfaces.Search;
 import selenium.framework.DataFetch;
+import selenium.framework.MultiThreadingExecutorService;
 import selenium.framework.WebActions;
 import springBeans.FlightBookingConfig;
 import tests.Runner;
@@ -36,12 +38,34 @@ public class SearchPage implements Search {
 		inputTo.clear();
 		inputTo.sendKeys(text);
 	}
+	
+	public void validateSearchPageElements(String TCID, int itrData) {
+		DataFetch objDataFetch = FlightBookingConfig.context.getBean(DataFetch.class);
+		String component = "Search";
+		WebActions objWebActions = FlightBookingConfig.context.getBean(WebActions.class);
+		HashMap<String, String> mapElementParameters = new HashMap<String, String>();
+		mapElementParameters.put("Input", "http://makemytrip.com");
+		objWebActions.navigate(mapElementParameters);
+		
+		MultiThreadingExecutorService objMultiThreadingExecutorService = FlightBookingConfig.context.getBean(MultiThreadingExecutorService.class);
+		String[] arrFields = objDataFetch.getData().get(TCID).get(itrData).get("FieldsToValidate").split("\\|");
+		HashMap<String, HashMap<String, String>> mapElements = null;
+		try {
+			mapElements = objMultiThreadingExecutorService.getElementIdentificationData(arrFields, component);
+		} catch (InterruptedException e1) {e1.printStackTrace();
+		} catch (ExecutionException e1) {e1.printStackTrace();}
+		try {
+			objMultiThreadingExecutorService.verifyElements(mapElements);
+		} catch (InterruptedException e) {e.printStackTrace();
+		} catch (ExecutionException e) {e.printStackTrace();}
+	}
 
 	public void searchFlights(String TCID, int itrData) {
 		passVar = "dummy";
 		System.out.println("Perform Flight Search for TCID: "+TCID+" and Iteration: "+itrData);
 		String component = "Search";
 		String element, action, tagInput, locator;
+		Runner objRunner = FlightBookingConfig.context.getBean(Runner.class);
 		DataFetch objDataFetch = FlightBookingConfig.context.getBean(DataFetch.class);
 		
 		//System.out.println("DATA FROM LOGIN PAGE: "+DataFetch.mapSteps);
@@ -81,12 +105,12 @@ public class SearchPage implements Search {
 					//method = objInvoke.getClass().getDeclaredMethod(action, String[].class);
 					method = objInvoke.getClass().getDeclaredMethod(action, HashMap.class);
 					try {
-						Alerts objAlert = FlightBookingConfig.context.getBean(Alerts.class);
-						objAlert.alertClose();
+						//Alerts objAlert = FlightBookingConfig.context.getBean(Alerts.class);
+						//objAlert.alertClose();
 						//method.invoke(objInvoke, browser, locator, input);
 						//method.invoke(objInvoke, new Object[] {arrArgs});//new Object[] {new String[] {"a", "s", "d"}}
 						method.invoke(objInvoke, mapElementParameters);
-						if (Runner.runStatus.equals("FAIL")) {
+						if (objRunner.getRunStatus().equals("FAIL")) {
 							System.exit(0);
 						}
 					} catch (IllegalAccessException e) {e.printStackTrace();} catch (IllegalArgumentException e) {e.printStackTrace();} catch (InvocationTargetException e) {e.printStackTrace();
@@ -99,19 +123,14 @@ public class SearchPage implements Search {
 	public void doNothing(String TCID, int itrData) {
 		System.out.println("Did nothing in Search section for TCID: "+TCID+" | Data Iteration: "+ itrData);
 		System.out.println("doNothing passVar: "+passVar);
-		if (1 == 1) {
-			Runner.runStatus = "PASS";
-		} else {
-			Runner.runStatus = "FAIL";
-			System.exit(0); 
+		Runner objRunner = FlightBookingConfig.context.getBean(Runner.class);
+		if (true) {
+			objRunner.setRunStatus("PASS");
 		}
-		System.out.println("Run Status: "+Runner.runStatus);
-		
+		System.out.println("Run Status: "+objRunner.getRunStatus());
 		//SoftAssert softAssertion = new SoftAssert();
 		//softAssertion.assertTrue(false);
-		
 		//Assert.assertTrue(false);
-		
-		//assertEquals(element.getText(), "Hello from JavaScript!");
+		//assertEquals(element.getText(), "Hello!");
 	}
 }

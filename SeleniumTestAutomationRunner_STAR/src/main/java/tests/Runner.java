@@ -14,7 +14,15 @@ import selenium.framework.DataFetch;
 import springBeans.FlightBookingConfig;
 
 public class Runner {
-  public static String runStatus;
+  private String runStatus;
+  
+  public String getRunStatus() {
+	  return this.runStatus;
+  }
+  
+  public void setRunStatus(String runStatus) {
+	  this.runStatus = runStatus;
+  }
   
   public static void main(String[] args) {
 	  //TestListenerAdapter objTestListenerAdapter = new TestListenerAdapter();
@@ -46,7 +54,7 @@ public class Runner {
 	      //Iterates Test Data iterations
 	      intDataIterations = objDataFetch.getData().get(TCID).size();
 	      for (int itrData = 1; itrData <= intDataIterations; itrData++) {
-	    	  runStatus = "";
+	    	  setRunStatus("");
 	    	  HashMap<String, String> mapTCData = objDataFetch.getTestCases().get(mapElement1.getKey());
 		      //System.out.println("mapTCData: "+mapTCData);
 		      flagCoverage = false;
@@ -71,7 +79,7 @@ public class Runner {
 						} catch (NoSuchMethodException e) {e.printStackTrace();} catch (SecurityException e) {e.printStackTrace();} catch (InstantiationException e) {e.printStackTrace();} catch (IllegalAccessException e) {e.printStackTrace();}
 						try {
 							method.invoke(refClass.newInstance(), TCID, itrData);
-							if (Runner.runStatus.equals("FAIL")) {
+							if (getRunStatus().equals("FAIL")) {
 								break;
 							}
 						} catch (IllegalAccessException e) {e.printStackTrace();} catch (IllegalArgumentException e) {e.printStackTrace();} catch (InvocationTargetException e) {e.printStackTrace();} catch (InstantiationException e) {e.printStackTrace();}

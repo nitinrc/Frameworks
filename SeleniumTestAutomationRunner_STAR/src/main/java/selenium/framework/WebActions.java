@@ -73,8 +73,9 @@ public class WebActions extends FindElement implements UserActions {
 	
 	//public void sendKeys(String... args) {
 	public void sendKeys(HashMap<String, String> mapElementParameters) {
+		Runner objRunner = FlightBookingConfig.context.getBean(Runner.class);
 		WebElement element = findElement(mapElementParameters.get("Locator"), mapElementParameters.get("LocatorType"), mapElementParameters.get("ExpectedCondition"), mapElementParameters.get("Timeout"));
-		if (Runner.runStatus.equals("FAIL")) {
+		if (objRunner.getRunStatus().equals("FAIL")) {
 			System.exit(0);
 		}
 		element.click();
@@ -83,16 +84,18 @@ public class WebActions extends FindElement implements UserActions {
 	}
 	
 	public void click(HashMap<String, String> mapElementParameters) {
+		Runner objRunner = FlightBookingConfig.context.getBean(Runner.class);
 		WebElement element = findElement(mapElementParameters.get("Locator"), mapElementParameters.get("LocatorType"), mapElementParameters.get("ExpectedCondition"), mapElementParameters.get("Timeout"));
-		if (Runner.runStatus.equals("FAIL")) {
+		if (objRunner.getRunStatus().equals("FAIL")) {
 			System.exit(0);
 		}
 		element.click();
 	}
 	
 	public void getText(HashMap<String, String> mapElementParameters) {
+		Runner objRunner = FlightBookingConfig.context.getBean(Runner.class);
 		WebElement element = findElement(mapElementParameters.get("Locator"), mapElementParameters.get("LocatorType"), mapElementParameters.get("ExpectedCondition"), mapElementParameters.get("Timeout"));
-		if (Runner.runStatus.equals("FAIL")) {
+		if (objRunner.getRunStatus().equals("FAIL")) {
 			System.exit(0);
 		}
 		element.getText();
@@ -100,20 +103,22 @@ public class WebActions extends FindElement implements UserActions {
 	}
 	
 	public void scrollIntoView(HashMap<String, String> mapElementParameters) {
+		Runner objRunner = FlightBookingConfig.context.getBean(Runner.class);
 		WebElement element = findElement(mapElementParameters.get("Locator"), mapElementParameters.get("LocatorType"), mapElementParameters.get("ExpectedCondition"), mapElementParameters.get("Timeout"));
-		if (Runner.runStatus.equals("FAIL")) {
+		if (objRunner.getRunStatus().equals("FAIL")) {
 			System.exit(0);
 		}
 		((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
 	}
 	
 	public void dragAndDrop(HashMap<String, String> mapElementParameters) {
+		Runner objRunner = FlightBookingConfig.context.getBean(Runner.class);
 		WebElement startElement = findElement(mapElementParameters.get("Locator1"), mapElementParameters.get("LocatorType1"), mapElementParameters.get("ExpectedCondition1"), mapElementParameters.get("Timeout1"));
-		if (Runner.runStatus.equals("FAIL")) {
+		if (objRunner.getRunStatus().equals("FAIL")) {
 			System.exit(0);
 		}
 		WebElement endElement = findElement(mapElementParameters.get("Locator2"), mapElementParameters.get("LocatorType2"), mapElementParameters.get("ExpectedCondition2"), mapElementParameters.get("Timeout2"));
-		if (Runner.runStatus.equals("FAIL")) {
+		if (objRunner.getRunStatus().equals("FAIL")) {
 			System.exit(0);
 		}
 		Actions builder = new Actions(getDriver());
@@ -129,10 +134,11 @@ public class WebActions extends FindElement implements UserActions {
 	}
 	
 	public void switchToFrame(HashMap<String, String> mapElementParameters) {
+		Runner objRunner = FlightBookingConfig.context.getBean(Runner.class);
 		try {
 			//WebElement iframe = new WebDriverWait(DesiredCapabilities.driver, timeout).until(ExpectedConditions.elementToBeClickable(By.xpath(xpath)));
 			WebElement iframe = findElement(mapElementParameters.get("Locator"), mapElementParameters.get("LocatorType"), mapElementParameters.get("ExpectedCondition"), mapElementParameters.get("Timeout"));
-			if (Runner.runStatus.equals("FAIL")) {
+			if (objRunner.getRunStatus().equals("FAIL")) {
 				System.exit(0);
 			}
 			try {
@@ -161,10 +167,11 @@ public class WebActions extends FindElement implements UserActions {
 	}
 	
 	public void alertClose(HashMap<String, String> mapElementParameters) {
+		Runner objRunner = FlightBookingConfig.context.getBean(Runner.class);
 		try {
 			//WebElement alertClose = new WebDriverWait(DesiredCapabilities.driver, timeout).until(ExpectedConditions.elementToBeClickable(By.xpath(locator)));
 			WebElement alertClose = findElement(mapElementParameters.get("Locator"), mapElementParameters.get("LocatorType"), mapElementParameters.get("ExpectedCondition"), mapElementParameters.get("Timeout"));
-			if (Runner.runStatus.equals("FAIL")) {
+			if (objRunner.getRunStatus().equals("FAIL")) {
 				System.exit(0);
 			}
 			try {

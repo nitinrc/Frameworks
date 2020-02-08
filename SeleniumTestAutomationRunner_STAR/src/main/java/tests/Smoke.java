@@ -5,12 +5,15 @@ import org.testng.annotations.Test;
 import pages.BookPage;
 import pages.FlightsPage;
 import pages.SearchPage;
-import selenium.framework.DataFetch;
 import selenium.framework.DesiredCapabilities;
+import selenium.framework.MultiThreadingExecutorService;
 import selenium.framework.WebActions;
 import springBeans.FlightBookingConfig;
 
 import org.testng.annotations.BeforeTest;
+
+import java.util.concurrent.ExecutionException;
+
 import org.testng.Assert;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.AfterTest;
@@ -25,54 +28,56 @@ public class Smoke {
   @Test
   public void SMOKE_3() {
 	  int intIterations = 1;
+	  Runner objRunner = FlightBookingConfig.context.getBean(Runner.class);
 	  SearchPage objSearch = FlightBookingConfig.context.getBean(SearchPage.class);
 	  FlightsPage objFlights = FlightBookingConfig.context.getBean(FlightsPage.class);
 	  BookPage objBook = FlightBookingConfig.context.getBean(BookPage.class);
 	  
 	  for (int itr = 1; itr <= intIterations; itr++) {
-		  Runner.runStatus = "";
+		  objRunner.setRunStatus("");
 		  objSearch.searchFlights("SMOKE_3", itr);
-		  if (Runner.runStatus.equals("FAIL")) {Assert.assertTrue(false);}
+		  if (objRunner.getRunStatus().equals("FAIL")) {Assert.assertTrue(false);}
 		  
 		  objFlights.selectFlight("SMOKE_3", itr);
-		  if (Runner.runStatus.equals("FAIL")) {Assert.assertTrue(false);}
+		  if (objRunner.getRunStatus().equals("FAIL")) {Assert.assertTrue(false);}
 		  
 		  objBook.bookFlight("SMOKE_3", itr);
-		  if (Runner.runStatus.equals("FAIL")) {Assert.assertTrue(false);}
+		  if (objRunner.getRunStatus().equals("FAIL")) {Assert.assertTrue(false);}
 	  }
   }
   
   @Test
   public void SMOKE_4() {
 	  int intIterations = 3;
+	  Runner objRunner = FlightBookingConfig.context.getBean(Runner.class);
 	  SearchPage objSearch = FlightBookingConfig.context.getBean(SearchPage.class);
 	  FlightsPage objFlights = FlightBookingConfig.context.getBean(FlightsPage.class);
 	  BookPage objBook = FlightBookingConfig.context.getBean(BookPage.class);
 	  
 	  for (int itr = 1; itr <= intIterations; itr++) {
-		  Runner.runStatus = "";
+		  objRunner.setRunStatus("");
 		  objSearch.searchFlights("SMOKE_4", itr);
-		  if (Runner.runStatus.equals("FAIL")) {Assert.assertTrue(false);}
+		  if (objRunner.getRunStatus().equals("FAIL")) {Assert.assertTrue(false);}
 		  
 		  objFlights.selectFlight("SMOKE_4", itr);
-		  if (Runner.runStatus.equals("FAIL")) {Assert.assertTrue(false);}
+		  if (objRunner.getRunStatus().equals("FAIL")) {Assert.assertTrue(false);}
 		  
 		  objFlights.doNothing("SMOKE_4", itr);
-		  if (Runner.runStatus.equals("FAIL")) {Assert.assertTrue(false);}
+		  if (objRunner.getRunStatus().equals("FAIL")) {Assert.assertTrue(false);}
 		  
 		  objBook.bookFlight("SMOKE_4", itr);
-		  if (Runner.runStatus.equals("FAIL")) {Assert.assertTrue(false);}
+		  if (objRunner.getRunStatus().equals("FAIL")) {Assert.assertTrue(false);}
 	  }
   }
   
   @BeforeSuite
   public void beforeSuite() {
 	  System.out.println("@BeforeSuite: Smoke");
-	  DataFetch objData = FlightBookingConfig.context.getBean(DataFetch.class);
-	  objData.setTestCases();
-	  objData.setSteps();
-	  objData.setPOM();
-	  objData.setData();
+	  MultiThreadingExecutorService objMultiThreadingExecutorService = FlightBookingConfig.context.getBean(MultiThreadingExecutorService.class);
+	  try {
+		  objMultiThreadingExecutorService.dataFetch();
+	  } catch (InterruptedException e) {e.printStackTrace();
+	  } catch (ExecutionException e) {e.printStackTrace();}
 	  
 	  DesiredCapabilities objDesiredCapabilities = FlightBookingConfig.context.getBean(DesiredCapabilities.class);
 	  objDesiredCapabilities.setDriver();

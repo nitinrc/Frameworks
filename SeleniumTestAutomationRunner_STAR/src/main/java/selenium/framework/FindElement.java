@@ -10,13 +10,33 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import pages.Alerts;
 import springBeans.FlightBookingConfig;
 import tests.Runner;
 
 public class FindElement {
-	@SuppressWarnings("unchecked")
 	public WebElement findElement(String locator, String locatorType, String expectedCondition, String timeout) {
+		Runner objRunner = FlightBookingConfig.context.getBean(Runner.class);
+		WebElement element = getElement(locator, locatorType, expectedCondition, timeout);
+		if (!(element.isEnabled())) {
+			if (!(element.isDisplayed())) {
+				Alerts objAlert = FlightBookingConfig.context.getBean(Alerts.class);
+				objAlert.alertClose();
+				element = getElement(locator, locatorType, expectedCondition, timeout);
+				if (!(element.isEnabled())) {
+					objRunner.setRunStatus("FAIL");
+				}
+			} else {
+				objRunner.setRunStatus("FAIL");
+			}
+		}
+		return element;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public WebElement getElement(String locator, String locatorType, String expectedCondition, String timeout) {
 		//Float.parseFloat
+		Runner objRunner = FlightBookingConfig.context.getBean(Runner.class);
 		DesiredCapabilities objDesiredCapabilities = FlightBookingConfig.context.getBean(DesiredCapabilities.class);
 		WebDriverWait wait = new WebDriverWait(objDesiredCapabilities.getDriver(),Integer.parseInt(timeout));
 		
@@ -28,26 +48,26 @@ public class FindElement {
 			method2 = By.class.getMethod(locatorType, String.class);
 		} catch (NoSuchMethodException e1) {
 			e1.printStackTrace();
-			Runner.runStatus = "FAIL";
+			objRunner.setRunStatus("FAIL");
 			System.exit(0);
 		} catch (SecurityException e1) {
 			e1.printStackTrace();
-			Runner.runStatus = "FAIL";
+			objRunner.setRunStatus("FAIL");
 			System.exit(0);
 		}
 		try {
 			element = wait.until((Function<? super WebDriver, WebElement>) method1.invoke(ExpectedConditions.class, (By) method2.invoke(By.class, locator)));
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
-			Runner.runStatus = "FAIL";
+			objRunner.setRunStatus("FAIL");
 			System.exit(0);
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
-			Runner.runStatus = "FAIL";
+			objRunner.setRunStatus("FAIL");
 			System.exit(0);
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
-			Runner.runStatus = "FAIL";
+			objRunner.setRunStatus("FAIL");
 			System.exit(0);
 		}
 		return element;

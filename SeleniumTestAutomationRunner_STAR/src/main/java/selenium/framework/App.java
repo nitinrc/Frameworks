@@ -18,6 +18,7 @@ public class App {
 	public void setTestSuite(String testSuite) {
 		this.testSuite = testSuite;
 	}
+	@SuppressWarnings("resource")
 	public static void main(String[] args) {
 		String testSuite = args[0];
 		String browser = args[1];

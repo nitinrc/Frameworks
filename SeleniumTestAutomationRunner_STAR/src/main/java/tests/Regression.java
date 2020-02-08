@@ -2,12 +2,14 @@ package tests;
 
 import org.testng.annotations.Test;
 
-import selenium.framework.DataFetch;
 import selenium.framework.DesiredCapabilities;
+import selenium.framework.MultiThreadingExecutorService;
 import selenium.framework.WebActions;
 import springBeans.FlightBookingConfig;
 
 import org.testng.annotations.BeforeTest;
+
+import java.util.concurrent.ExecutionException;
 
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.AfterTest;
@@ -23,11 +25,11 @@ public class Regression {
   @BeforeSuite
   public void beforeSuite() {
 	  System.out.println("@BeforeSuite: Regression");
-	  DataFetch objData = FlightBookingConfig.context.getBean(DataFetch.class);
-	  objData.setTestCases();
-	  objData.setSteps();
-	  objData.setPOM();
-	  objData.setData();
+	  MultiThreadingExecutorService objMultiThreadingExecutorService = FlightBookingConfig.context.getBean(MultiThreadingExecutorService.class);
+	  try {
+		  objMultiThreadingExecutorService.dataFetch();
+	  } catch (InterruptedException e) {e.printStackTrace();
+	  } catch (ExecutionException e) {e.printStackTrace();}
 	  
 	  DesiredCapabilities objDesiredCapabilities = FlightBookingConfig.context.getBean(DesiredCapabilities.class);
 	  objDesiredCapabilities.setDriver();

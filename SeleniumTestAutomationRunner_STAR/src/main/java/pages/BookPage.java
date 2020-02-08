@@ -16,6 +16,7 @@ public class BookPage implements Book {
 		System.out.println("Perform Booking for TCID: "+TCID+" and Iteration: "+itrData);
 		String component = "Book";
 		String element, action, tagInput;
+		Runner objRunner = FlightBookingConfig.context.getBean(Runner.class);
 		DataFetch objDataFetch = FlightBookingConfig.context.getBean(DataFetch.class);
 		
 		for (int itrSteps = 1; itrSteps <= objDataFetch.getSteps().get(component).size(); itrSteps++) {
@@ -43,10 +44,10 @@ public class BookPage implements Book {
 				try {
 					method = objInvoke.getClass().getDeclaredMethod(action, HashMap.class);
 					try {
-						Alerts objAlert = FlightBookingConfig.context.getBean(Alerts.class);
-						objAlert.alertClose();
+						//Alerts objAlert = FlightBookingConfig.context.getBean(Alerts.class);
+						//objAlert.alertClose();
 						method.invoke(objInvoke, mapElementParameters);
-						if (Runner.runStatus.equals("FAIL")) {
+						if (objRunner.getRunStatus().equals("FAIL")) {
 							System.exit(0);
 						}
 					} catch (IllegalAccessException e) {e.printStackTrace();} catch (IllegalArgumentException e) {e.printStackTrace();} catch (InvocationTargetException e) {e.printStackTrace();
@@ -58,12 +59,10 @@ public class BookPage implements Book {
 	
 	public void doNothing(String TCID, int itrData) {
 		System.out.println("Did nothing in Book section for TCID: "+TCID+" | Data Iteration: "+ itrData);
-		if (1 == 1) {
-			Runner.runStatus = "PASS";
-		} else {
-			Runner.runStatus = "FAIL";
-			System.exit(0);
+		Runner objRunner = FlightBookingConfig.context.getBean(Runner.class);
+		if (true) {
+			objRunner.setRunStatus("PASS");
 		}
-		System.out.println("Run Status: "+Runner.runStatus);
+		System.out.println("Run Status: "+objRunner.getRunStatus());
 	}
 }
