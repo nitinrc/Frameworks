@@ -8,6 +8,7 @@ import selenium.framework.App;
 import selenium.framework.DataFetch;
 import selenium.framework.DesiredCapabilities;
 import selenium.framework.MultiThreadingExecutorService;
+import selenium.framework.ReadPropertyFile;
 import selenium.framework.WebActions;
 import tests.Runner;
 
@@ -24,5 +25,6 @@ public class ContextRegister {
 		FlightBookingConfig.context.register(SearchPage.class);
 		FlightBookingConfig.context.register(FlightsPage.class);
 		FlightBookingConfig.context.register(BookPage.class);
+		FlightBookingConfig.context.register(ReadPropertyFile.class);
 	}
 }

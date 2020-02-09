@@ -22,14 +22,17 @@ public class App {
 	public static void main(String[] args) {
 		String testSuite = args[0];
 		String browser = args[1];
+		String runMode = args[2];
 		new AnnotationConfigApplicationContext(ContextRegister.class);
 		App objApp = FlightBookingConfig.context.getBean(App.class);
 		objApp.setTestSuite(testSuite);
 		objApp.getTestSuite();
 		System.out.println("Test Suite: "+testSuite);
 		System.out.println("Browser: "+browser);
+		System.out.println("Run Mode: "+runMode);
 		DesiredCapabilities objDesiredCapabilities = FlightBookingConfig.context.getBean(DesiredCapabilities.class);
 		objDesiredCapabilities.setBrowser(browser);
+		objDesiredCapabilities.setRunMode(runMode);
 		
 		/* import org.springframework.context.ApplicationContext;
 		 * ApplicationContext context = new AnnotationConfigApplicationContext(DesiredCapabilities.class);

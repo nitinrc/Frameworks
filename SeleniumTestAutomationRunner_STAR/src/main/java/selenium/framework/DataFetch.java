@@ -11,7 +11,9 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class DataFetch extends ReadPropertyFile {
+import springBeans.FlightBookingConfig;
+
+public class DataFetch {//extends ReadPropertyFile {
 	private TreeMap<String, HashMap<String, String>> mapTestCases;
 	private HashMap<String, HashMap<Integer, HashMap<String, String>>> mapSteps;
 	private HashMap<String, HashMap<String, HashMap<String, String>>> mapPOM;
@@ -22,9 +24,10 @@ public class DataFetch extends ReadPropertyFile {
 	}
 	public void setTestCases() {
 		TreeMap<String, HashMap<String, String>> mapTCData = new TreeMap<String, HashMap<String, String>>();
+		ReadPropertyFile objReadPropertyFile = FlightBookingConfig.context.getBean(ReadPropertyFile.class);
 		try
 	    {
-			String path = readProperty().getProperty("ExcelPath");
+			String path = objReadPropertyFile.readProperty().getProperty("ExcelPath");
 	    	FileInputStream file = new FileInputStream(new File(path));
 			//Create Workbook instance holding reference to .xlsx file
 		    XSSFWorkbook workbook = new XSSFWorkbook(file);
@@ -105,9 +108,10 @@ public class DataFetch extends ReadPropertyFile {
 	public void setSteps() {
 		HashMap<Integer, HashMap<String, String>> mapStep = new HashMap<Integer, HashMap<String, String>>();
 	    HashMap<String, HashMap<Integer, HashMap<String, String>>> mapComponent = new HashMap<String, HashMap<Integer, HashMap<String, String>>>();
+	    ReadPropertyFile objReadPropertyFile = FlightBookingConfig.context.getBean(ReadPropertyFile.class);
 	    try
 	    {
-	    	String path = readProperty().getProperty("ExcelPath");
+	    	String path = objReadPropertyFile.readProperty().getProperty("ExcelPath");
 	    	FileInputStream file = new FileInputStream(new File(path));
 			//Create Workbook instance holding reference to .xlsx file
 		    XSSFWorkbook workbook = new XSSFWorkbook(file);
@@ -201,9 +205,10 @@ public class DataFetch extends ReadPropertyFile {
 	public void setPOM() {
 		HashMap<String, HashMap<String, String>> mapElement = new HashMap<String, HashMap<String, String>>();
 	    HashMap<String, HashMap<String, HashMap<String, String>>> mapPage = new HashMap<String, HashMap<String, HashMap<String, String>>>();
+	    ReadPropertyFile objReadPropertyFile = FlightBookingConfig.context.getBean(ReadPropertyFile.class);
 	    try
 	    {
-	    	String path = readProperty().getProperty("ExcelPath");
+	    	String path = objReadPropertyFile.readProperty().getProperty("ExcelPath");
 	    	FileInputStream file = new FileInputStream(new File(path));
 			//Create Workbook instance holding reference to .xlsx file
 		    XSSFWorkbook workbook = new XSSFWorkbook(file);
@@ -299,9 +304,10 @@ public class DataFetch extends ReadPropertyFile {
 	public void setData() {
 		HashMap<Integer, HashMap<String, String>> mapStep = new HashMap<Integer, HashMap<String, String>>();
 	    HashMap<String, HashMap<Integer, HashMap<String, String>>> mapTestData = new HashMap<String, HashMap<Integer, HashMap<String, String>>>();
+	    ReadPropertyFile objReadPropertyFile = FlightBookingConfig.context.getBean(ReadPropertyFile.class);
 	    try
 	    {
-	    	String path = readProperty().getProperty("ExcelPath");
+	    	String path = objReadPropertyFile.readProperty().getProperty("ExcelPath");
 	    	FileInputStream file = new FileInputStream(new File(path));
 			//Create Workbook instance holding reference to .xlsx file
 		    XSSFWorkbook workbook = new XSSFWorkbook(file);
