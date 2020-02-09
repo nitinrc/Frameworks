@@ -13,7 +13,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import springBeans.FlightBookingConfig;
 
-public class DataFetch {//extends ReadPropertyFile {
+public class DataFetch {
 	private TreeMap<String, HashMap<String, String>> mapTestCases;
 	private HashMap<String, HashMap<Integer, HashMap<String, String>>> mapSteps;
 	private HashMap<String, HashMap<String, HashMap<String, String>>> mapPOM;
