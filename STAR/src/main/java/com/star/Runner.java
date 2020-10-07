@@ -22,10 +22,7 @@ public class Runner {
         this.runStatus = runStatus;
     }
 
-    public static void main(String[] arg) {
-        String[] args = new String[3];
-        args[0] = "Regression";
-        args[1] = "Chrome";
+    public static void main(String[] args) {
         new AnnotationConfigApplicationContext(BeanContextRegister.class);
         Runner runner = Config.context.getBean(Runner.class, args[0], RunStatus.NOT_STARTED);
         log.info("Test Suite: {}", runner.getTestSuite());
