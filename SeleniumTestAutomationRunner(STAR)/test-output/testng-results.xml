@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Command line suite" duration-ms="437849" started-at="2020-10-08T02:41:00 IST" finished-at="2020-10-08T02:48:17 IST">
+    <groups>
+    </groups>
+    <test name="Command line test" duration-ms="437849" started-at="2020-10-08T02:41:00 IST" finished-at="2020-10-08T02:48:17 IST">
+      <class name="com.star.suites.Regression">
+        <test-method status="PASS" signature="beforeSuite()[pri:0, instance:com.star.suites.Regression@1f5fd58]" name="beforeSuite" is-config="true" duration-ms="7793" started-at="2020-10-08T02:40:52 IST" finished-at="2020-10-08T02:41:00 IST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeSuite -->
+        <test-method status="PASS" signature="beforeTest()[pri:0, instance:com.star.suites.Regression@1f5fd58]" name="beforeTest" is-config="true" duration-ms="1" started-at="2020-10-08T02:41:00 IST" finished-at="2020-10-08T02:41:00 IST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeTest -->
+        <test-method status="PASS" signature="run()[pri:0, instance:com.star.suites.Regression@1f5fd58]" name="run" duration-ms="437764" started-at="2020-10-08T02:41:00 IST" finished-at="2020-10-08T02:48:17 IST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- run -->
+        <test-method status="PASS" signature="afterTest()[pri:0, instance:com.star.suites.Regression@1f5fd58]" name="afterTest" is-config="true" duration-ms="0" started-at="2020-10-08T02:48:17 IST" finished-at="2020-10-08T02:48:17 IST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterTest -->
+        <test-method status="PASS" signature="afterSuite()[pri:0, instance:com.star.suites.Regression@1f5fd58]" name="afterSuite" is-config="true" duration-ms="2501" started-at="2020-10-08T02:48:18 IST" finished-at="2020-10-08T02:48:20 IST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterSuite -->
+      </class> <!-- com.star.suites.Regression -->
+    </test> <!-- Command line test -->
+  </suite> <!-- Command line suite -->
+</testng-results>
