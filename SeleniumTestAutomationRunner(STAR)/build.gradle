@@ -19,6 +19,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
     compile group: 'org.seleniumhq.selenium', name: 'selenium-api', version: '3.141.59'
+    compile group: 'org.seleniumhq.selenium', name: 'selenium-server', version: '3.141.59'
     compile group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '4.2.2'
     compile group: 'org.seleniumhq.selenium', name: 'selenium-firefox-driver', version: '3.141.59'
     compile group: 'org.seleniumhq.selenium', name: 'selenium-chrome-driver', version: '3.141.59'
@@ -39,4 +40,15 @@ dependencies {
 configurations.all {
     exclude group:"com.guicedee.services", module: "sl4j"
     exclude group:"ch.qos.logback", module:"logback-classic"
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.star.Runner'
+    }
+    from {
+        configurations.compile.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
 }

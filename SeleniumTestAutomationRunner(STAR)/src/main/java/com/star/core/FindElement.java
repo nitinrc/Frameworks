@@ -6,7 +6,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import com.star.pages.Alerts;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -18,8 +17,6 @@ public class FindElement {
 		WebElement element = getElement(locator, locatorType, expectedCondition, timeout);
 		if (!(element.isEnabled())) {
 			if (!(element.isDisplayed())) {
-				Alerts alert = Config.context.getBean(Alerts.class);
-				alert.alertClose();
 				element = getElement(locator, locatorType, expectedCondition, timeout);
 				if (!(element.isEnabled())) {
 					runner.setRunStatus(RunStatus.FAIL);

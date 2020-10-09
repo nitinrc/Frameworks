@@ -43,7 +43,7 @@ public class SearchImpl implements Search {
 		HashMap<String, String> mapElementParameters = new HashMap<String, String>();
 		mapElementParameters.put("Input", dataFetch.getMapData().get(TCID).get(itrData).get("URL"));
 		webActions.navigate(mapElementParameters);
-		
+
 		MultiThreading multiThreading = Config.context.getBean(MultiThreading.class);
 		String[] arrFields = dataFetch.getMapData().get(TCID).get(itrData).get("FieldsToValidate").split("\\|");
 		HashMap<String, HashMap<String, String>> mapElements = null;
@@ -70,6 +70,9 @@ public class SearchImpl implements Search {
 		String element, action, tagInput, locator;
 		Runner runner = Config.context.getBean(Runner.class);
 		DataFetch dataFetch = Config.context.getBean(DataFetch.class);
+
+		//Alerts alert = Config.context.getBean(Alerts.class);
+		//alert.alertClose();
 		
 		//log.info("DATA FROM LOGIN PAGE: {}", DataFetch.mapSteps);
 		for (int itrSteps = 1; itrSteps <= dataFetch.getMapSteps().get(component).size(); itrSteps++) {
@@ -144,5 +147,19 @@ public class SearchImpl implements Search {
 		//softAssertion.assertTrue(false);
 		//Assert.assertTrue(false);
 		//assertEquals(element.getText(), "Hello!");
+	}
+
+	public void openSearchEngine(String TCID, int itrData) {
+		DataFetch dataFetch = Config.context.getBean(DataFetch.class);
+		WebActions webActions = Config.context.getBean(WebActions.class);
+		HashMap<String, String> mapElementParameters = new HashMap<String, String>();
+		mapElementParameters.put("Input", dataFetch.getMapData().get(TCID).get(itrData).get("URL"));
+		webActions.navigate(mapElementParameters);
+		log.info("Opened Search Engine in Search section for TCID: {} | Data Iteration: {}", TCID, itrData);
+		Runner runner = Config.context.getBean(Runner.class);
+		if (true) {
+			runner.setRunStatus(RunStatus.PASS);
+		}
+		log.info("Run Status: {}", runner.getRunStatus());
 	}
 }
