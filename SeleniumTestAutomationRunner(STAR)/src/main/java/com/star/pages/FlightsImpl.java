@@ -13,13 +13,14 @@ import java.util.HashMap;
 
 @Slf4j
 public class FlightsImpl implements Flights {
+	Runner runner = Config.context.getBean(Runner.class);
+	DataFetch dataFetch = Config.context.getBean(DataFetch.class);
+	WebActions webActions = Config.context.getBean(WebActions.class);
 
 	public void selectFlight(String TCID, int itrData) {
 		log.info("Perform Flight selection for TCID: {} and Iteration: {}", TCID, itrData);
 		String component = "Flights";
 		String element, action, tagInput, locator;
-		Runner runner = Config.context.getBean(Runner.class);
-		DataFetch dataFetch = Config.context.getBean(DataFetch.class);
 		
 		for (int itrSteps = 1; itrSteps <= dataFetch.getMapSteps().get(component).size(); itrSteps++) {
 			HashMap<String, String> mapElementParameters = new HashMap<String, String>();
@@ -42,31 +43,33 @@ public class FlightsImpl implements Flights {
 				mapElementParameters.put("Input", dataFetch.getMapData().get(TCID).get(itrData).get(tagInput));
 			}
 			
-			WebActions invoke = Config.context.getBean(WebActions.class);
 			if (element == "dummy") {
 				//page factory cache;
 			} else {
 				Method method;
 				try {
-					method = invoke.getClass().getDeclaredMethod(action, HashMap.class);
+					method = webActions.getClass().getDeclaredMethod(action, HashMap.class);
 					try {
-						//Alerts alert = FlightBookingConfig.context.getBean(Alerts.class);
+						//Alerts alert = Config.context.getBean(Alerts.class);
 						//alert.alertClose();
-						method.invoke(invoke, mapElementParameters);
-						if (runner.getRunStatus().equals(RunStatus.FAIL)) {
-							System.exit(0);
-						}
+						method.invoke(webActions, mapElementParameters);
 					} catch (IllegalAccessException e) {
 						e.printStackTrace();
 					} catch (IllegalArgumentException e) {
 						e.printStackTrace();
 					} catch (InvocationTargetException e) {
 						e.printStackTrace();
+					} catch (Exception e) {
+						e.printStackTrace();
+						runner.setRunStatus(RunStatus.FAIL);
 					}
 				} catch (NoSuchMethodException e) {
 					e.printStackTrace();
 				} catch (SecurityException e) {
 					e.printStackTrace();
+				} catch (Exception e) {
+					e.printStackTrace();
+					runner.setRunStatus(RunStatus.FAIL);
 				}
 			}
 		}
@@ -74,7 +77,6 @@ public class FlightsImpl implements Flights {
 	
 	public void doNothing(String TCID, int itrData) {
 		log.info("Did nothing in Flights section for TCID: {} | Data Iteration: {}", TCID, itrData);
-		Runner runner = Config.context.getBean(Runner.class);
 		if (true) {
 			runner.setRunStatus(RunStatus.PASS);
 		}

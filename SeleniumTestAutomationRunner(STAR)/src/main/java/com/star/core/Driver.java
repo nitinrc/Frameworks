@@ -11,13 +11,15 @@ import java.util.Map;
 
 @Slf4j
 public class Driver {
+    Runner runner = Config.context.getBean(Runner.class);
+    DataFetch dataFetch = Config.context.getBean(DataFetch.class);
+
     public void testsRunner(String coverage) {
-        Runner runner = Config.context.getBean(Runner.class);
         log.info("Running Test Suite: {}", coverage);
         boolean flagCoverage;
         String TCID;
         int intDataIterations;
-        DataFetch dataFetch = Config.context.getBean(DataFetch.class);
+
         //Iterate Rows
         Iterator hmIterator1 = dataFetch.getMapTestCases().entrySet().iterator();
         while (hmIterator1.hasNext()) {
@@ -50,12 +52,19 @@ public class Driver {
                                 method = refClass.newInstance().getClass().getMethod(val.split("\\.")[1], String.class, int.class);
                             } catch (NoSuchMethodException e) {
                                 e.printStackTrace();
+                                runner.setRunStatus(RunStatus.FAIL);
                             } catch (SecurityException e) {
                                 e.printStackTrace();
+                                runner.setRunStatus(RunStatus.FAIL);
                             } catch (InstantiationException e) {
                                 e.printStackTrace();
+                                runner.setRunStatus(RunStatus.FAIL);
                             } catch (IllegalAccessException e) {
                                 e.printStackTrace();
+                                runner.setRunStatus(RunStatus.FAIL);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                runner.setRunStatus(RunStatus.FAIL);
                             }
                             try {
                                 method.invoke(refClass.newInstance(), TCID, itrData);
@@ -64,15 +73,26 @@ public class Driver {
                                 }
                             } catch (IllegalAccessException e) {
                                 e.printStackTrace();
+                                runner.setRunStatus(RunStatus.FAIL);
                             } catch (IllegalArgumentException e) {
                                 e.printStackTrace();
+                                runner.setRunStatus(RunStatus.FAIL);
                             } catch (InvocationTargetException e) {
                                 e.printStackTrace();
+                                runner.setRunStatus(RunStatus.FAIL);
                             } catch (InstantiationException e) {
                                 e.printStackTrace();
+                                runner.setRunStatus(RunStatus.FAIL);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                runner.setRunStatus(RunStatus.FAIL);
                             }
                         } catch (ClassNotFoundException e) {
                             e.printStackTrace();
+                            runner.setRunStatus(RunStatus.FAIL);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            runner.setRunStatus(RunStatus.FAIL);
                         }
                     }
                 }

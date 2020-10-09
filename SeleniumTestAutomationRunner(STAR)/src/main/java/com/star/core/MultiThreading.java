@@ -10,6 +10,9 @@ import java.util.concurrent.*;
 
 @Slf4j
 public class MultiThreading {
+	DataFetch dataFetch = Config.context.getBean(DataFetch.class);
+	FindElement findElement = Config.context.getBean(FindElement.class);
+
 	public void dataFetch() throws InterruptedException, ExecutionException {
 		log.info("Executor Service for data fetch");
 		Calendar cal = Calendar.getInstance();
@@ -18,22 +21,18 @@ public class MultiThreading {
 		ExecutorService es = Executors.newSingleThreadExecutor();
 		Set<Callable<String>> callables = new HashSet<Callable<String>>();
 		callables.add(() -> {
-			DataFetch dataFetch = Config.context.getBean(DataFetch.class);
 			dataFetch.setTestCases();
 			return "Thread: Fetched Test Cases";
 		});
 		callables.add(() -> {
-			DataFetch dataFetch = Config.context.getBean(DataFetch.class);
 			dataFetch.setSteps();
 			return "Thread: Fetched Steps";
 		});
 		callables.add(() -> {
-			DataFetch dataFetch = Config.context.getBean(DataFetch.class);
 			dataFetch.setPOM();
 			return "Thread: Fetched POM";
 		});
 		callables.add(() -> {
-			DataFetch dataFetch = Config.context.getBean(DataFetch.class);
 			dataFetch.setData();
 			return "Thread: Fetched Data";
 		});
@@ -59,7 +58,6 @@ public class MultiThreading {
 		    callables.add(() -> {
 				Calendar cal1 = Calendar.getInstance();
 				SimpleDateFormat timeOnly1 = new SimpleDateFormat("HH:mm:ss");
-				DataFetch dataFetch = Config.context.getBean(DataFetch.class);
 				HashMap<String, String> mapElementParameters = new HashMap<>();
 				mapElementParameters.put("Locator", dataFetch.getMapPOM().get(component).get(item).get("Locator"));
 				mapElementParameters.put("LocatorType", dataFetch.getMapPOM().get(component).get(item).get("LocatorType"));
@@ -97,7 +95,6 @@ public class MultiThreading {
 		    callables.add(() -> {
 				Calendar cal1 = Calendar.getInstance();
 				SimpleDateFormat timeOnly1 = new SimpleDateFormat("HH:mm:ss");
-				FindElement findElement = Config.context.getBean(FindElement.class);
 				HashMap<String, String> mapElementParameters = item.getValue();
 				WebElement element = findElement.findElement(mapElementParameters.get("Locator"), mapElementParameters.get("LocatorType"), mapElementParameters.get("ExpectedCondition"), mapElementParameters.get("Timeout"));
 				log.info("Element exist check at time: {}", timeOnly1.format(cal1.getTime()));

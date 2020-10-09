@@ -1,5 +1,6 @@
 package com.star.core;
 
+import com.star.Runner;
 import lombok.Data;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -14,6 +15,9 @@ import java.util.TreeMap;
 
 @Data
 public class DataFetch {
+	Runner runner = Config.context.getBean(Runner.class);
+	ReadPropertyFile readPropertyFile = Config.context.getBean(ReadPropertyFile.class);
+
 	private TreeMap<String, HashMap<String, String>> mapTestCases;
 	private HashMap<String, HashMap<Integer, HashMap<String, String>>> mapSteps;
 	private HashMap<String, HashMap<String, HashMap<String, String>>> mapPOM;
@@ -21,7 +25,6 @@ public class DataFetch {
 	
 	public void setTestCases() {
 		TreeMap<String, HashMap<String, String>> mapTCData = new TreeMap<String, HashMap<String, String>>();
-		ReadPropertyFile readPropertyFile = Config.context.getBean(ReadPropertyFile.class);
 		try
 	    {
 			String path = readPropertyFile.readProperty().getProperty("ExcelPath");
@@ -71,21 +74,27 @@ public class DataFetch {
 		                    		keyTCID = cell.getStringCellValue();
 		                    	} catch (Exception e) {
 		                    		e.printStackTrace();
-		                    	}
+									runner.setRunStatus(RunStatus.FAIL);
+									return;
+								}
 		                    }
 		                    if (indexRow == 1) {
 		                    	try {
 		                    		arrColHeaders[indexCol] = cell.getStringCellValue();
 		                    	} catch (Exception e) {
 		                    		e.printStackTrace();
-		                    	}
+									runner.setRunStatus(RunStatus.FAIL);
+									return;
+								}
 		    		    	} else {
 		    		    		if (!(arrColHeaders[indexCol].equals("TCID"))) {
 		    		    			try {
 		    		    				mapData.put(arrColHeaders[indexCol], cell.getStringCellValue());
 		    		    			} catch (Exception e) {
 		    		    				e.printStackTrace();
-		    		    			}
+										runner.setRunStatus(RunStatus.FAIL);
+										return;
+									}
 			    		    	}
 		    		    	}
 		                    break;
@@ -100,6 +109,8 @@ public class DataFetch {
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
+			return;
 		}
 		setMapTestCases(mapTCData);
 	}
@@ -107,7 +118,6 @@ public class DataFetch {
 	public void setSteps() {
 		HashMap<Integer, HashMap<String, String>> mapStep = new HashMap<Integer, HashMap<String, String>>();
 	    HashMap<String, HashMap<Integer, HashMap<String, String>>> mapComponent = new HashMap<String, HashMap<Integer, HashMap<String, String>>>();
-	    ReadPropertyFile readPropertyFile = Config.context.getBean(ReadPropertyFile.class);
 	    try
 	    {
 	    	String path = readPropertyFile.readProperty().getProperty("ExcelPath");
@@ -162,6 +172,8 @@ public class DataFetch {
 		                    		componentName = cell.getStringCellValue();
 		                    	} catch (Exception e) {
 		                    		e.printStackTrace();
+									runner.setRunStatus(RunStatus.FAIL);
+									return;
 		                    	}
 		                    }
 		                    if (indexRow == 1) {
@@ -169,6 +181,8 @@ public class DataFetch {
 		                    		arrColHeaders[indexCol] = cell.getStringCellValue();
 		                    	} catch (Exception e) {
 		                    		e.printStackTrace();
+									runner.setRunStatus(RunStatus.FAIL);
+									return;
 		                    	}
 		    		    	} else {
 		    		    		if ((arrColHeaders[indexCol].equals("Element")) || (arrColHeaders[indexCol].equals("Action")) || (arrColHeaders[indexCol].equals("Input"))) {
@@ -180,6 +194,8 @@ public class DataFetch {
 		    		    				mapData.put(arrColHeaders[indexCol], cell.getStringCellValue());
 		    		    			} catch (Exception e) {
 		    		    				e.printStackTrace();
+										runner.setRunStatus(RunStatus.FAIL);
+										return;
 		    		    			}
 			    		    	}
 		    		    	}
@@ -200,6 +216,8 @@ public class DataFetch {
 		} 
 		catch (Exception e) {
 	    	e.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
+			return;
 	    }
 	    setMapSteps(mapComponent);
 	}
@@ -207,7 +225,6 @@ public class DataFetch {
 	public void setPOM() {
 		HashMap<String, HashMap<String, String>> mapElement = new HashMap<String, HashMap<String, String>>();
 	    HashMap<String, HashMap<String, HashMap<String, String>>> mapPage = new HashMap<String, HashMap<String, HashMap<String, String>>>();
-	    ReadPropertyFile readPropertyFile = Config.context.getBean(ReadPropertyFile.class);
 	    try
 	    {
 	    	String path = readPropertyFile.readProperty().getProperty("ExcelPath");
@@ -260,6 +277,8 @@ public class DataFetch {
 		                    		pageName = cell.getStringCellValue();
 		                    	} catch (Exception e) {
 		                    		e.printStackTrace();
+									runner.setRunStatus(RunStatus.FAIL);
+									return;
 		                    	}
 		                    }
 		                    if (indexCol == 1) {
@@ -267,6 +286,8 @@ public class DataFetch {
 		                    		keyElement = cell.getStringCellValue();
 		                    	} catch (Exception e) {
 		                    		e.printStackTrace();
+									runner.setRunStatus(RunStatus.FAIL);
+									return;
 		                    	}
 		                    }
 		                    if (indexRow == 1) {
@@ -274,6 +295,8 @@ public class DataFetch {
 		                    		arrColHeaders[indexCol] = cell.getStringCellValue();
 		                    	} catch (Exception e) {
 		                    		e.printStackTrace();
+									runner.setRunStatus(RunStatus.FAIL);
+									return;
 		                    	}
 		    		    	} else {
 		    		    		if ((arrColHeaders[indexCol].equals("Type")) || (arrColHeaders[indexCol].equals("Locator")) || (arrColHeaders[indexCol].equals("LocatorType")) || (arrColHeaders[indexCol].equals("ExpectedCondition")) || (arrColHeaders[indexCol].equals("Timeout"))) {
@@ -285,6 +308,8 @@ public class DataFetch {
 		    		    				mapData.put(arrColHeaders[indexCol], cell.getStringCellValue());
 		    		    			} catch (Exception e) {
 		    		    				e.printStackTrace();
+										runner.setRunStatus(RunStatus.FAIL);
+										return;
 		    		    			}
 			    		    	}
 		    		    	}
@@ -305,6 +330,8 @@ public class DataFetch {
 		} 
 		catch (Exception e) {
 	    	e.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
+			return;
 	    }
 	    setMapPOM(mapPage);
 	}
@@ -312,7 +339,6 @@ public class DataFetch {
 	public void setData() {
 		HashMap<Integer, HashMap<String, String>> mapStep = new HashMap<Integer, HashMap<String, String>>();
 	    HashMap<String, HashMap<Integer, HashMap<String, String>>> mapTestData = new HashMap<String, HashMap<Integer, HashMap<String, String>>>();
-	    ReadPropertyFile readPropertyFile = Config.context.getBean(ReadPropertyFile.class);
 	    try
 	    {
 	    	String path = readPropertyFile.readProperty().getProperty("ExcelPath");
@@ -366,6 +392,8 @@ public class DataFetch {
 		                    		TCIDName = cell.getStringCellValue();
 		                    	} catch (Exception e) {
 		                    		e.printStackTrace();
+									runner.setRunStatus(RunStatus.FAIL);
+									return;
 		                    	}
 		                    }
 		                    if (indexRow == 1) {
@@ -373,6 +401,8 @@ public class DataFetch {
 		                    		arrColHeaders[indexCol] = cell.getStringCellValue();
 		                    	} catch (Exception e) {
 		                    		e.printStackTrace();
+									runner.setRunStatus(RunStatus.FAIL);
+									return;
 		                    	}
 		    		    	} else {
 		    		    		if ((!(arrColHeaders[indexCol].equals("TCID"))) & ((!arrColHeaders[indexCol].equals("Iteration")))) {
@@ -384,6 +414,8 @@ public class DataFetch {
 		    		    				mapData.put(arrColHeaders[indexCol], cell.getStringCellValue());
 		    		    			} catch (Exception e) {
 		    		    				e.printStackTrace();
+										runner.setRunStatus(RunStatus.FAIL);
+										return;
 		    		    			}
 			    		    	}
 		    		    	}
@@ -404,6 +436,8 @@ public class DataFetch {
 		} 
 		catch (Exception e) {
 	    	e.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
+			return;
 	    }
 	    setMapData(mapTestData);
 	}

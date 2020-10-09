@@ -12,8 +12,10 @@ import java.lang.reflect.Method;
 import java.util.function.Function;
 
 public class FindElement {
+	Runner runner = Config.context.getBean(Runner.class);
+	BrowserConfig browserConfig = Config.context.getBean(BrowserConfig.class);
+
 	public WebElement findElement(String locator, String locatorType, String expectedCondition, String timeout) {
-		Runner runner = Config.context.getBean(Runner.class);
 		WebElement element = getElement(locator, locatorType, expectedCondition, timeout);
 		if (!(element.isEnabled())) {
 			if (!(element.isDisplayed())) {
@@ -30,8 +32,6 @@ public class FindElement {
 	
 	@SuppressWarnings("unchecked")
 	public WebElement getElement(String locator, String locatorType, String expectedCondition, String timeout) {
-		Runner runner = Config.context.getBean(Runner.class);
-		BrowserConfig browserConfig = Config.context.getBean(BrowserConfig.class);
 		WebDriverWait wait = new WebDriverWait(browserConfig.getDriver(), Integer.parseInt(timeout));
 		
 		WebElement element = null;
@@ -43,26 +43,30 @@ public class FindElement {
 		} catch (NoSuchMethodException e1) {
 			e1.printStackTrace();
 			runner.setRunStatus(RunStatus.FAIL);
-			System.exit(0);
+			return element;
 		} catch (SecurityException e1) {
 			e1.printStackTrace();
 			runner.setRunStatus(RunStatus.FAIL);
-			System.exit(0);
+			return element;
+		} catch (Exception e) {
+			e.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
+			return element;
 		}
 		try {
 			element = wait.until((Function<? super WebDriver, WebElement>) method1.invoke(ExpectedConditions.class, method2.invoke(By.class, locator)));
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 			runner.setRunStatus(RunStatus.FAIL);
-			System.exit(0);
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 			runner.setRunStatus(RunStatus.FAIL);
-			System.exit(0);
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 			runner.setRunStatus(RunStatus.FAIL);
-			System.exit(0);
+		} catch (Exception e) {
+			e.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
 		}
 		return element;
 	}

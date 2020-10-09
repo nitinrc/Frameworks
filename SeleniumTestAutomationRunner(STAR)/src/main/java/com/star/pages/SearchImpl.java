@@ -15,6 +15,11 @@ import java.util.concurrent.ExecutionException;
 
 @Slf4j
 public class SearchImpl implements Search {
+	Runner runner = Config.context.getBean(Runner.class);
+	DataFetch dataFetch = Config.context.getBean(DataFetch.class);
+	WebActions webActions = Config.context.getBean(WebActions.class);
+	MultiThreading multiThreading = Config.context.getBean(MultiThreading.class);
+
 	public static String passVar;
 	//PageFactory.initElements(DesiredCapabilities.driver, SearchPage);
 	//PageFactory.initElements(DesiredCapabilities.driver, this);
@@ -37,29 +42,39 @@ public class SearchImpl implements Search {
 	}
 	
 	public void validateSearchPageElements(String TCID, int itrData) {
-		DataFetch dataFetch = Config.context.getBean(DataFetch.class);
 		String component = "Search";
-		WebActions webActions = Config.context.getBean(WebActions.class);
 		HashMap<String, String> mapElementParameters = new HashMap<String, String>();
 		mapElementParameters.put("Input", dataFetch.getMapData().get(TCID).get(itrData).get("URL"));
 		webActions.navigate(mapElementParameters);
 
-		MultiThreading multiThreading = Config.context.getBean(MultiThreading.class);
 		String[] arrFields = dataFetch.getMapData().get(TCID).get(itrData).get("FieldsToValidate").split("\\|");
 		HashMap<String, HashMap<String, String>> mapElements = null;
 		try {
 			mapElements = multiThreading.getElementIdentificationData(arrFields, component);
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
+			return;
 		} catch (ExecutionException e1) {
 			e1.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
+			return;
+		} catch (Exception e) {
+			e.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
+			return;
 		}
 		try {
 			multiThreading.verifyElements(mapElements);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
 		} catch (ExecutionException e) {
 			e.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
+		} catch (Exception e) {
+			e.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
 		}
 	}
 
@@ -68,8 +83,6 @@ public class SearchImpl implements Search {
 		log.info("Perform Flight Search for TCID: {} and Iteration: {}", TCID, itrData);
 		String component = "Search";
 		String element, action, tagInput, locator;
-		Runner runner = Config.context.getBean(Runner.class);
-		DataFetch dataFetch = Config.context.getBean(DataFetch.class);
 
 		//Alerts alert = Config.context.getBean(Alerts.class);
 		//alert.alertClose();
@@ -99,7 +112,6 @@ public class SearchImpl implements Search {
 				mapElementParameters.put("Input", dataFetch.getMapData().get(TCID).get(itrData).get(tagInput));
 			}
 			
-			WebActions invoke = Config.context.getBean(WebActions.class);
 			if (element == "SearchBtn") {
 				clickSearchBtn_CacheLookup();
 			} else if (element == "ToInput") {
@@ -109,27 +121,35 @@ public class SearchImpl implements Search {
 				try {
 					//method = invoke.getClass().getDeclaredMethod(action, String.class, String.class, String.class);
 					//method = invoke.getClass().getDeclaredMethod(action, String[].class);
-					method = invoke.getClass().getDeclaredMethod(action, HashMap.class);
+					method = webActions.getClass().getDeclaredMethod(action, HashMap.class);
 					try {
-						//Alerts alert = FlightBookingConfig.context.getBean(Alerts.class);
+						//Alerts alert = Config.context.getBean(Alerts.class);
 						//alert.alertClose();
 						//method.invoke(invoke, browser, locator, input);
 						//method.invoke(invoke, new Object[] {arrArgs});
-						method.invoke(invoke, mapElementParameters);
-						if (runner.getRunStatus().equals(RunStatus.FAIL)) {
-							System.exit(0);
-						}
+						method.invoke(webActions, mapElementParameters);
 					} catch (IllegalAccessException e) {
 						e.printStackTrace();
+						runner.setRunStatus(RunStatus.FAIL);
 					} catch (IllegalArgumentException e) {
 						e.printStackTrace();
+						runner.setRunStatus(RunStatus.FAIL);
 					} catch (InvocationTargetException e) {
 						e.printStackTrace();
+						runner.setRunStatus(RunStatus.FAIL);
+					} catch (Exception e) {
+						e.printStackTrace();
+						runner.setRunStatus(RunStatus.FAIL);
 					}
 				} catch (NoSuchMethodException e) {
 					e.printStackTrace();
+					runner.setRunStatus(RunStatus.FAIL);
 				} catch (SecurityException e) {
 					e.printStackTrace();
+					runner.setRunStatus(RunStatus.FAIL);
+				} catch (Exception e) {
+					e.printStackTrace();
+					runner.setRunStatus(RunStatus.FAIL);
 				}
 			}
 		}
@@ -138,7 +158,6 @@ public class SearchImpl implements Search {
 	public void doNothing(String TCID, int itrData) {
 		log.info("Did nothing in Search section for TCID: {} | Data Iteration: {}", TCID, itrData);
 		log.info("doNothing passVar: {}", passVar);
-		Runner runner = Config.context.getBean(Runner.class);
 		if (true) {
 			runner.setRunStatus(RunStatus.PASS);
 		}
@@ -150,13 +169,10 @@ public class SearchImpl implements Search {
 	}
 
 	public void openSearchEngine(String TCID, int itrData) {
-		DataFetch dataFetch = Config.context.getBean(DataFetch.class);
-		WebActions webActions = Config.context.getBean(WebActions.class);
 		HashMap<String, String> mapElementParameters = new HashMap<String, String>();
 		mapElementParameters.put("Input", dataFetch.getMapData().get(TCID).get(itrData).get("URL"));
 		webActions.navigate(mapElementParameters);
 		log.info("Opened Search Engine in Search section for TCID: {} | Data Iteration: {}", TCID, itrData);
-		Runner runner = Config.context.getBean(Runner.class);
 		if (true) {
 			runner.setRunStatus(RunStatus.PASS);
 		}

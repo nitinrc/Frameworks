@@ -13,13 +13,14 @@ import java.util.HashMap;
 
 @Slf4j
 public class BookImpl implements Book {
+	Runner runner = Config.context.getBean(Runner.class);
+	DataFetch dataFetch = Config.context.getBean(DataFetch.class);
+	WebActions webActions = Config.context.getBean(WebActions.class);
 	
 	public void bookFlight(String TCID, int itrData) {
 		log.info("Perform Booking for TCID: {} and Iteration: {}", TCID, itrData);
 		String component = "Book";
 		String element, action, tagInput;
-		Runner runner = Config.context.getBean(Runner.class);
-		DataFetch dataFetch = Config.context.getBean(DataFetch.class);
 		
 		for (int itrSteps = 1; itrSteps <= dataFetch.getMapSteps().get(component).size(); itrSteps++) {
 			HashMap<String, String> mapElementParameters = new HashMap<String, String>();
@@ -37,32 +38,39 @@ public class BookImpl implements Book {
 			if (tagInput != null) {
 				mapElementParameters.put("Input", dataFetch.getMapData().get(TCID).get(itrData).get(tagInput));
 			}
-			
-			WebActions invoke = Config.context.getBean(WebActions.class);
+
 			if (element == "dummy") {
 				//page factory cache;
 			} else {
 				Method method;
 				try {
-					method = invoke.getClass().getDeclaredMethod(action, HashMap.class);
+					method = webActions.getClass().getDeclaredMethod(action, HashMap.class);
 					try {
-						//Alerts alert = FlightBookingConfig.context.getBean(Alerts.class);
+						//Alerts alert = Config.context.getBean(Alerts.class);
 						//alert.alertClose();
-						method.invoke(invoke, mapElementParameters);
-						if (runner.getRunStatus().equals(RunStatus.FAIL)) {
-							System.exit(0);
-						}
+						method.invoke(webActions, mapElementParameters);
 					} catch (IllegalAccessException e) {
 						e.printStackTrace();
+						runner.setRunStatus(RunStatus.FAIL);
 					} catch (IllegalArgumentException e) {
 						e.printStackTrace();
+						runner.setRunStatus(RunStatus.FAIL);
 					} catch (InvocationTargetException e) {
 						e.printStackTrace();
+						runner.setRunStatus(RunStatus.FAIL);
+					} catch (Exception e) {
+						e.printStackTrace();
+						runner.setRunStatus(RunStatus.FAIL);
 					}
 				} catch (NoSuchMethodException e) {
 					e.printStackTrace();
+					runner.setRunStatus(RunStatus.FAIL);
 				} catch (SecurityException e) {
 					e.printStackTrace();
+					runner.setRunStatus(RunStatus.FAIL);
+				} catch (Exception e) {
+					e.printStackTrace();
+					runner.setRunStatus(RunStatus.FAIL);
 				}
 			}
 		}
@@ -70,7 +78,6 @@ public class BookImpl implements Book {
 	
 	public void doNothing(String TCID, int itrData) {
 		log.info("Did nothing in Book section for TCID: {} | Data Iteration: {}", TCID, itrData);
-		Runner runner = Config.context.getBean(Runner.class);
 		if (true) {
 			runner.setRunStatus(RunStatus.PASS);
 		}

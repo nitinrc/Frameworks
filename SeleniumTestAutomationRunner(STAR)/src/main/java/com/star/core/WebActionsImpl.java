@@ -3,6 +3,7 @@ package com.star.core;
 import com.star.Runner;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
@@ -17,161 +18,258 @@ import java.util.HashMap;
 
 @Slf4j
 public class WebActionsImpl extends FindElement implements WebActions {
+	Runner runner = Config.context.getBean(Runner.class);
+	BrowserConfig browserConfig = Config.context.getBean(BrowserConfig.class);
+	ReadPropertyFile readPropertyFile = Config.context.getBean(ReadPropertyFile.class);
+
 	public WebDriver getDriver() {
-		BrowserConfig browserConfig = Config.context.getBean(BrowserConfig.class);
-		return browserConfig.getDriver();
+		try {
+			return browserConfig.getDriver();
+		} catch (Exception e) {
+			e.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
+			return null;
+		}
 	}
 	
 	public void navigate(HashMap<String, String> mapElementParameters) {
-		getDriver().navigate().to(mapElementParameters.get("Input"));
+		try {
+			getDriver().navigate().to(mapElementParameters.get("Input"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
+		}
 		takeScreenshot();
 	}
 	
 	public void getCurrentUrl(HashMap<String, String> mapElementParameters) {
-		getDriver().getCurrentUrl();
+		try {
+			getDriver().getCurrentUrl();
+		} catch (Exception e) {
+			e.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
+		}
 		takeScreenshot();
 	}
 	
 	public void navigateBack(HashMap<String, String> mapElementParameters) {
-		getDriver().navigate().back();
+		try {
+			getDriver().navigate().back();
+		} catch (Exception e) {
+			e.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
+		}
 		takeScreenshot();
 	}
 	
 	public void navigateForward(HashMap<String, String> mapElementParameters) {
-		getDriver().navigate().forward();
+		try {
+			getDriver().navigate().forward();
+		} catch (Exception e) {
+			e.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
+		}
 		takeScreenshot();
 	}
 	
 	public void refresh(HashMap<String, String> mapElementParameters) {
-		getDriver().navigate().refresh();
+		try {
+			getDriver().navigate().refresh();
+		} catch (Exception e) {
+			e.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
+		}
 		takeScreenshot();
 	}
 	
-	public void getTitle(HashMap<String, String> mapElementParameters) {
-		getDriver().getTitle();
+	public String getTitle(HashMap<String, String> mapElementParameters) {
 		takeScreenshot();
+		try {
+			return getDriver().getTitle();
+		} catch (Exception e) {
+			e.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
+		}
+		return StringUtils.EMPTY;
 	}
 	
 	public void windowMaximize(HashMap<String, String> mapElementParameters) {
-		getDriver().manage().window().maximize();
+		try {
+			getDriver().manage().window().maximize();
+		} catch (Exception e) {
+			e.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
+		}
 		takeScreenshot();
 	}
 	
 	public void windowFullScreen(HashMap<String, String> mapElementParameters) {
-		getDriver().manage().window().fullscreen();
+		try {
+			getDriver().manage().window().fullscreen();
+		} catch (Exception e) {
+			e.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
+		}
 		takeScreenshot();
 	}
 	
-	public void windowGetSize(HashMap<String, String> mapElementParameters) {
-		getDriver().manage().window().getSize(); //getWidth(),getHeight()
+	public Dimension windowGetSize(HashMap<String, String> mapElementParameters) {
 		takeScreenshot();
+		try {
+			return getDriver().manage().window().getSize(); //getWidth(),getHeight()
+		} catch (Exception e) {
+			e.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
+		}
+		return null;
 	}
 	
 	public void windowSetSize(HashMap<String, String> mapElementParameters) {
-		getDriver().manage().window().setSize(new Dimension(Integer.parseInt(mapElementParameters.get("X")),
-				Integer.parseInt(mapElementParameters.get("Y"))));
+		try {
+			getDriver().manage().window().setSize(new Dimension(Integer.parseInt(mapElementParameters.get("X")),
+					Integer.parseInt(mapElementParameters.get("Y"))));
+		} catch (Exception e) {
+			e.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
+		}
 		takeScreenshot();
 	}
 	
-	public void windowGetPosition(HashMap<String, String> mapElementParameters) {
-		getDriver().manage().window().getPosition(); //getX(),getY()
+	public Point windowGetPosition(HashMap<String, String> mapElementParameters) {
 		takeScreenshot();
+		try {
+			return getDriver().manage().window().getPosition(); //getX(),getY()
+		} catch (Exception e) {
+			e.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
+		}
+		return null;
 	}
 	
 	public void windowSetPosition(HashMap<String, String> mapElementParameters) {
-		getDriver().manage().window().setPosition(new Point(Integer.parseInt(mapElementParameters.get("X")),
-				Integer.parseInt(mapElementParameters.get("Y"))));
+		try {
+			getDriver().manage().window().setPosition(new Point(Integer.parseInt(mapElementParameters.get("X")),
+					Integer.parseInt(mapElementParameters.get("Y"))));
+		} catch (Exception e) {
+			e.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
+		}
 		takeScreenshot();
 	}
 	
 	//public void sendKeys(String... args) {
 	public void sendKeys(HashMap<String, String> mapElementParameters) {
-		Runner runner = Config.context.getBean(Runner.class);
 		WebElement element = findElement(mapElementParameters.get("Locator"),
 				mapElementParameters.get("LocatorType"),
 				mapElementParameters.get("ExpectedCondition"),
 				mapElementParameters.get("Timeout"));
 		if (runner.getRunStatus().equals(RunStatus.FAIL)) {
-			System.exit(0);
+			return;
 		}
-		element.click();
-		element.clear();
-		element.sendKeys(mapElementParameters.get("Input"));
+		try {
+			element.click();
+			element.clear();
+			element.sendKeys(mapElementParameters.get("Input"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
+		}
 		takeScreenshot();
 	}
 	
 	public void click(HashMap<String, String> mapElementParameters) {
-		Runner runner = Config.context.getBean(Runner.class);
 		WebElement element = findElement(mapElementParameters.get("Locator"),
 				mapElementParameters.get("LocatorType"),
 				mapElementParameters.get("ExpectedCondition"),
 				mapElementParameters.get("Timeout"));
 		if (runner.getRunStatus().equals(RunStatus.FAIL)) {
-			System.exit(0);
+			return;
 		}
-		element.click();
+		try {
+			element.click();
+		} catch (Exception e) {
+			e.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
+		}
 		takeScreenshot();
 	}
 	
-	public void getText(HashMap<String, String> mapElementParameters) {
-		Runner runner = Config.context.getBean(Runner.class);
+	public String getText(HashMap<String, String> mapElementParameters) {
 		WebElement element = findElement(mapElementParameters.get("Locator"),
 				mapElementParameters.get("LocatorType"),
 				mapElementParameters.get("ExpectedCondition"),
 				mapElementParameters.get("Timeout"));
 		if (runner.getRunStatus().equals(RunStatus.FAIL)) {
-			System.exit(0);
+			return StringUtils.EMPTY;
 		}
-		element.getText();
-		log.info("Retrieved Text: {}", element.getText());
 		takeScreenshot();
+		try {
+			log.info("Retrieved Text: {}", element.getText());
+			return element.getText();
+		} catch (Exception e) {
+			e.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
+		}
+		return StringUtils.EMPTY;
 	}
 	
 	public void scrollIntoView(HashMap<String, String> mapElementParameters) {
-		Runner runner = Config.context.getBean(Runner.class);
 		WebElement element = findElement(mapElementParameters.get("Locator"),
 				mapElementParameters.get("LocatorType"),
 				mapElementParameters.get("ExpectedCondition"),
 				mapElementParameters.get("Timeout"));
 		if (runner.getRunStatus().equals(RunStatus.FAIL)) {
-			System.exit(0);
+			return;
 		}
-		((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
+		try {
+			((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
+		} catch (Exception e) {
+			e.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
+		}
 		takeScreenshot();
 	}
 	
 	public void dragAndDrop(HashMap<String, String> mapElementParameters) {
-		Runner runner = Config.context.getBean(Runner.class);
 		WebElement startElement = findElement(mapElementParameters.get("Locator1"),
 				mapElementParameters.get("LocatorType1"),
 				mapElementParameters.get("ExpectedCondition1"),
 				mapElementParameters.get("Timeout1"));
 		if (runner.getRunStatus().equals(RunStatus.FAIL)) {
-			System.exit(0);
+			return;
 		}
 		WebElement endElement = findElement(mapElementParameters.get("Locator2"),
 				mapElementParameters.get("LocatorType2"),
 				mapElementParameters.get("ExpectedCondition2"),
 				mapElementParameters.get("Timeout2"));
 		if (runner.getRunStatus().equals(RunStatus.FAIL)) {
-			System.exit(0);
+			return;
 		}
-		Actions builder = new Actions(getDriver());
-		Action dragAndDrop = builder.clickAndHold(startElement)
-		   .moveToElement(endElement)
-		   .release(endElement)
-		   .build();
-		dragAndDrop.perform();
+		try {
+			Actions builder = new Actions(getDriver());
+			Action dragAndDrop = builder.clickAndHold(startElement)
+					.moveToElement(endElement)
+					.release(endElement)
+					.build();
+			dragAndDrop.perform();
+		} catch (Exception e) {
+			e.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
+		}
 		takeScreenshot();
 	}
 	
 	public void switchToDefaultContent(HashMap<String, String> mapElementParameters) {
-		getDriver().switchTo().defaultContent();
+		try {
+			getDriver().switchTo().defaultContent();
+		} catch (Exception e) {
+			e.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
+		}
 		takeScreenshot();
 	}
 	
 	public void switchToFrame(HashMap<String, String> mapElementParameters) {
-		Runner runner = Config.context.getBean(Runner.class);
 		try {
 			//WebElement iframe = new WebDriverWait(DesiredCapabilities.driver, timeout).until(ExpectedConditions.elementToBeClickable(By.xpath(xpath)));
 			WebElement iframe = findElement(mapElementParameters.get("Locator"),
@@ -179,18 +277,29 @@ public class WebActionsImpl extends FindElement implements WebActions {
 					mapElementParameters.get("ExpectedCondition"),
 					mapElementParameters.get("Timeout"));
 			if (runner.getRunStatus().equals(RunStatus.FAIL)) {
-				System.exit(0);
+				return;
 			}
 			try {
 				getDriver().switchTo().frame(iframe);
 				takeScreenshot();
-			} catch (Exception e) {}
-		} catch (Exception e) {}
+			} catch (Exception e) {
+				e.printStackTrace();
+				runner.setRunStatus(RunStatus.FAIL);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
+		}
 	}
 	
 	public void switchBrowser(HashMap<String, String> mapElementParameters) {
-		for (String handle : getDriver().getWindowHandles()) {
-			getDriver().switchTo().window(handle);
+		try {
+			for (String handle : getDriver().getWindowHandles()) {
+				getDriver().switchTo().window(handle);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
 		}
 		takeScreenshot();
 	}
@@ -199,18 +308,22 @@ public class WebActionsImpl extends FindElement implements WebActions {
 		int countBrowsers = getDriver().getWindowHandles().size();
 		log.info("Open Browser Tab Count: {}", countBrowsers);
 		int itr = 1;
-		for (String handle : getDriver().getWindowHandles()) {
-			if (itr < countBrowsers) {
-				getDriver().close();
+		try {
+			for (String handle : getDriver().getWindowHandles()) {
+				if (itr < countBrowsers) {
+					getDriver().close();
+				}
+				itr++;
 			}
-			itr++;
+		} catch (Exception e) {
+			e.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
 		}
 		takeScreenshot();
 		switchBrowser(mapElementParameters);
 	}
 	
 	public void alertClose(HashMap<String, String> mapElementParameters) {
-		Runner runner = Config.context.getBean(Runner.class);
 		try {
 			//WebElement alertClose = new WebDriverWait(DesiredCapabilities.driver, timeout).until(ExpectedConditions.elementToBeClickable(By.xpath(locator)));
 			WebElement alertClose = findElement(mapElementParameters.get("Locator"),
@@ -218,43 +331,68 @@ public class WebActionsImpl extends FindElement implements WebActions {
 					mapElementParameters.get("ExpectedCondition"),
 					mapElementParameters.get("Timeout"));
 			if (runner.getRunStatus().equals(RunStatus.FAIL)) {
-				System.exit(0);
+				return;
 			}
 			try {
 				alertClose.click();
 				takeScreenshot();
 				switchToDefaultContent(null);
-			} catch (Exception e) {}
-		} catch (Exception e) {}
+			} catch (Exception e) {
+				e.printStackTrace();
+				runner.setRunStatus(RunStatus.FAIL);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
+		}
 	}
 	
 	public void alertAccept(HashMap<String, String> mapElementParameters) {
-		WebDriverWait wait = new WebDriverWait(getDriver(), Integer.parseInt(mapElementParameters.get("Timeout")));
-		Alert alert = wait.until(ExpectedConditions.alertIsPresent());
-		//String text = alert.getText();
+		try {
+			WebDriverWait wait = new WebDriverWait(getDriver(), Integer.parseInt(mapElementParameters.get("Timeout")));
+			Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+			//String text = alert.getText();
+			takeScreenshot();
+			alert.accept();
+		} catch (Exception e) {
+			e.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
+			return;
+		}
 		takeScreenshot();
-		alert.accept();
 	}
 	
 	public void alertDismiss(HashMap<String, String> mapElementParameters) {
-		//WebDriverWait wait = new WebDriverWait(getDriver(), Integer.parseInt(mapElementParameters.get("Timeout")));
-		Alert alert = getDriver().switchTo().alert();
-		//String text = alert.getText();
+		try {
+			//WebDriverWait wait = new WebDriverWait(getDriver(), Integer.parseInt(mapElementParameters.get("Timeout")));
+			Alert alert = getDriver().switchTo().alert();
+			//String text = alert.getText();
+			takeScreenshot();
+			alert.dismiss();
+		} catch (Exception e) {
+			e.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
+			return;
+		}
 		takeScreenshot();
-		alert.dismiss();
 	}
 	
 	public void promptAccept(HashMap<String, String> mapElementParameters) {
-		WebDriverWait wait = new WebDriverWait(getDriver(), Integer.parseInt(mapElementParameters.get("Timeout")));
-		Alert alert = wait.until(ExpectedConditions.alertIsPresent());
-		alert.sendKeys(mapElementParameters.get("Input"));
+		try {
+			WebDriverWait wait = new WebDriverWait(getDriver(), Integer.parseInt(mapElementParameters.get("Timeout")));
+			Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+			alert.sendKeys(mapElementParameters.get("Input"));
+			takeScreenshot();
+			alert.accept();
+		} catch (Exception e) {
+			e.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
+			return;
+		}
 		takeScreenshot();
-		alert.accept();
 	}
 	
 	public void takeScreenshot() {
-		BrowserConfig browserConfig = Config.context.getBean(BrowserConfig.class);
-		ReadPropertyFile readPropertyFile = Config.context.getBean(ReadPropertyFile.class);
 		File file = ((TakesScreenshot)getDriver()).getScreenshotAs(OutputType.FILE);
 		try {
 			FileUtils.copyFile(file,
@@ -263,6 +401,10 @@ public class WebActionsImpl extends FindElement implements WebActions {
 							+ "_" + browserConfig.getBrowser().toUpperCase() + ".jpg"));
 		} catch (IOException e) {
 			e.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
+		} catch (Exception e) {
+			e.printStackTrace();
+			runner.setRunStatus(RunStatus.FAIL);
 		}
 	}
 }
