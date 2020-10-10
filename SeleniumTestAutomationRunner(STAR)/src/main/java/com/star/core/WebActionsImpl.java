@@ -42,14 +42,15 @@ public class WebActionsImpl extends FindElement implements WebActions {
 		takeScreenshot();
 	}
 	
-	public void getCurrentUrl(HashMap<String, String> mapElementParameters) {
+	public String getCurrentUrl(HashMap<String, String> mapElementParameters) {
+        takeScreenshot();
 		try {
-			getDriver().getCurrentUrl();
+			return getDriver().getCurrentUrl();
 		} catch (Exception e) {
 			e.printStackTrace();
 			runner.setRunStatus(RunStatus.FAIL);
 		}
-		takeScreenshot();
+        return StringUtils.EMPTY;
 	}
 	
 	public void navigateBack(HashMap<String, String> mapElementParameters) {

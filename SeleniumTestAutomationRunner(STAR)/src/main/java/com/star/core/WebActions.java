@@ -9,7 +9,7 @@ import java.util.HashMap;
 public interface WebActions {
 	WebDriver getDriver();
 	void navigate(HashMap<String, String> mapElementParameters);
-	void getCurrentUrl(HashMap<String, String> mapElementParameters);
+	String getCurrentUrl(HashMap<String, String> mapElementParameters);
 	void navigateBack(HashMap<String, String> mapElementParameters);
 	void navigateForward(HashMap<String, String> mapElementParameters);
 	void refresh(HashMap<String, String> mapElementParameters);

@@ -67,9 +67,9 @@ public class BrowserConfig {
     }
 
     public WebDriver getHTMLUnitDriver() {
-        HtmlUnitDriver unitDriver = new HtmlUnitDriver(true);
-        unitDriver.setJavascriptEnabled(true);
-        return unitDriver;
+        HtmlUnitDriver driver = new HtmlUnitDriver(true);
+        //driver.setJavascriptEnabled(true);
+        return driver;
     }
 }
 
