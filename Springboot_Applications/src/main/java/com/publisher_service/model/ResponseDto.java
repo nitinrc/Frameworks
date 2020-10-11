@@ -9,6 +9,7 @@ import lombok.*;
 @EqualsAndHashCode
 @ToString
 public class ResponseDto {
-    private int id;
+    private Integer id;
     private String name;
+    private String employee;
 }

@@ -22,10 +22,18 @@ public class PublisherController {
         this.publisherService = publisherService;
     }
 
-    @RequestMapping(value = "/get/data/{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getData(@PathVariable("name") String name) {
-        log.info("GET call received with arg: {}", name);
-        ResponseDto responseDto = publisherService.getResponse(name);
+    @RequestMapping(value = "/get/data1/{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getData1(@PathVariable("name") String name) {
+        log.info("GET call received with single arg: name: {}", name);
+        ResponseDto responseDto = publisherService.getResponseWithName(name);
+        return ResponseEntity.ok().body(responseDto);
+    }
+
+    @RequestMapping(value = "/get/data2", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getData2(@RequestParam(value="id") Integer id,
+                                  @RequestParam(value="name") String name) {
+        log.info("GET call received with multiple args: id: {}, name: {}", id, name);
+        ResponseDto responseDto = publisherService.getResponseWithIdAndName(id, name);
         return ResponseEntity.ok().body(responseDto);
     }
 

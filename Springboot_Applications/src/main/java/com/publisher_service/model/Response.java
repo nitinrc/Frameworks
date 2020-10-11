@@ -10,10 +10,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class Response {
 
-    public ResponseDto toDto(String name) {
+    public ResponseDto toDto(Integer id, String name) {
         return ResponseDto.builder()
-                .id(1000)
+                .id(id)
                 .name(name)
+                .employee("YES")
                 .build();
     }
 }

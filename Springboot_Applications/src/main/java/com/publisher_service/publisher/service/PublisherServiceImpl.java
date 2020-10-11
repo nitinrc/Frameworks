@@ -17,7 +17,12 @@ public class PublisherServiceImpl implements PublisherService {
         this.response = response;
     }
 
-    public ResponseDto getResponse(String name) {
-        return response.toDto(name);
+    public ResponseDto getResponseWithName(String name) {
+        Integer id = 1000; //Should ideally come from dao
+        return response.toDto(id, name);
+    }
+
+    public ResponseDto getResponseWithIdAndName(Integer id, String name) {
+        return response.toDto(id, name);
     }
 }
