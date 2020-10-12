@@ -2,13 +2,13 @@ package com.publisher_service.model;
 
 import lombok.*;
 
+import java.io.Serializable;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
-@ToString
-public class ResponseDto {
+public class ResponseDto implements Serializable {
     private Integer id;
     private String name;
     private String employee;
