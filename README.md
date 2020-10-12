@@ -12,5 +12,4 @@
   cd E:\Nitin\prep\kafka\bin\windows
   zookeeper-server-start.bat ../../config/zookeeper.properties
   kafka-server-start.bat ../../config/server.properties
-  kafka-topics.bat --create --topic kafka-test --partitions 4 --replication-factor 1 --bootstrap-server localhost:2181
   kafka-topics.bat --create --topic kafka-test --partitions 4 --replication-factor 1 --zookeeper localhost:2181
