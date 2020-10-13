@@ -1,4 +1,4 @@
-package com.publisher_service.messaging;
+package com.kafka;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -36,7 +36,7 @@ public class KafkaPublisher {
             objectMapper.registerModule(new JavaTimeModule());
             String responseAsString = objectMapper.writeValueAsString(responseDto);
             future = kafkaTemplate.send(topic, responseAsString);
-            SendResult<String, String> sendResult = future.get(30, TimeUnit.SECONDS);
+            SendResult<String, String> sendResult = future.get(100, TimeUnit.SECONDS);
             RecordMetadata recordMetadata = sendResult.getRecordMetadata();
             log.info("Published message to Kafka: topic: {}, data: {}, timestamp: {}, offset: {}",
                     topic, responseAsString, recordMetadata.timestamp(), recordMetadata.offset());
