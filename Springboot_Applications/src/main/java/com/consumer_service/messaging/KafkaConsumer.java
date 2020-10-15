@@ -1,33 +1,36 @@
 package com.consumer_service.messaging;
 
+import com.kafka.Kafka;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.annotation.TopicPartition;
+import org.springframework.kafka.support.KafkaHeaders;
+import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @Slf4j
 public class KafkaConsumer {
 
-    @KafkaListener(topics = "kafka-single", groupId = "group_id")
-    public void processEventSingle(String response) {
-        log.info("Received Kafka message: {}", response);
+    @KafkaListener(topicPartitions = {@TopicPartition(topic = Kafka.Topics.SINGLE,
+            partitions = {"0", "1", "2", "3", "4"})})
+    public void processEventSingle(String response,
+                             @Header(value = KafkaHeaders.OFFSET) List<Long> offsets,
+                             @Header(value = KafkaHeaders.RECEIVED_TOPIC) String topic) {
+        log.info("Received Kafka message: topic: {}, data: {}, offsets: {}",
+                topic, response, offsets);
     }
 
-    @KafkaListener(topics = "kafka-multiple", groupId = "group_id")
-    public void processEventMultiple(String response) {
-        log.info("Received Kafka message: {}", response);
+    @KafkaListener(topicPartitions = {@TopicPartition(topic = Kafka.Topics.MULTIPLE,
+            partitions = {"0", "1", "2", "3", "4"})})
+    public void processEventMultiple(String response,
+                                   @Header(value = KafkaHeaders.OFFSET) List<Long> offsets,
+                                   @Header(value = KafkaHeaders.RECEIVED_TOPIC) String topic) {
+        log.info("Received Kafka message: topic: {}, data: {}, offsets: {}",
+                topic, response, offsets);
     }
 
-//    @KafkaListener(topicPartitions = {@TopicPartition(topic = "kafka-single")})
-//    public void processEventSingle(String response,
-//                                   Acknowledgment ack,
-//                                   @Header(value = KafkaHeaders.OFFSET) List<Long> offsets,
-//                                   @Header(value = KafkaHeaders.RECEIVED_TOPIC) String topic) {
-//    public void processEventSingle(String response,
-//                             Acknowledgment ack,
-//                             @Header(value = KafkaHeaders.OFFSET) List<Long> offsets,
-//                             @Header(value = KafkaHeaders.RECEIVED_TOPIC) String topic) {
-//        log.info("Received Kafka message: topic: {}, data: {}, ack: {}, offsets: {}",
-//                topic, response, ack, offsets);
-//    }
+//    @KafkaListener(topics = Kafka.Topics.SINGLE, groupId = "group_id")
 }

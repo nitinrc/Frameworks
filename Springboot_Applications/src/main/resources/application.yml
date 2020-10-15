@@ -1,8 +1,17 @@
 spring:
+  http:
+    port: 8080
+  server:
+    ssl:
+      enabled: false
   kafka:
     consumer:
-      bootstrap-servers: localhost:9100
+      bootstrap-servers: localhost:9092
       group-id: group_id
       auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    publisher:
+      bootstrap-servers: localhost:9090
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer

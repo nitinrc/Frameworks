@@ -39,7 +39,7 @@ public class KafkaPublisher {
             SendResult<String, String> sendResult = future.get(100, TimeUnit.SECONDS);
             RecordMetadata recordMetadata = sendResult.getRecordMetadata();
             log.info("Published message to Kafka: topic: {}, data: {}, timestamp: {}, offset: {}",
-                    topic, responseAsString, recordMetadata.timestamp(), recordMetadata.offset());
+                    topic, responseDto, recordMetadata.timestamp(), recordMetadata.offset());
         } catch (JsonProcessingException e) {
             log.error(String.valueOf(e));
         } catch (TimeoutException e) {

@@ -1,7 +1,6 @@
-package com.publisher_service.publisher;
+package com.consumer_service.consumer;
 
-import com.publisher_service.model.ResponseDto;
-import com.publisher_service.publisher.service.PublisherService;
+import com.consumer_service.consumer.service.ConsumerService;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,21 +12,21 @@ import org.springframework.web.bind.annotation.*;
 @NoArgsConstructor
 @Slf4j
 @RestController
-@RequestMapping(value = "/publisher", produces = MediaType.APPLICATION_JSON_VALUE)
-public class PublisherController {
+@RequestMapping(value = "/consumer", produces = MediaType.APPLICATION_JSON_VALUE)
+public class ConsumerController {
 
-    private PublisherService publisherService;
+    private ConsumerService consumerService;
 
     @Autowired
-    public PublisherController(PublisherService publisherService) {
-        this.publisherService = publisherService;
+    public ConsumerController(ConsumerService consumerService) {
+        this.consumerService = consumerService;
     }
 
     @RequestMapping(value = "/get/data1/{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getData1(@PathVariable("name") String name) {
         log.info("GET call received with single arg: name: {}", name);
         try {
-            ResponseDto responseDto = publisherService.getResponseWithName(name);
+            ResponseEntity<String> responseDto = consumerService.getResponseWithName(name);
             return ResponseEntity.ok().body(responseDto);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -41,7 +40,7 @@ public class PublisherController {
                                   @RequestParam(value="name") String name) {
         log.info("GET call received with multiple args: id: {}, name: {}", id, name);
         try {
-            ResponseDto responseDto = publisherService.getResponseWithIdAndName(id, name);
+            ResponseEntity<String> responseDto = consumerService.getResponseWithIdAndName(id, name);
             return ResponseEntity.ok().body(responseDto);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
