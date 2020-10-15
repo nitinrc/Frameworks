@@ -19,8 +19,8 @@ public class KafkaConsumer {
     public void processEventSingle(String response,
                              @Header(value = KafkaHeaders.OFFSET) List<Long> offsets,
                              @Header(value = KafkaHeaders.RECEIVED_TOPIC) String topic) {
-        log.info("Received Kafka message: topic: {}, data: {}, offsets: {}",
-                topic, response, offsets);
+        log.info("Received Kafka message -> data: {}, topic: {}, offsets: {}",
+                response, topic, offsets);
     }
 
     @KafkaListener(topicPartitions = {@TopicPartition(topic = Kafka.Topics.MULTIPLE,
@@ -28,8 +28,8 @@ public class KafkaConsumer {
     public void processEventMultiple(String response,
                                    @Header(value = KafkaHeaders.OFFSET) List<Long> offsets,
                                    @Header(value = KafkaHeaders.RECEIVED_TOPIC) String topic) {
-        log.info("Received Kafka message: topic: {}, data: {}, offsets: {}",
-                topic, response, offsets);
+        log.info("Received Kafka message -> data: {}, topic: {}, offsets: {}",
+                response, topic, offsets);
     }
 
 //    @KafkaListener(topics = Kafka.Topics.SINGLE, groupId = "group_id")
