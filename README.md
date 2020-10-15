@@ -4,16 +4,16 @@
 2. PARSER: Description TODO
 
 3. Springboot Applications:
-
+   
     REST URLs:
-    
-      Publisher:
-          http://localhost:9090/publisher/get/data1/nitin
-          http://localhost:9090/publisher/get/data2?id=10&name=nitin
 
-      Consumer:
-          http://localhost:8080/consumer/get/data1/nitin
-          http://localhost:8080/consumer/get/data2?id=10&name=nitin
+        Publisher:
+            http://localhost:9090/publisher/get/data1/nitin
+            http://localhost:9090/publisher/get/data2?id=10&name=nitin
+
+        Consumer:
+            http://localhost:8080/consumer/get/data1/nitin
+            http://localhost:8080/consumer/get/data2?id=10&name=nitin
   
   
     Kafka commands:
