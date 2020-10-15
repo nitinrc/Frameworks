@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-
 @NoArgsConstructor
 @Service
 public class PublisherServiceImpl implements PublisherService {
@@ -26,14 +24,12 @@ public class PublisherServiceImpl implements PublisherService {
     public ResponseDto getResponseWithName(String name) {
         Integer id = 1000; //Should ideally come from dao
         ResponseDto responseDto = response.toDto(id, name);
-        responseDto.setTraceId(UUID.randomUUID());
         kafkaService.publishEvent(Kafka.Topics.SINGLE, responseDto);
         return responseDto;
     }
 
     public ResponseDto getResponseWithIdAndName(Integer id, String name) {
         ResponseDto responseDto = response.toDto(id, name);
-        responseDto.setTraceId(UUID.randomUUID());
         kafkaService.publishEvent(Kafka.Topics.MULTIPLE, responseDto);
         return responseDto;
     }

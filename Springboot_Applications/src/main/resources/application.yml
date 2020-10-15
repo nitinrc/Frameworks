@@ -15,3 +15,6 @@ spring:
       bootstrap-servers: localhost:9090
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+url:
+  single: http://localhost:9090/publisher/get/data1/
+  multiple: http://localhost:9090/publisher/get/data2?

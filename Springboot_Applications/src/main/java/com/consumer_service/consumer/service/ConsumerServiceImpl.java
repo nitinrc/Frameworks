@@ -15,8 +15,11 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class ConsumerServiceImpl implements ConsumerService {
 
-    @Value("${spring.kafka.publisher.bootstrap-servers}")
-    private String publisherServer;
+    @Value("${url.single}")
+    private String urlSingle;
+
+    @Value("${url.multiple}")
+    private String urlMultiple;
 
     private RestService restService;
     private Response response;
@@ -28,14 +31,14 @@ public class ConsumerServiceImpl implements ConsumerService {
     }
 
     public ResponseEntity<String> getResponseWithName(String name) {
-        log.info("Publisher Server: {}", publisherServer);
-        ResponseEntity<String> responseEntity = restService.restTemplate().getForEntity("http://" + publisherServer + "/publisher/get/data1/nitin", String.class);
+        log.info("URL Single: {}", urlSingle);
+        ResponseEntity<String> responseEntity = restService.restTemplate().getForEntity(urlSingle + "nitin", String.class);
         return responseEntity;
     }
 
     public ResponseEntity<String> getResponseWithIdAndName(Integer id, String name) {
-        log.info("Publisher Server: {}", publisherServer);
-        ResponseEntity<String> responseEntity = restService.restTemplate().getForEntity("http://" + publisherServer + "/publisher/get/data2?id=10&name=nitin", String.class);
+        log.info("URL Multiple: {}", urlMultiple);
+        ResponseEntity<String> responseEntity = restService.restTemplate().getForEntity(urlMultiple + "id=10&name=nitin", String.class);
         return responseEntity;
     }
 }
