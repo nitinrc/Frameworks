@@ -10,7 +10,7 @@ class db_actions:
 	
 	@classmethod
 	def get_connection(cls, db_type, server, db_name, new=False):
-		# Creates new singleton database connection
+		# Creates a new singleton database connection
 		if new or not cls.connection:
 			cls.connection = cls.connect_to_db(db_type, server, db_name)
 		return cls.connection
