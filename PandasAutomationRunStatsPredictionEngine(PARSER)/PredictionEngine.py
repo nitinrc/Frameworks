@@ -10,8 +10,60 @@ import csv
 
 from datetime import datetime
 import datetime
+
+class data_extraction:
+
+	def create_batch_entry_for_prediction(self, project, application, batch_id):
+		doc_app_config = parse_xml(path_config_xml)
+		csv_path = doc_app_config.xpath('//HistoricalData')[0].text
+		csv_file = project + '_Batch_Stats.csv'
+		header_data = ['BatchId', 'CoverageLabel', 'Application', 'TestCases', 'Hosts', 'RunTime', 'ActualUtilisationTimePerHost']
+		csv_handling().csv_add_data(csv_path, csv_file, header_data, [batch_id])
+		
+	def log_stats_for_predictions(self, project, criteria_value, application, test_case_count, batch_run_time, batch_id, hosts_count):
+		sum = datetime.timedelta()
+		kwargs = {'BatchId': batch_id}
+		query_1 = "select distinct(HostName) from Execution where BatchId = '" + batch_id + "'"
+		rows_1 = db_call().get(query_1)
+		if rows_1 is not None:
+			list_rows_1 = rows_1.split('|')
+			for host in list_rows_1:
+				kwargs = {'BatchId': batch_id, 'HostName': host}
+				query_2 = "select OverallRunTime from Execution where BatchId = '" + batch_id + "' and HostName = '" + host_name + "'"
+				rows_2 = db_call().get(query_2)
+				if rows_2 is not None:
+					list_rows_2 = rows_2.split('|')
+					for test_case_run_time in list_rows_2:
+						sum += test_case_run_time
+		
+		actual_batch_run_time = sum / hosts_count
+		actual_batch_run_time = actual_batch_run_time - datetime.timedelta(microseconds=actual_batch_run_time.microseconds)
+		doc_app_config = parse_xml(path_config_xml)
+		csv_path = doc_app_config.xpath('//HistoricalData')[0].text
+		csv_file = project + '_Batch_Stats.csv'
+		header_data = ['CoverageLabel', 'Application', 'TestCases', 'Hosts', 'RunTime', 'ActualUtilisationTimePerHost']
+		row_data = [criteria_value, application, test_case_count, hosts_count, batch_run_time, actual_batch_run_time]
+		csv_handling().save_batch_data(csv_path, csv_file, header_data, row_data, batch_id)
+		
+		csv_file = project + '_Test_Case_Stats.csv'
+		header_data = ['TCID', 'Application', 'Status', 'RunTime']
+		kwargs = {'BatchId': batch_id}
+		query = "select * from Execution where BatchId = '" + batch_id + "'"
+		rows = db_call().get(query)
+		if rows is not None:
+			list_rows = rows.split('|')
+			for item_row in list_rows:
+				list_fields = item_row.split('#')
+				tcid = list_fields[dict_execution_cols['TCID']]
+				application = list_fields[dict_execution_cols['APPLICATION']]
+				run_status = list_fields[dict_execution_cols['RUN_STATUS']]
+				test_case_run_time = list_fields[dict_execution_cols['OVERALL_RUN_TIME']]
+				if test_case_run_time is not False:
+					row_data = [tcid, application, test_case_count, run_status, test_case_run_time]
+					csv_handling().csv_add_data(csv_path, csv_file, header_data, row_data)
 		
 class data_analysis:
+
 	def predict_batch_run_time(self, csv_path, csv_file, **kwargs):
 		try:
 			data = read_csv(csv_path + csv_file)
@@ -82,6 +134,7 @@ class data_analysis:
 		plt.savefig(graph_path)
 		
 class csv_handling:
+
 	def csv_add_data(self, csv_path, csv_file, header_data, row_data):
 		file = Path(csv_path + csv_file)
 		if not file.is_file():
