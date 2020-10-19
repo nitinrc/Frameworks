@@ -1,4 +1,5 @@
-#!python/3.7.1
+#!/usr/bin/python python3.7.1
+# -*- coding: <encoding name> -*-
 
 from pandas import read_csv
 import pandas as pd
@@ -10,6 +11,8 @@ import csv
 
 from datetime import datetime
 import datetime
+
+import db_calls
 
 class data_extraction:
 
@@ -24,13 +27,13 @@ class data_extraction:
 		sum = datetime.timedelta()
 		kwargs = {'BatchId': batch_id}
 		query_1 = "select distinct(HostName) from Execution where BatchId = '" + batch_id + "'"
-		rows_1 = db_call().get(query_1)
+		rows_1 = db_calls.get(query_1)
 		if rows_1 is not None:
 			list_rows_1 = rows_1.split('|')
 			for host in list_rows_1:
 				kwargs = {'BatchId': batch_id, 'HostName': host}
 				query_2 = "select OverallRunTime from Execution where BatchId = '" + batch_id + "' and HostName = '" + host_name + "'"
-				rows_2 = db_call().get(query_2)
+				rows_2 = db_calls.get(query_2)
 				if rows_2 is not None:
 					list_rows_2 = rows_2.split('|')
 					for test_case_run_time in list_rows_2:
@@ -49,7 +52,7 @@ class data_extraction:
 		header_data = ['TCID', 'Application', 'Status', 'RunTime']
 		kwargs = {'BatchId': batch_id}
 		query = "select * from Execution where BatchId = '" + batch_id + "'"
-		rows = db_call().get(query)
+		rows = db_calls.get(query)
 		if rows is not None:
 			list_rows = rows.split('|')
 			for item_row in list_rows:

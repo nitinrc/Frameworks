@@ -1,4 +1,5 @@
-#!python/3.7.1
+#!/usr/bin/python python3.7.1
+# -*- coding: <encoding name> -*-
 
 import os.path
 import os, inspect
