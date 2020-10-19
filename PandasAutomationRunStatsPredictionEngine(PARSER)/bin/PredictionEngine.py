@@ -78,6 +78,8 @@ class data_analysis:
 		list_host_count, list_median_run_time_by_test_case_count, list_median_actual_batch_run_time = [], [], []
 		for host_count, group in batch_details.groupby('Hosts'):
 			batch_details_by_host_count = batch_details[batch_details['Hosts'].isin([host_count])]
+			if batch_details_by_host_count['RunTime'].all() == 'Could NOT calculate':
+				continue
 			batch_details_by_host_count['RunTime'] = list(map(lambda item: (datetime.datetime.strptime(item, '%H:%M:%S') - datetime.datetime.strptime('00:00:00', '%H:%M:%S')), batch_details_by_host_count['RunTime']))
 			batch_details_by_host_count['TestCases'] = list(map(lambda item: item, batch_details_by_host_count['TestCases']))
 			batch_details_by_host_count['ActualUtilisationTimePerHost'] = list(map(lambda item: (datetime.datetime.strptime(item, '%H:%M:%S') - datetime.datetime.strptime('00:00:00', '%H:%M:%S')), batch_details_by_host_count['ActualUtilisationTimePerHost']))
