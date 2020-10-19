@@ -12,7 +12,7 @@ import csv
 from datetime import datetime
 import datetime
 
-import db_calls
+import db_actions
 
 class data_extraction:
 
@@ -23,17 +23,17 @@ class data_extraction:
 		header_data = ['BatchId', 'CoverageLabel', 'Application', 'TestCases', 'Hosts', 'RunTime', 'ActualUtilisationTimePerHost']
 		csv_handling().csv_add_data(csv_path, csv_file, header_data, [batch_id])
 		
-	def log_stats_for_predictions(self, project, criteria_value, application, test_case_count, batch_run_time, batch_id, hosts_count):
+	def log_stats_for_predictions(self, project, criteria_value, application, test_case_count, batch_run_time, batch_id, hosts_count, **kwargs):
 		sum = datetime.timedelta()
 		kwargs = {'BatchId': batch_id}
 		query_1 = "select distinct(HostName) from Execution where BatchId = '" + batch_id + "'"
-		rows_1 = db_calls.get(query_1)
+		rows_1 = db_actions.db_actions().get(kwargs['db_type'], kwargs['server'], kwargs['db_name'], query_1)
 		if rows_1 is not None:
 			list_rows_1 = rows_1.split('|')
 			for host in list_rows_1:
 				kwargs = {'BatchId': batch_id, 'HostName': host}
 				query_2 = "select OverallRunTime from Execution where BatchId = '" + batch_id + "' and HostName = '" + host_name + "'"
-				rows_2 = db_calls.get(query_2)
+				rows_2 = db_actions.db_actions().get(kwargs['db_type'], kwargs['server'], kwargs['db_name'], query_2)
 				if rows_2 is not None:
 					list_rows_2 = rows_2.split('|')
 					for test_case_run_time in list_rows_2:
@@ -52,7 +52,7 @@ class data_extraction:
 		header_data = ['TCID', 'Application', 'Status', 'RunTime']
 		kwargs = {'BatchId': batch_id}
 		query = "select * from Execution where BatchId = '" + batch_id + "'"
-		rows = db_calls.get(query)
+		rows = db_actions.db_actions().get(kwargs['db_type'], kwargs['server'], kwargs['db_name'], query)
 		if rows is not None:
 			list_rows = rows.split('|')
 			for item_row in list_rows:

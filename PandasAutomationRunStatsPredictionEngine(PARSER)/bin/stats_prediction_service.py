@@ -10,17 +10,17 @@ import json
 from json import loads
 
 import prediction_engine
-import db_calls
+import db_actions
 
 class stats_prediction_service:
 
-	def generate_prediction_stats(self, project, application, batch_name, batch_id, csv_path):
+	def generate_prediction_stats(self, project, application, batch_name, batch_id, csv_path, **kwargs):
 		csv_path = csv_path.replace('path:', '')
 		init_predictions_stats_generator = prediction_stats_generator()
 		
 		kwargs = {'BatchId': batch_id}
 		query = "select count(*) from Execution where BatchId = '" + batch_id + "'"
-		test_case_count = db_calls.get(query)
+		test_case_count = db_actions.db_actions().get(kwargs['db_type'], kwargs['server'], kwargs['db_name'], query)
 		
 		csv_file = project + '_Batch_Stats.csv'
 		kwargs = {'BatchName': batch_name, 'Application': application, 'TestCaseCount': test_case_count}
@@ -30,11 +30,11 @@ class stats_prediction_service:
 			
 		list_tcids, list_predicted_test_case_run_time, list_predicted_test_case_success_rate = [], [], []
 		csv_file = project + '_Test_Case_Stats.csv'
-		dict_execution_cols = db_calls.get_table_col_details()
+		dict_execution_cols = db_actions.db_actions().get_table_col_mapping(kwargs['db_type'], kwargs['server'], kwargs['db_name'], kwargs['table_name'])
 		
 		kwargs = {'BatchId': batch_id}
 		query = "select * from Execution where BatchId = '" + batch_id + "'"
-		rows = db_calls.get(query)
+		rows = db_actions.db_actions().get(kwargs['db_type'], kwargs['server'], kwargs['db_name'], query)
 		if rows is not None:
 			list_rows = rows.split('|')
 			for item_row in list_rows:
