@@ -31,16 +31,16 @@ class data_extraction:
 		kwargs = {'BatchId': batch_id}
 		query_1 = "select distinct(HostName) from Execution where BatchId = '" + batch_id + "'"
 		rows_1 = db_actions.db_actions().get(kwargs['db_type'], kwargs['server'], kwargs['db_name'], query_1)
-		if rows_1 is not None:
-			list_rows_1 = rows_1.split('|')
-			for host in list_rows_1:
-				kwargs = {'BatchId': batch_id, 'HostName': host}
-				query_2 = "select OverallRunTime from Execution where BatchId = '" + batch_id + "' and HostName = '" + host_name + "'"
-				rows_2 = db_actions.db_actions().get(kwargs['db_type'], kwargs['server'], kwargs['db_name'], query_2)
-				if rows_2 is not None:
-					list_rows_2 = rows_2.split('|')
-					for test_case_run_time in list_rows_2:
-						sum += test_case_run_time
+		list_dict_rows_1 = json.dumps(rows_1)
+		for index_1 in range(len(list_dict_rows_1)):
+			host = list_dict_rows_1[index_1]['HOST']
+			kwargs = {'BatchId': batch_id, 'HostName': host}
+			query_2 = "select OverallRunTime from Execution where BatchId = '" + batch_id + "' and HostName = '" + host + "'"
+			rows_2 = db_actions.db_actions().get(kwargs['db_type'], kwargs['server'], kwargs['db_name'], query_2)
+			list_dict_rows_2 = json.dumps(rows_2)
+			for index_2 in range(len(list_dict_rows_2)):
+				test_case_run_time = list_dict_rows_2[index_2]['OVERALL_RUN_TIME']
+				sum += test_case_run_time
 		
 		actual_batch_run_time = sum / hosts_count
 		actual_batch_run_time = actual_batch_run_time - datetime.timedelta(microseconds=actual_batch_run_time.microseconds)
