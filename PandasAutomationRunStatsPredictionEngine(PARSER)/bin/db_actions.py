@@ -3,6 +3,7 @@
 
 import sybpydb
 import db2
+import json
 import logging
 
 class db_actions:
@@ -34,13 +35,27 @@ class db_actions:
 		return db_conn
 	
 	@classmethod
-	def get(cls, db_type, server, db_name, query):
+	def get_single(cls, db_type, server, db_name, query):
 		db_conn = cls.get_connection(db_type, server, db_name)
 		db_cursor = db_conn.cursor()
 		db_cursor.execute(query)
+		row_headers = [x[0] for x in db_cursor.description]
 		records = db_cursor.fetchall()
 		db_cursor.close()
-		return records
+		json_data = []
+		for result in records:
+			json_data.append(dict(zip(row_headers,result)))
+		
+		return json.dumps(json_data)
+		
+	@classmethod
+	def get(cls, db_type, server, db_name, query, args=(), one=False):
+		db_conn = cls.get_connection(db_type, server, db_name)
+		db_cursor = db_conn.cursor()
+		db_cursor.execute(query, args)
+		records = [dict((db_cursor.description[itr][0], value) for itr, value in enumerate(row)) for row in db_cursor.fetchall()]
+		cur.connection.close()
+		return (records[0] if records else None) if one else records
 		
 	@classmethod
 	def post(cls, db_type, server, db_name, query):

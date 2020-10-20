@@ -7,6 +7,9 @@ import matplotlib.pyplot as plt
 from matplotlib.dates import DateFormatter, date2num
 from pathlib import Path
 
+import json
+from json import loads
+
 import csv
 
 from datetime import datetime
@@ -53,17 +56,15 @@ class data_extraction:
 		kwargs = {'BatchId': batch_id}
 		query = "select * from Execution where BatchId = '" + batch_id + "'"
 		rows = db_actions.db_actions().get(kwargs['db_type'], kwargs['server'], kwargs['db_name'], query)
-		if rows is not None:
-			list_rows = rows.split('|')
-			for item_row in list_rows:
-				list_fields = item_row.split('#')
-				tcid = list_fields[dict_execution_cols['TCID']]
-				application = list_fields[dict_execution_cols['APPLICATION']]
-				run_status = list_fields[dict_execution_cols['RUN_STATUS']]
-				test_case_run_time = list_fields[dict_execution_cols['OVERALL_RUN_TIME']]
-				if test_case_run_time is not False:
-					row_data = [tcid, application, test_case_count, run_status, test_case_run_time]
-					csv_handling().csv_add_data(csv_path, csv_file, header_data, row_data)
+		list_dict_rows = json.dumps(rows)
+		for index in range(len(list_dict_rows)):
+			tcid = list_dict_rows[index]['TCID']
+			application = list_dict_rows[index]['APPLICATION']
+			run_status = list_dict_rows[index]['RUN_STATUS']
+			test_case_run_time = list_dict_rows[index]['OVERALL_RUN_TIME']
+			if test_case_run_time is not False:
+				row_data = [tcid, application, test_case_count, run_status, test_case_run_time]
+				csv_handling().csv_add_data(csv_path, csv_file, header_data, row_data)
 		
 class data_analysis:
 
