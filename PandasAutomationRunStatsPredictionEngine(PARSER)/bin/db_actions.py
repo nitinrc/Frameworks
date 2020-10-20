@@ -64,7 +64,6 @@ class db_actions:
 		db_cursor.execute(query)
 		db_conn.commit()
 		db_cursor.close()
-		return records
 			
 	def get_db_cursor(self, db_conn):
 		return db_conn.cursor()
