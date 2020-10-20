@@ -35,7 +35,7 @@ class db_actions:
 		return db_conn
 	
 	@classmethod
-	def get_single(cls, db_type, server, db_name, query):
+	def get_single_record(cls, db_type, server, db_name, query):
 		db_conn = cls.get_connection(db_type, server, db_name)
 		db_cursor = db_conn.cursor()
 		db_cursor.execute(query)
