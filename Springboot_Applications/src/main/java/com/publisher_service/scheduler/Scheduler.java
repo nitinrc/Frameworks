@@ -24,7 +24,7 @@ public class Scheduler {
     }
 
     //@Scheduled(initialDelayString = "${initial.delay:1000}", fixedDelayString = "${fixed.delay:300000}")
-    @Scheduled(cron = "0 */5 * * * *")
+    //@Scheduled(cron = "0 */5 * * * *")
     public void scheduledKafkaPublisher() {
         ZonedDateTime now = ZonedDateTime.now(ZoneId.of("UTC"));
         ResponseDto responseDto = ResponseDto.builder()
@@ -32,7 +32,7 @@ public class Scheduler {
                 .time(now)
                 .id(10)
                 .name("nitin")
-                .employee("YES")
+                .employee("Employee")
                 .build();
         log.info("Publishing data: {} to kafka topic: {} at: {}", responseDto, Kafka.Topics.SINGLE, now);
         kafkaService.publishEvent(Kafka.Topics.SINGLE, responseDto);

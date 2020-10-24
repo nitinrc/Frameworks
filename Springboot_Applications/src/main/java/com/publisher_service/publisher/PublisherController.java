@@ -27,8 +27,10 @@ public class PublisherController {
     public ResponseEntity getData1(@PathVariable("name") String name) {
         log.info("GET call received with single arg: name: {}", name);
         try {
-            ResponseDto responseDto = publisherService.getResponseWithName(name);
-            return ResponseEntity.ok().body(responseDto);
+            //ResponseDto responseDto = publisherService.getResponseWithName(name);
+            //return ResponseEntity.ok().body(responseDto);
+            publisherService.updateNameBySave(1000, "ravi");
+            return ResponseEntity.ok().body(null);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
@@ -50,11 +52,26 @@ public class PublisherController {
         }
     }
 
-    @RequestMapping(value = "/put/data/{name}", method = RequestMethod.PUT)
-    public ResponseEntity putData(@PathVariable("name") String name) {
-        log.info("PUT call received with arg: {}", name);
+    @RequestMapping(value = "/put/save/{name}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity updateNameBySave(@PathVariable("name") String name) {
+        log.info("PUT call received with single arg: name: {}", name);
         try {
-            return ResponseEntity.ok().body("PUT call received with arg: " + name);
+            publisherService.updateNameBySave(1000, name);
+            return ResponseEntity.ok().body("PUT call received to update name by save to: " + name);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body("There was an error processing the request.");
+        }
+    }
+
+    @RequestMapping(value = "/put/query", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity updateNameByQuery(@RequestParam(value="id") Integer id,
+                                  @RequestParam(value="name") String name) {
+        log.info("PUT call received with args: id: {}, name: {}", id, name);
+        try {
+            publisherService.updateNameByQuery(id, name);
+            return ResponseEntity.ok().body("PUT call received to update name by query to: " + name);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {

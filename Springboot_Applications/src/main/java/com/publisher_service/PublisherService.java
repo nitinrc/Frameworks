@@ -11,6 +11,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 @SpringBootApplication(scanBasePackages = {
         "com.publisher_service",
+        "com.ConfigDatabase",
+        "com.ConfigRestTemplate",
         "com.kafka"
 })
 public class PublisherService {

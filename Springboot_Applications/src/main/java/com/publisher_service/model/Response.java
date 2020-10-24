@@ -14,13 +14,13 @@ import java.util.UUID;
 @Service
 public class Response {
 
-    public ResponseDto toDto(Integer id, String name) {
+    public ResponseDto toDto(Integer id, String name, String employee) {
         return ResponseDto.builder()
                 .traceId(UUID.randomUUID())
                 .time(ZonedDateTime.now(ZoneId.of("UTC")))
                 .id(id)
                 .name(name)
-                .employee("YES")
+                .employee(employee)
                 .build();
     }
 }
