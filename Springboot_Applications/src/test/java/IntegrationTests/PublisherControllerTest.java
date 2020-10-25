@@ -19,7 +19,7 @@ public class PublisherControllerTest {
     //@MethodSource("com.publisher_service.publisher.PublisherController#getData1")
     @Test
     public void getSingleParamData() {
-        Response response = restAssuredExtension.get("/publisher/get/data1/nitin");
+        Response response = restAssuredExtension.get("/publisher/put/save?id=1000&name=nitin");
         Assertions.assertEquals(200, response.getStatusCode(), response.getBody().toString());
     }
 }
