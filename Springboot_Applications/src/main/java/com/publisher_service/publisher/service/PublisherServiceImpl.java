@@ -49,6 +49,7 @@ public class PublisherServiceImpl implements PublisherService {
 
     public void updateNameBySave(Integer id, String name) {
         Optional<Employee> employee = employeeRepository.findById(id);
+        log.info("name before update: {}", employee.get().getName());
         Employee employeeUpdated = Employee.builder()
                 .id(id)
                 .name(name)
@@ -61,12 +62,9 @@ public class PublisherServiceImpl implements PublisherService {
     @Transactional
     public void updateNameByQuery(Integer id, String name) {
         Optional<Employee> employee = employeeRepository.findById(id);
-        Employee employeeUpdated = Employee.builder()
-                .id(id)
-                .name(name)
-                .employee(employee.get().getEmployee())
-                .build();
+        log.info("name before update: {}", employee.get().getName());
         employeeRepository.updateName(id, name);
-        log.info("Updated name by query: {}", employeeUpdated.getName());
+        employee = employeeRepository.findById(id);
+        log.info("Updated name by query: {}", employee.get().getName());
     }
 }
