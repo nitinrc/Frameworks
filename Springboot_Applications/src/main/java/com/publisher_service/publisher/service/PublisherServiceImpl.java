@@ -47,6 +47,7 @@ public class PublisherServiceImpl implements PublisherService {
         return responseDto;
     }
 
+    @Transactional
     public void updateNameBySave(Integer id, String name) {
         Optional<Employee> employee = employeeRepository.findById(id);
         log.info("name before update: {}", employee.get().getName());

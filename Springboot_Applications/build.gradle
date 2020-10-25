@@ -31,11 +31,21 @@ dependencies {
     compile group: 'org.projectlombok', name: 'lombok'
     compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.21'
     compile group: 'junit', name: 'junit'
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api'
     compile group: 'org.slf4j', name: 'slf4j-api'
     compile group: 'org.slf4j', name: 'slf4j-simple'
+    testCompile group: 'io.rest-assured', name: 'rest-assured'
+    compile group: 'io.rest-assured', name: 'json-schema-validator'
+    compile group: 'io.rest-assured', name: 'json-path'
+    testCompile group: 'io.rest-assured', name: 'spring-mock-mvc'
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-params'
 }
 
 configurations.all {
     exclude group:"com.guicedee.services", module: "sl4j"
     exclude group:"ch.qos.logback", module:"logback-classic"
+}
+
+test {
+    useJUnitPlatform()
 }
