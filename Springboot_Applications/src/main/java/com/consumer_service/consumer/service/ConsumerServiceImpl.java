@@ -16,11 +16,20 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class ConsumerServiceImpl implements ConsumerService {
 
+    @Value("${url.server}")
+    private String server;
+
     @Value("${url.single}")
     private String urlSingle;
 
     @Value("${url.multiple}")
     private String urlMultiple;
+
+    @Value("${url.update-name-by-save}")
+    private String urlUpdateNameBySave;
+
+    @Value("${url.update-name-by-query}")
+    private String urlUpdateNameByQuery;
 
     private RestTemplateConfig restTemplateConfig;
     private Response response;
@@ -32,14 +41,30 @@ public class ConsumerServiceImpl implements ConsumerService {
     }
 
     public ResponseEntity<String> getResponseWithName(String name) {
-        log.info("URL Single: {}", urlSingle);
-        ResponseEntity<String> responseEntity = restTemplateConfig.restTemplate().getForEntity(urlSingle + "nitin", String.class);
+        log.info("URL Single: {}", server + urlSingle);
+        ResponseEntity<String> responseEntity = restTemplateConfig.restTemplate()
+                .getForEntity(server + urlSingle + "nitin", String.class);
         return responseEntity;
     }
 
     public ResponseEntity<String> getResponseWithIdAndName(Integer id, String name) {
-        log.info("URL Multiple: {}", urlMultiple);
-        ResponseEntity<String> responseEntity = restTemplateConfig.restTemplate().getForEntity(urlMultiple + "id=10&name=nitin", String.class);
+        log.info("URL Multiple: {}", server + urlMultiple);
+        ResponseEntity<String> responseEntity = restTemplateConfig.restTemplate()
+                .getForEntity(server + urlMultiple + "id=1000&name=nitin", String.class);
+        return responseEntity;
+    }
+
+    public ResponseEntity<String> updateNameBySave(Integer id, String name) {
+        log.info("URL Update name by save: {}", server + urlUpdateNameBySave);
+        ResponseEntity<String> responseEntity = restTemplateConfig.restTemplate()
+                .getForEntity(server + urlUpdateNameBySave + "id=1000&name=nitin", String.class);
+        return responseEntity;
+    }
+
+    public ResponseEntity<String> updateNameByQuery(Integer id, String name) {
+        log.info("URL Update name by query: {}", server + urlUpdateNameByQuery);
+        ResponseEntity<String> responseEntity = restTemplateConfig.restTemplate()
+                .getForEntity(server + urlUpdateNameByQuery + "id=1000&name=nitin", String.class);
         return responseEntity;
     }
 }

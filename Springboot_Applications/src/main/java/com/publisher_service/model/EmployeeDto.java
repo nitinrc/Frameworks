@@ -6,8 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.time.ZonedDateTime;
-import java.util.UUID;
 
 @Data
 @Builder

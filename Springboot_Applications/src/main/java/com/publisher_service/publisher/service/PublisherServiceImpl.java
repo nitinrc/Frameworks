@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -57,6 +58,7 @@ public class PublisherServiceImpl implements PublisherService {
         log.info("Updated name by save: {}", employeeUpdated.getName());
     }
 
+    @Transactional
     public void updateNameByQuery(Integer id, String name) {
         Optional<Employee> employee = employeeRepository.findById(id);
         Employee employeeUpdated = Employee.builder()

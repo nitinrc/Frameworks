@@ -26,5 +26,8 @@ spring:
     hibernate:
       ddl-auto: update
 url:
-  single: http://localhost:9098/publisher/get/data1/
-  multiple: http://localhost:9098/publisher/get/data2?
+  server: http://localhost:9098/
+  single: publisher/get/data1/
+  multiple: publisher/get/data2?
+  update-name-by-save: publisher/put/save?
+  update-name-by-query: publisher/put/query?

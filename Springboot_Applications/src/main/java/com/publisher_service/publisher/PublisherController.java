@@ -25,12 +25,10 @@ public class PublisherController {
 
     @RequestMapping(value = "/get/data1/{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getData1(@PathVariable("name") String name) {
-        log.info("GET call received with single arg: name: {}", name);
+        log.info("GET call received with single arg -> name: {}", name);
         try {
-            //ResponseDto responseDto = publisherService.getResponseWithName(name);
-            //return ResponseEntity.ok().body(responseDto);
-            publisherService.updateNameBySave(1000, "ravi");
-            return ResponseEntity.ok().body(null);
+            ResponseDto responseDto = publisherService.getResponseWithName(name);
+            return ResponseEntity.ok().body(responseDto);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
@@ -41,7 +39,7 @@ public class PublisherController {
     @RequestMapping(value = "/get/data2", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getData2(@RequestParam(value="id") Integer id,
                                   @RequestParam(value="name") String name) {
-        log.info("GET call received with multiple args: id: {}, name: {}", id, name);
+        log.info("GET call received with multiple args -> id: {}, name: {}", id, name);
         try {
             ResponseDto responseDto = publisherService.getResponseWithIdAndName(id, name);
             return ResponseEntity.ok().body(responseDto);
@@ -52,12 +50,13 @@ public class PublisherController {
         }
     }
 
-    @RequestMapping(value = "/put/save/{name}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity updateNameBySave(@PathVariable("name") String name) {
-        log.info("PUT call received with single arg: name: {}", name);
+    @RequestMapping(value = "/put/save", method = RequestMethod.GET)
+    public ResponseEntity updateNameBySave(@RequestParam(value="id") Integer id,
+                                           @RequestParam(value="name") String name) {
+        log.info("GET call received to update name by save with args -> id: {}, name: {}", id, name);
         try {
-            publisherService.updateNameBySave(1000, name);
-            return ResponseEntity.ok().body("PUT call received to update name by save to: " + name);
+            publisherService.updateNameBySave(id, name);
+            return ResponseEntity.ok().body("Update name to: " + name + " by save successful");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
@@ -65,13 +64,13 @@ public class PublisherController {
         }
     }
 
-    @RequestMapping(value = "/put/query", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/put/query", method = RequestMethod.GET)
     public ResponseEntity updateNameByQuery(@RequestParam(value="id") Integer id,
                                   @RequestParam(value="name") String name) {
-        log.info("PUT call received with args: id: {}, name: {}", id, name);
+        log.info("GET call received to update name by query with args -> id: {}, name: {}", id, name);
         try {
             publisherService.updateNameByQuery(id, name);
-            return ResponseEntity.ok().body("PUT call received to update name by query to: " + name);
+            return ResponseEntity.ok().body("Update name to: " + name + " by query successful");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {

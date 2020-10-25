@@ -15,7 +15,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer>, Jp
     Optional<Employee> findByName(String name);
     Optional<Employee> findByIdAndName(Integer id, String name);
     @Modifying
-    @Query("update Employee set name = ?1 where id = ?2")
+    @Query("update Employee set name = ?2 where id = ?1")
     void updateName(Integer id, String name);
 
 }

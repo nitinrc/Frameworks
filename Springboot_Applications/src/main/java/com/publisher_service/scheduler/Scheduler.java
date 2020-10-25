@@ -24,7 +24,7 @@ public class Scheduler {
     }
 
     //@Scheduled(initialDelayString = "${initial.delay:1000}", fixedDelayString = "${fixed.delay:300000}")
-    //@Scheduled(cron = "0 */5 * * * *")
+    @Scheduled(cron = "0 */5 * * * *")
     public void scheduledKafkaPublisher() {
         ZonedDateTime now = ZonedDateTime.now(ZoneId.of("UTC"));
         ResponseDto responseDto = ResponseDto.builder()
