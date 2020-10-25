@@ -1,0 +1,41 @@
+plugins {
+    id 'java'
+    //id 'org.springframework.boot' version ${springframework.boot_version}
+    id 'org.springframework.boot' version '2.0.5.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.7.RELEASE'
+    id 'io.freefair.lombok' version '4.1.6'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'org.springframework', name: 'spring-core'
+    implementation 'org.springframework.boot:spring-boot-dependencies:2.0.5.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compile group: 'org.springframework.retry', name: 'spring-retry'
+    compile group: 'org.springframework', name: 'spring-aspects'
+    compile group: 'org.springframework.kafka', name: 'spring-kafka'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
+    compile group: 'org.hibernate', name: 'hibernate-core'
+    compile group: 'org.apache.kafka', name: 'kafka-clients'
+    compile group: 'org.apache.kafka', name: 'connect-api'
+    compile group: 'org.apache.kafka', name: 'kafka-streams'
+    compile group: 'org.apache.kafka', name: 'connect-json'
+    compile group: 'org.apache.kafka', name: 'connect-runtime'
+    compile group: 'com.guicedee.services', name: 'sl4j'
+    compile group: 'org.projectlombok', name: 'lombok'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.21'
+    compile group: 'junit', name: 'junit'
+    compile group: 'org.slf4j', name: 'slf4j-api'
+    compile group: 'org.slf4j', name: 'slf4j-simple'
+}
+
+configurations.all {
+    exclude group:"com.guicedee.services", module: "sl4j"
+    exclude group:"ch.qos.logback", module:"logback-classic"
+}
