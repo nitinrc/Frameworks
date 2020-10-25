@@ -4,13 +4,15 @@
 2. PARSER: Description TODO
 
 3. Springboot Applications:
+
     Features:
-      REST
-      Hibernate
-      Kafka
-      Camel
-      Tests:
-         REST Assured
+    
+          REST
+          Hibernate
+          Kafka
+          Camel
+          Tests:
+             REST Assured
    
     REST URLs:
 
