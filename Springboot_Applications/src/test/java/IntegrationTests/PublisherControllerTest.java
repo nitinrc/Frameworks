@@ -14,9 +14,9 @@ public class PublisherControllerTest {
 
     private RestAssuredExtension restAssuredExtension = new RestAssuredExtension("http://localhost", 9098);
 
-    //@DisplayName("Get Publisher Single Param Data")
+    @DisplayName("Get Publisher Single Param Data")
+    @MethodSource("com.publisher_service.publisher.PublisherController#updateNameBySave")
     //@ParameterizedTest(name = "{0} {1}")
-    //@MethodSource("com.publisher_service.publisher.PublisherController#getData1")
     @Test
     public void getSingleParamData() {
         Response response = restAssuredExtension.get("/publisher/put/save?id=1000&name=nitin");
