@@ -4,16 +4,29 @@
 2. PARSER: Description TODO
 
 3. Springboot Applications:
+
+    Features:
+    
+          REST
+          Hibernate
+          Kafka
+          Camel
+          Tests:
+             REST Assured
    
     REST URLs:
 
         Publisher:
             http://localhost:9090/publisher/get/data1/nitin
-            http://localhost:9090/publisher/get/data2?id=10&name=nitin
+            http://localhost:9090/publisher/get/data2?id=1000&name=nitin
+            http://localhost:9098/publisher/put/save?id=1000&name=nitin
+            http://localhost:9098/publisher/put/query?id=1000&name=nitin
 
         Consumer:
             http://localhost:8080/consumer/get/data1/nitin
-            http://localhost:8080/consumer/get/data2?id=10&name=nitin
+            http://localhost:8080/consumer/get/data2?id=1000&name=nitin
+            http://localhost:8080/consumer/put/save?id=1000&name=nitin
+            http://localhost:8080/consumer/put/query?id=1000&name=nitin
   
   
     Kafka commands:
