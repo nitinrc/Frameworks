@@ -26,8 +26,6 @@ public class FindElement {
 	@SuppressWarnings("unchecked")
 	public WebElement getElement(String locator, String locatorType, String expectedCondition, String timeout) {
 		WebDriverWait wait = new WebDriverWait(browserConfig.getDriver(), Integer.parseInt(timeout));
-		
-		WebElement element = null;
 		Method method1;
 		Method method2;
 		try {
@@ -36,31 +34,29 @@ public class FindElement {
 		} catch (NoSuchMethodException e1) {
 			e1.printStackTrace();
 			runner.setRunStatus(RunStatus.FAIL);
-			return element;
+			return null;
 		} catch (SecurityException e1) {
 			e1.printStackTrace();
 			runner.setRunStatus(RunStatus.FAIL);
-			return element;
+			return null;
 		} catch (Exception e) {
 			e.printStackTrace();
 			runner.setRunStatus(RunStatus.FAIL);
-			return element;
+			return null;
 		}
 		try {
-			element = wait.until((Function<? super WebDriver, WebElement>) method1.invoke(ExpectedConditions.class, method2.invoke(By.class, locator)));
+			WebElement element = wait.until((Function<? super WebDriver, WebElement>) method1.invoke(ExpectedConditions.class, method2.invoke(By.class, locator)));
+			return element;
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
-			runner.setRunStatus(RunStatus.FAIL);
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
-			runner.setRunStatus(RunStatus.FAIL);
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
-			runner.setRunStatus(RunStatus.FAIL);
 		} catch (Exception e) {
 			e.printStackTrace();
-			runner.setRunStatus(RunStatus.FAIL);
 		}
-		return element;
+		runner.setRunStatus(RunStatus.FAIL);
+		return null;
 	}
 }
