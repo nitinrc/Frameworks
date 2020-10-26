@@ -17,15 +17,8 @@ public class FindElement {
 
 	public WebElement findElement(String locator, String locatorType, String expectedCondition, String timeout) {
 		WebElement element = getElement(locator, locatorType, expectedCondition, timeout);
-		if (!(element.isEnabled())) {
-			if (!(element.isDisplayed())) {
-				element = getElement(locator, locatorType, expectedCondition, timeout);
-				if (!(element.isEnabled())) {
-					runner.setRunStatus(RunStatus.FAIL);
-				}
-			} else {
-				runner.setRunStatus(RunStatus.FAIL);
-			}
+		if (!(element.isEnabled()) || !(element.isDisplayed())) {
+			runner.setRunStatus(RunStatus.FAIL);
 		}
 		return element;
 	}
@@ -35,8 +28,8 @@ public class FindElement {
 		WebDriverWait wait = new WebDriverWait(browserConfig.getDriver(), Integer.parseInt(timeout));
 		
 		WebElement element = null;
-		Method method1 = null;
-		Method method2 = null;
+		Method method1;
+		Method method2;
 		try {
 			method1 = ExpectedConditions.class.getMethod(expectedCondition, By.class);
 			method2 = By.class.getMethod(locatorType, String.class);
