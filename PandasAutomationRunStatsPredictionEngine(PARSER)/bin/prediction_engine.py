@@ -47,6 +47,8 @@ class data_extraction:
 		doc_app_config = parse_xml(path_config_xml)
 		csv_path = doc_app_config.xpath('//HistoricalData')[0].text
 		csv_file = project + '_Batch_Stats.csv'
+		header_data = ['BatchId', 'CoverageLabel', 'Application', 'TestCases', 'Hosts', 'RunTime', 'ActualUtilisationTimePerHost']
+		csv_handling().csv_add_data(csv_path, csv_file, header_data, [batch_id])
 		header_data = ['CoverageLabel', 'Application', 'TestCases', 'Hosts', 'RunTime', 'ActualUtilisationTimePerHost']
 		row_data = [criteria_value, application, test_case_count, hosts_count, batch_run_time, actual_batch_run_time]
 		csv_handling().save_batch_data(csv_path, csv_file, header_data, row_data, batch_id)
@@ -102,7 +104,9 @@ class data_analysis:
 				row_index = data.index[data['BatchId'] == latest_batch['BatchId']]
 				csv_handling().csv_add_data_to_existing_row(csv_path, csv_file, ['PredictedRunTime'], [median_run_time_by_test_case_count], row_index)
 				
-		self.plot_graph(list_host_count, [list_median_run_time_by_test_case_count, list_median_actual_batch_run_time], ['Predicted Run Time', 'Predicted Utilisation Time Per Host'], 'upper right', 'No. of Hosts', 'Batch Execution Time', csv_path + 'RunTime.png')
+		if len(list_host_count) > 1:
+			self.plot_graph(list_host_count, [list_median_run_time_by_test_case_count, list_median_actual_batch_run_time], ['Predicted Run Time', 'Predicted Utilisation Time Per Host'], 'upper right', 'No. of Hosts', 'Batch Execution Time', csv_path + 'RunTime.png')
+		
 		return dict_run_time_stats_by_host_count
 		
 	def predict_test_case_run_time(self, csv_path, csv_file, **kwargs):
