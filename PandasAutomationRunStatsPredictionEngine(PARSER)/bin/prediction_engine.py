@@ -19,13 +19,6 @@ import db_actions
 
 class data_extraction:
 
-	def create_batch_entry_for_prediction(self, project, application, batch_id):
-		doc_app_config = parse_xml(path_config_xml)
-		csv_path = doc_app_config.xpath('//HistoricalData')[0].text
-		csv_file = project + '_Batch_Stats.csv'
-		header_data = ['BatchId', 'CoverageLabel', 'Application', 'TestCases', 'Hosts', 'RunTime', 'ActualUtilisationTimePerHost']
-		csv_handling().csv_add_data(csv_path, csv_file, header_data, [batch_id])
-		
 	def log_stats_for_predictions(self, project, criteria_value, application, test_case_count, batch_run_time, batch_id, hosts_count, **kwargs):
 		sum = datetime.timedelta()
 		kwargs = {'BatchId': batch_id}
