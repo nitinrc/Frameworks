@@ -15,4 +15,5 @@ public class EmployeeDto implements Serializable {
     private Integer id;
     private String name;
     private String employee;
+    private Integer salary;
 }

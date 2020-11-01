@@ -29,6 +29,9 @@ public class Employee implements Serializable {
     @Column(name = "employee", nullable = false)
     private String employee;
 
+    @Column(name = "salary", nullable = false)
+    private Integer salary;
+
     public static EmployeeDto toDto(Employee dao) {
         if (dao == null) {
             return null;
@@ -38,6 +41,7 @@ public class Employee implements Serializable {
                 .id(dao.getId())
                 .name(dao.getName())
                 .employee(dao.getEmployee())
+                .salary(dao.getSalary())
                 .build();
     }
 
@@ -50,6 +54,7 @@ public class Employee implements Serializable {
                 .id(dto.getId())
                 .name(dto.getName())
                 .employee(dto.getEmployee())
+                .salary(dto.getSalary())
                 .build();
     }
 }

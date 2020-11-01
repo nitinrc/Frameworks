@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableRetry
 @EnableCaching
-@EnableScheduling
+//@EnableScheduling
 @SpringBootApplication(scanBasePackages = {
         "com.publisher_service",
         "com.ConfigDatabase",

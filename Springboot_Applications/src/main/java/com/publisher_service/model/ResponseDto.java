@@ -16,4 +16,5 @@ public class ResponseDto implements Serializable {
     private Integer id;
     private String name;
     private String employee;
+    private Integer salary;
 }

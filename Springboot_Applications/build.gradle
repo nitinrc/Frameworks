@@ -27,6 +27,7 @@ dependencies {
     compile group: 'org.apache.kafka', name: 'kafka-streams'
     compile group: 'org.apache.kafka', name: 'connect-json'
     compile group: 'org.apache.kafka', name: 'connect-runtime'
+    compile group: 'org.apache.camel', name: 'camel-core', version: '3.6.0'
     compile group: 'com.guicedee.services', name: 'sl4j'
     compile group: 'org.projectlombok', name: 'lombok'
     compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.21'
@@ -34,11 +35,12 @@ dependencies {
     testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api'
     compile group: 'org.slf4j', name: 'slf4j-api'
     compile group: 'org.slf4j', name: 'slf4j-simple'
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-params'
+    testCompile group: 'org.mockito', name: 'mockito-core'
     testCompile group: 'io.rest-assured', name: 'rest-assured'
     compile group: 'io.rest-assured', name: 'json-schema-validator'
     compile group: 'io.rest-assured', name: 'json-path'
     testCompile group: 'io.rest-assured', name: 'spring-mock-mvc'
-    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-params'
 }
 
 configurations.all {

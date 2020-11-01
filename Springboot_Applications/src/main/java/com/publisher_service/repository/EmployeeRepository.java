@@ -11,7 +11,6 @@ import java.util.Optional;
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Integer>, JpaSpecificationExecutor<Employee> {
-    Optional<Employee> findById(Integer id);
     Optional<Employee> findByName(String name);
     Optional<Employee> findByIdAndName(Integer id, String name);
     @Modifying

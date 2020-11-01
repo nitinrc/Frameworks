@@ -18,7 +18,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/learning
     username: root
-    password: p
+    password: gime@job1
     driver-class-name: com.mysql.jdbc.Driver
   jpa:
     database-platform: org.hibernate.dialect.MySQL5Dialect
