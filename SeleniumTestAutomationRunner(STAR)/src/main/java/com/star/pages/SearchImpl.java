@@ -2,11 +2,13 @@ package com.star.pages;
 
 import com.star.core.*;
 import lombok.extern.slf4j.Slf4j;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
-import com.star.Runner;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -15,10 +17,12 @@ import java.util.concurrent.ExecutionException;
 
 @Slf4j
 public class SearchImpl implements Search {
-	Runner runner = Config.context.getBean(Runner.class);
+	ResultStatus resultStatus = Config.context.getBean(ResultStatus.class);
 	DataFetch dataFetch = Config.context.getBean(DataFetch.class);
 	WebActions webActions = Config.context.getBean(WebActions.class);
 	MultiThreading multiThreading = Config.context.getBean(MultiThreading.class);
+	BrowserConfig browserConfig = Config.context.getBean(BrowserConfig.class);
+	Common common = Config.context.getBean(Common.class);
 
 	public static String passVar;
 	//PageFactory.initElements(DesiredCapabilities.driver, SearchPage);
@@ -40,6 +44,40 @@ public class SearchImpl implements Search {
 		inputTo.clear();
 		inputTo.sendKeys(text);
 	}
+
+	public void customSearch(String TCID, Integer itrData) {
+		HashMap<String, String> mapElementParameters;
+		HashMap<String, String> mapTestData = common.getTestDataByTCIDAndIteration(TCID, itrData);
+		mapElementParameters = common.getDataForNagivate(TCID, itrData);
+		webActions.navigate(mapElementParameters);
+		webActions.navigate(mapElementParameters);
+		//browserConfig.getDriver().switchTo().alert().dismiss();
+		//mapElementParameters = common.getDataForIdentification("Alert", "AlertClose");
+		//webActions.click(mapElementParameters);
+		mapElementParameters = common.getDataForIdentification("Search", "FromLabel", "");
+		WebElement fromLabel = new WebDriverWait(browserConfig.getDriver(), Integer.parseInt(mapElementParameters.get("Timeout")))
+				.until(ExpectedConditions.elementToBeClickable(By.xpath(mapElementParameters.get("Locator"))));
+		webActions.click(fromLabel);
+		//webActions.findElementAndClick(mapElementParameters);
+		mapElementParameters = common.getDataForIdentification("Search", "FromInput", "xpath");
+		webActions.findElementAndSendKeys(mapElementParameters, mapTestData.get("From"));
+		mapElementParameters = common.getDataForIdentification("Search", "ToLabel", "xpath");
+		webActions.findElementAndClick(mapElementParameters);
+		mapElementParameters = common.getDataForIdentification("Search", "ToInput", "xpath");
+		webActions.findElementAndSendKeys(mapElementParameters, mapTestData.get("To"));
+		mapElementParameters = common.getDataForIdentification("Search", "CityItem", "xpath");
+		webActions.findElementAndClick(mapElementParameters);
+		mapElementParameters = common.getDataForIdentification("Search", "DepartureLabel", "xpath");
+		webActions.findElementAndClick(mapElementParameters);
+		mapElementParameters = common.getDataForIdentification("Search", "ReturnLabel", "xpath");
+		webActions.findElementAndClick(mapElementParameters);
+		mapElementParameters = common.getDataForIdentification("Search", "DayPicker", "xpath");
+		webActions.findElementAndClick(mapElementParameters);
+		mapElementParameters = common.getDataForIdentification("Search", "ReturnFlight", "xpath");
+		webActions.findElementAndClick(mapElementParameters);
+		mapElementParameters = common.getDataForIdentification("Search", "SearchBtn", "xpath");
+		webActions.findElementAndClick(mapElementParameters);
+	}
 	
 	public void validateSearchPageElements(String TCID, int itrData) {
 		String component = "Search";
@@ -53,28 +91,34 @@ public class SearchImpl implements Search {
 			mapElements = multiThreading.getElementIdentificationData(arrFields, component);
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();
-			runner.setRunStatus(RunStatus.FAIL);
+			resultStatus.setRunStatus(RunStatus.FAIL);
+			resultStatus.setFailureReason(FailureReasons.FUNCTIONAL_ERROR);
 			return;
 		} catch (ExecutionException e1) {
 			e1.printStackTrace();
-			runner.setRunStatus(RunStatus.FAIL);
+			resultStatus.setRunStatus(RunStatus.FAIL);
+			resultStatus.setFailureReason(FailureReasons.FUNCTIONAL_ERROR);
 			return;
 		} catch (Exception e) {
 			e.printStackTrace();
-			runner.setRunStatus(RunStatus.FAIL);
+			resultStatus.setRunStatus(RunStatus.FAIL);
+			resultStatus.setFailureReason(FailureReasons.FUNCTIONAL_ERROR);
 			return;
 		}
 		try {
 			multiThreading.verifyElements(mapElements);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-			runner.setRunStatus(RunStatus.FAIL);
+			resultStatus.setRunStatus(RunStatus.FAIL);
+			resultStatus.setFailureReason(FailureReasons.FUNCTIONAL_ERROR);
 		} catch (ExecutionException e) {
 			e.printStackTrace();
-			runner.setRunStatus(RunStatus.FAIL);
+			resultStatus.setRunStatus(RunStatus.FAIL);
+			resultStatus.setFailureReason(FailureReasons.FUNCTIONAL_ERROR);
 		} catch (Exception e) {
 			e.printStackTrace();
-			runner.setRunStatus(RunStatus.FAIL);
+			resultStatus.setRunStatus(RunStatus.FAIL);
+			resultStatus.setFailureReason(FailureReasons.FUNCTIONAL_ERROR);
 		}
 	}
 
@@ -130,26 +174,33 @@ public class SearchImpl implements Search {
 						method.invoke(webActions, mapElementParameters);
 					} catch (IllegalAccessException e) {
 						e.printStackTrace();
-						runner.setRunStatus(RunStatus.FAIL);
+						resultStatus.setRunStatus(RunStatus.FAIL);
+						resultStatus.setFailureReason(FailureReasons.FUNCTIONAL_ERROR);
 					} catch (IllegalArgumentException e) {
 						e.printStackTrace();
-						runner.setRunStatus(RunStatus.FAIL);
+						resultStatus.setRunStatus(RunStatus.FAIL);
+						resultStatus.setFailureReason(FailureReasons.FUNCTIONAL_ERROR);
 					} catch (InvocationTargetException e) {
 						e.printStackTrace();
-						runner.setRunStatus(RunStatus.FAIL);
+						resultStatus.setRunStatus(RunStatus.FAIL);
+						resultStatus.setFailureReason(FailureReasons.FUNCTIONAL_ERROR);
 					} catch (Exception e) {
 						e.printStackTrace();
-						runner.setRunStatus(RunStatus.FAIL);
+						resultStatus.setRunStatus(RunStatus.FAIL);
+						resultStatus.setFailureReason(FailureReasons.FUNCTIONAL_ERROR);
 					}
 				} catch (NoSuchMethodException e) {
 					e.printStackTrace();
-					runner.setRunStatus(RunStatus.FAIL);
+					resultStatus.setRunStatus(RunStatus.FAIL);
+					resultStatus.setFailureReason(FailureReasons.FUNCTIONAL_ERROR);
 				} catch (SecurityException e) {
 					e.printStackTrace();
-					runner.setRunStatus(RunStatus.FAIL);
+					resultStatus.setRunStatus(RunStatus.FAIL);
+					resultStatus.setFailureReason(FailureReasons.FUNCTIONAL_ERROR);
 				} catch (Exception e) {
 					e.printStackTrace();
-					runner.setRunStatus(RunStatus.FAIL);
+					resultStatus.setRunStatus(RunStatus.FAIL);
+					resultStatus.setFailureReason(FailureReasons.FUNCTIONAL_ERROR);
 				}
 			}
 		}
@@ -159,9 +210,9 @@ public class SearchImpl implements Search {
 		log.info("Did nothing in Search section for TCID: {} | Data Iteration: {}", TCID, itrData);
 		log.info("doNothing passVar: {}", passVar);
 		if (true) {
-			runner.setRunStatus(RunStatus.PASS);
+			resultStatus.setRunStatus(RunStatus.PASS);
 		}
-		log.info("Run Status: {}", runner.getRunStatus());
+		log.info("Run Status: {}", resultStatus.getRunStatus());
 		//SoftAssert softAssertion = new SoftAssert();
 		//softAssertion.assertTrue(false);
 		//Assert.assertTrue(false);
@@ -174,8 +225,8 @@ public class SearchImpl implements Search {
 		webActions.navigate(mapElementParameters);
 		log.info("Opened Search Engine in Search section for TCID: {} | Data Iteration: {}", TCID, itrData);
 		if (true) {
-			runner.setRunStatus(RunStatus.PASS);
+			resultStatus.setRunStatus(RunStatus.PASS);
 		}
-		log.info("Run Status: {}", runner.getRunStatus());
+		log.info("Run Status: {}", resultStatus.getRunStatus());
 	}
 }

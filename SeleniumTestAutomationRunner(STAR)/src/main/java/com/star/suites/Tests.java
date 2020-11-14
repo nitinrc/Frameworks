@@ -11,10 +11,12 @@ public class Tests {
     public void runTests() {
         TestListenerAdapter testListenerAdapter = new TestListenerAdapter();
         TestNG testNG = new TestNG();
-        if (runner.getTestSuite().equals("Regression")) {
+        if (runner.getTestSuite().toUpperCase().equals("REGRESSION")) {
             testNG.setTestClasses(new Class[] {Regression.class});
-        } else if (runner.getTestSuite().equals("Smoke")) {
+        } else if (runner.getTestSuite().toUpperCase().equals("SMOKE")) {
             testNG.setTestClasses(new Class[] {Smoke.class});
+        } else if (runner.getTestSuite().toUpperCase().equals("CUSTOM")) {
+            testNG.setTestClasses(new Class[] {Custom.class});
         }
         testNG.addListener(testListenerAdapter);
         testNG.run();

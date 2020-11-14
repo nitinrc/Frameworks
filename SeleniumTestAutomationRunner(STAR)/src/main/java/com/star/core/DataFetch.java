@@ -1,6 +1,5 @@
 package com.star.core;
 
-import com.star.Runner;
 import lombok.Data;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -15,7 +14,7 @@ import java.util.TreeMap;
 
 @Data
 public class DataFetch {
-	Runner runner = Config.context.getBean(Runner.class);
+	ResultStatus resultStatus = Config.context.getBean(ResultStatus.class);
 	ReadPropertyFile readPropertyFile = Config.context.getBean(ReadPropertyFile.class);
 
 	private TreeMap<String, HashMap<String, String>> mapTestCases;
@@ -23,7 +22,7 @@ public class DataFetch {
 	private HashMap<String, HashMap<String, HashMap<String, String>>> mapPOM;
 	private HashMap<String, HashMap<Integer, HashMap<String, String>>> mapData;
 	
-	public void setTestCases() {
+	public void getTestCases() {
 		TreeMap<String, HashMap<String, String>> mapTCData = new TreeMap<String, HashMap<String, String>>();
 		try
 	    {
@@ -74,7 +73,8 @@ public class DataFetch {
 		                    		keyTCID = cell.getStringCellValue();
 		                    	} catch (Exception e) {
 		                    		e.printStackTrace();
-									runner.setRunStatus(RunStatus.FAIL);
+									resultStatus.setRunStatus(RunStatus.FAIL);
+									resultStatus.setFailureReason(FailureReasons.EXCEL_TEST_CASE_FETCH_ERROR);
 									return;
 								}
 		                    }
@@ -83,7 +83,8 @@ public class DataFetch {
 		                    		arrColHeaders[indexCol] = cell.getStringCellValue();
 		                    	} catch (Exception e) {
 		                    		e.printStackTrace();
-									runner.setRunStatus(RunStatus.FAIL);
+									resultStatus.setRunStatus(RunStatus.FAIL);
+									resultStatus.setFailureReason(FailureReasons.EXCEL_TEST_CASE_FETCH_ERROR);
 									return;
 								}
 		    		    	} else {
@@ -92,7 +93,8 @@ public class DataFetch {
 		    		    				mapData.put(arrColHeaders[indexCol], cell.getStringCellValue());
 		    		    			} catch (Exception e) {
 		    		    				e.printStackTrace();
-										runner.setRunStatus(RunStatus.FAIL);
+										resultStatus.setRunStatus(RunStatus.FAIL);
+										resultStatus.setFailureReason(FailureReasons.EXCEL_TEST_CASE_FETCH_ERROR);
 										return;
 									}
 			    		    	}
@@ -109,13 +111,14 @@ public class DataFetch {
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
-			runner.setRunStatus(RunStatus.FAIL);
+			resultStatus.setRunStatus(RunStatus.FAIL);
+			resultStatus.setFailureReason(FailureReasons.EXCEL_TEST_CASE_FETCH_ERROR);
 			return;
 		}
 		setMapTestCases(mapTCData);
 	}
 	
-	public void setSteps() {
+	public void getSteps() {
 		HashMap<Integer, HashMap<String, String>> mapStep = new HashMap<Integer, HashMap<String, String>>();
 	    HashMap<String, HashMap<Integer, HashMap<String, String>>> mapComponent = new HashMap<String, HashMap<Integer, HashMap<String, String>>>();
 	    try
@@ -172,7 +175,8 @@ public class DataFetch {
 		                    		componentName = cell.getStringCellValue();
 		                    	} catch (Exception e) {
 		                    		e.printStackTrace();
-									runner.setRunStatus(RunStatus.FAIL);
+									resultStatus.setRunStatus(RunStatus.FAIL);
+									resultStatus.setFailureReason(FailureReasons.EXCEL_TEST_STEP_FETCH_ERROR);
 									return;
 		                    	}
 		                    }
@@ -181,7 +185,8 @@ public class DataFetch {
 		                    		arrColHeaders[indexCol] = cell.getStringCellValue();
 		                    	} catch (Exception e) {
 		                    		e.printStackTrace();
-									runner.setRunStatus(RunStatus.FAIL);
+									resultStatus.setRunStatus(RunStatus.FAIL);
+									resultStatus.setFailureReason(FailureReasons.EXCEL_TEST_STEP_FETCH_ERROR);
 									return;
 		                    	}
 		    		    	} else {
@@ -194,7 +199,8 @@ public class DataFetch {
 		    		    				mapData.put(arrColHeaders[indexCol], cell.getStringCellValue());
 		    		    			} catch (Exception e) {
 		    		    				e.printStackTrace();
-										runner.setRunStatus(RunStatus.FAIL);
+										resultStatus.setRunStatus(RunStatus.FAIL);
+										resultStatus.setFailureReason(FailureReasons.EXCEL_TEST_STEP_FETCH_ERROR);
 										return;
 		    		    			}
 			    		    	}
@@ -216,13 +222,14 @@ public class DataFetch {
 		} 
 		catch (Exception e) {
 	    	e.printStackTrace();
-			runner.setRunStatus(RunStatus.FAIL);
+			resultStatus.setRunStatus(RunStatus.FAIL);
+			resultStatus.setFailureReason(FailureReasons.EXCEL_TEST_STEP_FETCH_ERROR);
 			return;
 	    }
 	    setMapSteps(mapComponent);
 	}
 
-	public void setPOM() {
+	public void getPOM() {
 		HashMap<String, HashMap<String, String>> mapElement = new HashMap<String, HashMap<String, String>>();
 	    HashMap<String, HashMap<String, HashMap<String, String>>> mapPage = new HashMap<String, HashMap<String, HashMap<String, String>>>();
 	    try
@@ -277,7 +284,8 @@ public class DataFetch {
 		                    		pageName = cell.getStringCellValue();
 		                    	} catch (Exception e) {
 		                    		e.printStackTrace();
-									runner.setRunStatus(RunStatus.FAIL);
+									resultStatus.setRunStatus(RunStatus.FAIL);
+									resultStatus.setFailureReason(FailureReasons.EXCEL_POM_FETCH_ERROR);
 									return;
 		                    	}
 		                    }
@@ -286,7 +294,8 @@ public class DataFetch {
 		                    		keyElement = cell.getStringCellValue();
 		                    	} catch (Exception e) {
 		                    		e.printStackTrace();
-									runner.setRunStatus(RunStatus.FAIL);
+									resultStatus.setRunStatus(RunStatus.FAIL);
+									resultStatus.setFailureReason(FailureReasons.EXCEL_POM_FETCH_ERROR);
 									return;
 		                    	}
 		                    }
@@ -295,7 +304,8 @@ public class DataFetch {
 		                    		arrColHeaders[indexCol] = cell.getStringCellValue();
 		                    	} catch (Exception e) {
 		                    		e.printStackTrace();
-									runner.setRunStatus(RunStatus.FAIL);
+									resultStatus.setRunStatus(RunStatus.FAIL);
+									resultStatus.setFailureReason(FailureReasons.EXCEL_POM_FETCH_ERROR);
 									return;
 		                    	}
 		    		    	} else {
@@ -308,7 +318,8 @@ public class DataFetch {
 		    		    				mapData.put(arrColHeaders[indexCol], cell.getStringCellValue());
 		    		    			} catch (Exception e) {
 		    		    				e.printStackTrace();
-										runner.setRunStatus(RunStatus.FAIL);
+										resultStatus.setRunStatus(RunStatus.FAIL);
+										resultStatus.setFailureReason(FailureReasons.EXCEL_POM_FETCH_ERROR);
 										return;
 		    		    			}
 			    		    	}
@@ -330,13 +341,14 @@ public class DataFetch {
 		} 
 		catch (Exception e) {
 	    	e.printStackTrace();
-			runner.setRunStatus(RunStatus.FAIL);
+			resultStatus.setRunStatus(RunStatus.FAIL);
+			resultStatus.setFailureReason(FailureReasons.EXCEL_POM_FETCH_ERROR);
 			return;
 	    }
 	    setMapPOM(mapPage);
 	}
 
-	public void setData() {
+	public void getData() {
 		HashMap<Integer, HashMap<String, String>> mapStep = new HashMap<Integer, HashMap<String, String>>();
 	    HashMap<String, HashMap<Integer, HashMap<String, String>>> mapTestData = new HashMap<String, HashMap<Integer, HashMap<String, String>>>();
 	    try
@@ -392,7 +404,8 @@ public class DataFetch {
 		                    		TCIDName = cell.getStringCellValue();
 		                    	} catch (Exception e) {
 		                    		e.printStackTrace();
-									runner.setRunStatus(RunStatus.FAIL);
+									resultStatus.setRunStatus(RunStatus.FAIL);
+									resultStatus.setFailureReason(FailureReasons.EXCEL_TEST_DATA_FETCH_ERROR);
 									return;
 		                    	}
 		                    }
@@ -401,7 +414,8 @@ public class DataFetch {
 		                    		arrColHeaders[indexCol] = cell.getStringCellValue();
 		                    	} catch (Exception e) {
 		                    		e.printStackTrace();
-									runner.setRunStatus(RunStatus.FAIL);
+									resultStatus.setRunStatus(RunStatus.FAIL);
+									resultStatus.setFailureReason(FailureReasons.EXCEL_TEST_DATA_FETCH_ERROR);
 									return;
 		                    	}
 		    		    	} else {
@@ -414,7 +428,8 @@ public class DataFetch {
 		    		    				mapData.put(arrColHeaders[indexCol], cell.getStringCellValue());
 		    		    			} catch (Exception e) {
 		    		    				e.printStackTrace();
-										runner.setRunStatus(RunStatus.FAIL);
+										resultStatus.setRunStatus(RunStatus.FAIL);
+										resultStatus.setFailureReason(FailureReasons.EXCEL_TEST_DATA_FETCH_ERROR);
 										return;
 		    		    			}
 			    		    	}
@@ -436,7 +451,8 @@ public class DataFetch {
 		} 
 		catch (Exception e) {
 	    	e.printStackTrace();
-			runner.setRunStatus(RunStatus.FAIL);
+			resultStatus.setRunStatus(RunStatus.FAIL);
+			resultStatus.setFailureReason(FailureReasons.EXCEL_TEST_DATA_FETCH_ERROR);
 			return;
 	    }
 	    setMapData(mapTestData);

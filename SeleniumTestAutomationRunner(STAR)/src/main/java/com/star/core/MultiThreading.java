@@ -21,19 +21,19 @@ public class MultiThreading {
 		ExecutorService es = Executors.newSingleThreadExecutor();
 		Set<Callable<String>> callables = new HashSet<Callable<String>>();
 		callables.add(() -> {
-			dataFetch.setTestCases();
+			dataFetch.getTestCases();
 			return "Thread: Fetched Test Cases";
 		});
 		callables.add(() -> {
-			dataFetch.setSteps();
+			dataFetch.getSteps();
 			return "Thread: Fetched Steps";
 		});
 		callables.add(() -> {
-			dataFetch.setPOM();
+			dataFetch.getPOM();
 			return "Thread: Fetched POM";
 		});
 		callables.add(() -> {
-			dataFetch.setData();
+			dataFetch.getData();
 			return "Thread: Fetched Data";
 		});
 		
@@ -96,7 +96,7 @@ public class MultiThreading {
 				Calendar cal1 = Calendar.getInstance();
 				SimpleDateFormat timeOnly1 = new SimpleDateFormat("HH:mm:ss");
 				HashMap<String, String> mapElementParameters = item.getValue();
-				WebElement element = findElement.findElement(mapElementParameters.get("Locator"), mapElementParameters.get("LocatorType"), mapElementParameters.get("ExpectedCondition"), mapElementParameters.get("Timeout"));
+				WebElement element = findElement.findElement(mapElementParameters);
 				log.info("Element exist check at time: {}", timeOnly1.format(cal1.getTime()));
 				if (element == null) {
 					return item.getKey() + " does NOT exist";

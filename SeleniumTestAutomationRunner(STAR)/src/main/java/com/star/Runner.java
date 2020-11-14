@@ -12,16 +12,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class Runner {
     private String testSuite;
-    private RunStatus runStatus;
 
-    public Runner(String testSuite, RunStatus runStatus) {
+    public Runner(String testSuite) {
         this.testSuite = testSuite;
-        this.runStatus = runStatus;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args1) {
+        String[] args = {"Custom", "Chrome"};
+//        args[0] = "Custom";
+//        args[1] = "Chrome";
         new AnnotationConfigApplicationContext(BeanContextRegister.class);
-        Runner runner = Config.context.getBean(Runner.class, args[0], RunStatus.NOT_STARTED);
+        Runner runner = Config.context.getBean(Runner.class, args[0]);
         log.info("Test Suite: {}", runner.getTestSuite());
         log.info("Browser: {}", args[1]);
         runner.instantiateBrowserConfig(args[1]);

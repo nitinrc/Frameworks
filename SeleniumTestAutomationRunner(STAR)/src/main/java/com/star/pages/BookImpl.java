@@ -1,10 +1,6 @@
 package com.star.pages;
 
-import com.star.core.DataFetch;
-import com.star.core.RunStatus;
-import com.star.core.WebActions;
-import com.star.core.Config;
-import com.star.Runner;
+import com.star.core.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.InvocationTargetException;
@@ -13,7 +9,7 @@ import java.util.HashMap;
 
 @Slf4j
 public class BookImpl implements Book {
-	Runner runner = Config.context.getBean(Runner.class);
+	ResultStatus resultStatus = Config.context.getBean(ResultStatus.class);
 	DataFetch dataFetch = Config.context.getBean(DataFetch.class);
 	WebActions webActions = Config.context.getBean(WebActions.class);
 	
@@ -51,26 +47,33 @@ public class BookImpl implements Book {
 						method.invoke(webActions, mapElementParameters);
 					} catch (IllegalAccessException e) {
 						e.printStackTrace();
-						runner.setRunStatus(RunStatus.FAIL);
+						resultStatus.setRunStatus(RunStatus.FAIL);
+						resultStatus.setFailureReason(FailureReasons.FUNCTIONAL_ERROR);
 					} catch (IllegalArgumentException e) {
 						e.printStackTrace();
-						runner.setRunStatus(RunStatus.FAIL);
+						resultStatus.setRunStatus(RunStatus.FAIL);
+						resultStatus.setFailureReason(FailureReasons.FUNCTIONAL_ERROR);
 					} catch (InvocationTargetException e) {
 						e.printStackTrace();
-						runner.setRunStatus(RunStatus.FAIL);
+						resultStatus.setRunStatus(RunStatus.FAIL);
+						resultStatus.setFailureReason(FailureReasons.FUNCTIONAL_ERROR);
 					} catch (Exception e) {
 						e.printStackTrace();
-						runner.setRunStatus(RunStatus.FAIL);
+						resultStatus.setRunStatus(RunStatus.FAIL);
+						resultStatus.setFailureReason(FailureReasons.FUNCTIONAL_ERROR);
 					}
 				} catch (NoSuchMethodException e) {
 					e.printStackTrace();
-					runner.setRunStatus(RunStatus.FAIL);
+					resultStatus.setRunStatus(RunStatus.FAIL);
+					resultStatus.setFailureReason(FailureReasons.FUNCTIONAL_ERROR);
 				} catch (SecurityException e) {
 					e.printStackTrace();
-					runner.setRunStatus(RunStatus.FAIL);
+					resultStatus.setRunStatus(RunStatus.FAIL);
+					resultStatus.setFailureReason(FailureReasons.FUNCTIONAL_ERROR);
 				} catch (Exception e) {
 					e.printStackTrace();
-					runner.setRunStatus(RunStatus.FAIL);
+					resultStatus.setRunStatus(RunStatus.FAIL);
+					resultStatus.setFailureReason(FailureReasons.FUNCTIONAL_ERROR);
 				}
 			}
 		}
@@ -79,8 +82,8 @@ public class BookImpl implements Book {
 	public void doNothing(String TCID, int itrData) {
 		log.info("Did nothing in Book section for TCID: {} | Data Iteration: {}", TCID, itrData);
 		if (true) {
-			runner.setRunStatus(RunStatus.PASS);
+			resultStatus.setRunStatus(RunStatus.PASS);
 		}
-		log.info("Run Status: {}", runner.getRunStatus());
+		log.info("Run Status: {}", resultStatus.getRunStatus());
 	}
 }

@@ -1,72 +1,44 @@
 package com.star.suites;
 
 import com.star.core.*;
+import com.star.pages.BookImpl;
+import com.star.pages.FlightsImpl;
+import com.star.pages.SearchImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.testng.Assert;
 import org.testng.annotations.*;
-import com.star.pages.*;
 
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
 @Slf4j
-public class Smoke {
+public class Custom {
 	ResultStatus resultStatus = Config.context.getBean(ResultStatus.class);
 	DataFetch dataFetch = Config.context.getBean(DataFetch.class);
-	SearchImpl search = Config.context.getBean(SearchImpl.class);
-	FlightsImpl flights = Config.context.getBean(FlightsImpl.class);
-	BookImpl book = Config.context.getBean(BookImpl.class);
 	MultiThreading multiThreading = Config.context.getBean(MultiThreading.class);
 	WebActions webActions = Config.context.getBean(WebActions.class);
 	BrowserConfig browserConfig = Config.context.getBean(BrowserConfig.class);
+	SearchImpl search = Config.context.getBean(SearchImpl.class);
+	FlightsImpl flights = Config.context.getBean(FlightsImpl.class);
+	BookImpl book = Config.context.getBean(BookImpl.class);
 
 	private HashMap<String, HashMap<Integer, HashMap<String, String>>> testData;
 
 	@Test
-	public void smokeFlow3() {
-		for (int itrData = 1; itrData <= testData.get("SMOKE_3").size(); itrData++) {
+	public void mainFlow() {
+		for (Integer itrData = 1; itrData <= testData.get("MAIN_FLOW_1").size(); itrData++) {
 			resultStatus.setRunStatus(RunStatus.NOT_STARTED);
-			search.searchFlights("SMOKE_3", itrData);
+			search.customSearch("MAIN_FLOW_1", itrData);
 			if (resultStatus.getRunStatus().equals(RunStatus.FAIL)) {
 				Assert.assertTrue(false);
 			}
-			flights.selectFlight("SMOKE_3", itrData);
-			if (resultStatus.getRunStatus().equals(RunStatus.FAIL)) {
-				Assert.assertTrue(false);
-			}
-			book.bookFlight("SMOKE_3", itrData);
-			if (resultStatus.getRunStatus().equals(RunStatus.FAIL)) {
-				Assert.assertTrue(false);
-			}
-		}
-	}
 
-	@Test
-	public void smokeFlow4() {
-		for (int itrData = 1; itrData <= testData.get("SMOKE_4").size(); itrData++) {
-			resultStatus.setRunStatus(RunStatus.NOT_STARTED);
-			search.searchFlights("SMOKE_4", itrData);
-			if (resultStatus.getRunStatus().equals(RunStatus.FAIL)) {
-				Assert.assertTrue(false);
-			}
-			flights.selectFlight("SMOKE_4", itrData);
-			if (resultStatus.getRunStatus().equals(RunStatus.FAIL)) {
-				Assert.assertTrue(false);
-			}
-			flights.doNothing("SMOKE_4", itrData);
-			if (resultStatus.getRunStatus().equals(RunStatus.FAIL)) {
-				Assert.assertTrue(false);
-			}
-			book.bookFlight("SMOKE_4", itrData);
-			if (resultStatus.getRunStatus().equals(RunStatus.FAIL)) {
-			Assert.assertTrue(false);
-			}
 		}
 	}
 
 	@BeforeSuite
 	public void beforeSuite() {
-		log.info("@BeforeSuite: Smoke");
+		log.info("@BeforeSuite: Custom");
 		try {
 			multiThreading.dataFetch();
 			testData = dataFetch.getMapData();
@@ -87,19 +59,19 @@ public class Smoke {
 
 	@AfterSuite
 	public void afterSuite() {
-		log.info("@AfterSuite: Smoke");
+		log.info("@AfterSuite: Custom");
 		webActions.closeBrowsers(null);
 		browserConfig.getDriver().quit();
 	}
 
 	@BeforeTest
 	public void beforeTest() {
-		log.info("@BeforeTest: Smoke");
+		log.info("@BeforeTest: Custom");
 	}
 
 	@AfterTest
 	public void afterTest() {
-		log.info("@AfterTest: Smoke");
+		log.info("@AfterTest: Custom");
 		if (resultStatus.getRunStatus().equals(RunStatus.FAIL)) {
 			log.error("FAILURE REASON: {}", resultStatus.getFailureReason());
 		}

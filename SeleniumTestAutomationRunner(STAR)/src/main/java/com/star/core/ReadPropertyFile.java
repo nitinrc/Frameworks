@@ -1,14 +1,12 @@
 package com.star.core;
 
-import com.star.Runner;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
 public class ReadPropertyFile {
-	Runner runner = Config.context.getBean(Runner.class);
+	ResultStatus resultStatus = Config.context.getBean(ResultStatus.class);
 
 	public Properties readProperty() throws FileNotFoundException {
 		Properties prop = new Properties();
@@ -18,10 +16,12 @@ public class ReadPropertyFile {
 			prop.load(ip);
 		} catch (IOException e) {
 			e.printStackTrace();
-			runner.setRunStatus(RunStatus.FAIL);
+			resultStatus.setRunStatus(RunStatus.FAIL);
+			resultStatus.setFailureReason(FailureReasons.READ_PROPERTY_FILE_ERROR);
 		} catch (Exception e) {
 			e.printStackTrace();
-			runner.setRunStatus(RunStatus.FAIL);
+			resultStatus.setRunStatus(RunStatus.FAIL);
+			resultStatus.setFailureReason(FailureReasons.READ_PROPERTY_FILE_ERROR);
 		}
 		return prop;
 	}

@@ -1,6 +1,5 @@
 package com.star.core;
 
-import com.star.Runner;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.InvocationTargetException;
@@ -11,7 +10,7 @@ import java.util.Map;
 
 @Slf4j
 public class Driver {
-    Runner runner = Config.context.getBean(Runner.class);
+    ResultStatus resultStatus = Config.context.getBean(ResultStatus.class);
     DataFetch dataFetch = Config.context.getBean(DataFetch.class);
 
     public void testsRunner(String coverage) {
@@ -28,7 +27,7 @@ public class Driver {
             //Iterates Test Data iterations
             intDataIterations = dataFetch.getMapData().get(TCID).size();
             for (int itrData = 1; itrData <= intDataIterations; itrData++) {
-                runner.setRunStatus(RunStatus.NOT_STARTED);
+                resultStatus.setRunStatus(RunStatus.NOT_STARTED);
                 HashMap<String, String> mapTCData = dataFetch.getMapTestCases().get(mapElement1.getKey());
                 //log.info("mapTCData: {}", mapTCData);
                 flagCoverage = false;
@@ -52,47 +51,59 @@ public class Driver {
                                 method = refClass.newInstance().getClass().getMethod(val.split("\\.")[1], String.class, int.class);
                             } catch (NoSuchMethodException e) {
                                 e.printStackTrace();
-                                runner.setRunStatus(RunStatus.FAIL);
+                                resultStatus.setRunStatus(RunStatus.FAIL);
+                                resultStatus.setFailureReason(FailureReasons.TEST_RUNNER_ERROR);
                             } catch (SecurityException e) {
                                 e.printStackTrace();
-                                runner.setRunStatus(RunStatus.FAIL);
+                                resultStatus.setRunStatus(RunStatus.FAIL);
+                                resultStatus.setFailureReason(FailureReasons.TEST_RUNNER_ERROR);
                             } catch (InstantiationException e) {
                                 e.printStackTrace();
-                                runner.setRunStatus(RunStatus.FAIL);
+                                resultStatus.setRunStatus(RunStatus.FAIL);
+                                resultStatus.setFailureReason(FailureReasons.TEST_RUNNER_ERROR);
                             } catch (IllegalAccessException e) {
                                 e.printStackTrace();
-                                runner.setRunStatus(RunStatus.FAIL);
+                                resultStatus.setRunStatus(RunStatus.FAIL);
+                                resultStatus.setFailureReason(FailureReasons.TEST_RUNNER_ERROR);
                             } catch (Exception e) {
                                 e.printStackTrace();
-                                runner.setRunStatus(RunStatus.FAIL);
+                                resultStatus.setRunStatus(RunStatus.FAIL);
+                                resultStatus.setFailureReason(FailureReasons.TEST_RUNNER_ERROR);
                             }
                             try {
                                 method.invoke(refClass.newInstance(), TCID, itrData);
-                                if (runner.getRunStatus().equals(RunStatus.FAIL)) {
+                                if (resultStatus.getRunStatus().equals(RunStatus.FAIL)) {
                                     break;
                                 }
                             } catch (IllegalAccessException e) {
                                 e.printStackTrace();
-                                runner.setRunStatus(RunStatus.FAIL);
+                                resultStatus.setRunStatus(RunStatus.FAIL);
+                                resultStatus.setFailureReason(FailureReasons.TEST_RUNNER_ERROR);
                             } catch (IllegalArgumentException e) {
                                 e.printStackTrace();
-                                runner.setRunStatus(RunStatus.FAIL);
+                                resultStatus.setRunStatus(RunStatus.FAIL);
+                                resultStatus.setFailureReason(FailureReasons.TEST_RUNNER_ERROR);
                             } catch (InvocationTargetException e) {
                                 e.printStackTrace();
-                                runner.setRunStatus(RunStatus.FAIL);
+                                resultStatus.setRunStatus(RunStatus.FAIL);
+                                resultStatus.setFailureReason(FailureReasons.TEST_RUNNER_ERROR);
                             } catch (InstantiationException e) {
                                 e.printStackTrace();
-                                runner.setRunStatus(RunStatus.FAIL);
+                                resultStatus.setRunStatus(RunStatus.FAIL);
+                                resultStatus.setFailureReason(FailureReasons.TEST_RUNNER_ERROR);
                             } catch (Exception e) {
                                 e.printStackTrace();
-                                runner.setRunStatus(RunStatus.FAIL);
+                                resultStatus.setRunStatus(RunStatus.FAIL);
+                                resultStatus.setFailureReason(FailureReasons.TEST_RUNNER_ERROR);
                             }
                         } catch (ClassNotFoundException e) {
                             e.printStackTrace();
-                            runner.setRunStatus(RunStatus.FAIL);
+                            resultStatus.setRunStatus(RunStatus.FAIL);
+                            resultStatus.setFailureReason(FailureReasons.TEST_RUNNER_ERROR);
                         } catch (Exception e) {
                             e.printStackTrace();
-                            runner.setRunStatus(RunStatus.FAIL);
+                            resultStatus.setRunStatus(RunStatus.FAIL);
+                            resultStatus.setFailureReason(FailureReasons.TEST_RUNNER_ERROR);
                         }
                     }
                 }
